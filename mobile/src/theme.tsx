@@ -1,4 +1,5 @@
 import { extendTheme } from "native-base";
+import { DefaultTheme } from '@react-navigation/native';
 
 const theme = extendTheme({
   colors: {
@@ -39,6 +40,77 @@ const theme = extendTheme({
       sizes: {},
     },
   },
+  fontConfig: {
+    Roboto: {
+      100: {
+        normal: "Roboto-Light",
+        italic: "Roboto-LightItalic",
+      },
+      200: {
+        normal: "Roboto-Light",
+        italic: "Roboto-LightItalic",
+      },
+      300: {
+        normal: "Roboto-Light",
+        italic: "Roboto-LightItalic",
+      },
+      400: {
+        normal: "Roboto-Regular",
+        italic: "Roboto-Italic",
+      },
+      500: {
+        normal: "Roboto-Medium",
+      },
+      600: {
+        normal: "Roboto-Medium",
+        italic: "Roboto-MediumItalic",
+      },
+    },
+    ArslanWessam: {
+      100: {
+        normal: "ArslanWessam",
+        size: 36,
+      },
+      200: {
+        normal: "ArslanWessam",
+        size: 48,
+      },
+      300: {
+        normal: "ArslanWessam",
+        size: 56,
+      },
+      400: {
+        normal: "ArslanWessam",
+        size: 64,
+      },
+      500: {
+        normal: "ArslanWessam",
+        size: 72,
+      },
+      600: {
+        normal: "ArslanWessam",
+        size: 90,
+      },
+    },
+  },
+  // Make sure values below matches any of the keys in `fontConfig`
+  fonts: {
+    heading: "ArslanWessam",
+    body: "ArslanWessam",
+    mono: "ArslanWessam",
+  },
 });
 
+export const navigatorTheme = {
+    ...DefaultTheme,
+    dark: false,
+    colors: {
+        primary: "#00f183",
+        background: "#00f183",
+        card: "#393e41",
+        text: "#00f183",
+        border: "#00f183",
+        notification: "#393e41",
+    },
+  };
 export default theme;
