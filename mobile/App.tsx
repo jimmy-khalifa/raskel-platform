@@ -8,6 +8,10 @@ import DrawerContent from "./src/layouts/DrawerContent";
 import MainView from "./src/views/MainView";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
+import OperationsView from "./src/views/OperationsView";
+import DataView from "./src/views/DataView";
+import SettingsView from "./src/views/SettingsView";
+import MaintenanceView from "./src/views/MaintenanceView";
 
 
 const Drawer = createDrawerNavigator();
@@ -41,6 +45,10 @@ const App = () => {
               name="Home"
               component={MainView}
             />
+            <Drawer.Screen name="OperationsView" component={OperationsView} />
+            <Drawer.Screen name="DataView" component={DataView} />
+            <Drawer.Screen name="MaintenanceView" component={MaintenanceView} />
+            <Drawer.Screen name="SettingsView" component={SettingsView} />
           </Drawer.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
