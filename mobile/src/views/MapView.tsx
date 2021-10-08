@@ -3,7 +3,7 @@ import {Text,Box} from "native-base"
 
 
 
-const MapView =() =>{
+const MapView =({ navigation }) =>{
 
     return(
         <Box>

@@ -1,14 +1,11 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Box, Text, View, Avatar, Stack } from "native-base";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Box, Text, Avatar, Stack } from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import {  DrawerItem } from "@react-navigation/drawer";
 import { Drawer } from "react-native-paper";
-import OperationsView from "../views/OperationsView";
 
-const MyDrawer = createDrawerNavigator();
 const DrawerContent = ({ ...props }) => {
   return (
     <Stack height="100%">

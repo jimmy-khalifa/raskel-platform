@@ -36,6 +36,7 @@ const App = () => {
               headerTitleStyle: {
                 color: "transparent",
               },
+              
             }}
           >
             <Drawer.Screen
