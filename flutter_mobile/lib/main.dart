@@ -20,17 +20,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor:Color(0xFF65C88D) ,
+        /*primaryColor:Color(0xFF65C88D) ,
         buttonTheme: ButtonTheme.of(context).copyWith(
           buttonColor: Color(0xFF65C88D),
           shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0)),
-        ),
-        textTheme: TextTheme(
+        ),*/
+       /* textTheme: TextTheme(
           headline1: TextStyle(color: Color(0xFF65C88D),fontSize: 30.0),
           bodyText2: TextStyle(color: Color(0xFF393E41),fontSize: 14.0),
 
-        ),
+        ),*/
         scaffoldBackgroundColor: Color(0xFFDFF4EC)
       ),
       home: Home(),

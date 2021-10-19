@@ -12,7 +12,7 @@ class Social extends StatelessWidget {
          children: [
            ListTile(
               leading: Icon(Icons.share,  color:  Color(0xFF65C88D),),
-              title: const Text('Sociale',/*style:Theme.of(context).textTheme.headline1,*/)
+              title: const Text('Sociale',style : TextStyle(color:Color(0xFF65C88D),))
            )
          ],
 

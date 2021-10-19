@@ -13,7 +13,7 @@ class Collects extends StatelessWidget {
          children: [
            ListTile(
               leading: FaIcon(FontAwesomeIcons.truck,color:  Color(0xFF65C88D),),
-              title: const Text('Collectes',/*style:Theme.of(context).textTheme.headline1,*/)
+              title: const Text('Collectes',  style : TextStyle(color:Color(0xFF65C88D),))
            )
          ],
 

@@ -12,7 +12,7 @@ class Notifications extends StatelessWidget {
          children: [
            ListTile(
               leading: Icon(Icons.notifications_none_outlined,color:  Color(0xFF65C88D),),
-              title: const Text('Notifications',/*style:Theme.of(context).textTheme.headline1,*/)
+              title: const Text('Notifications',style : TextStyle(color:Color(0xFF65C88D),))
            )
          ],
 
