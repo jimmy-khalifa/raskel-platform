@@ -1,7 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/screen/DrawerView.dart';
 import './screen/SelectView.dart';
-
+import './screen/Home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,14 +16,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: MainPage(),
+      theme: ThemeData(
+        primaryColor:Color(0xFF65C88D) ,
+        buttonTheme: ButtonTheme.of(context).copyWith(
+          buttonColor: Color(0xFF65C88D),
+          shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0)),
+        ),
+        textTheme: TextTheme(
+          headline1: TextStyle(color: Color(0xFF65C88D),fontSize: 30.0),
+          bodyText2: TextStyle(color: Color(0xFF393E41),fontSize: 14.0),
+
+        ),
+        scaffoldBackgroundColor: Color(0xFFDFF4EC)
+      ),
+      home: Home(),
+      
     );
   }
 }
 
-class MainPage extends StatefulWidget {
+/*class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -29,7 +47,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        endDrawer: DrawerView(),
+        
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -52,4 +70,4 @@ class _MainPageState extends State<MainPage> {
                   )),
                 )),
       );
-}
+}*/

@@ -15,7 +15,6 @@ class WaitView extends StatelessWidget {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
         ),
-        endDrawer: DrawerView(),
         body: Container(
             child: Column(
           children: [

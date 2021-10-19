@@ -13,7 +13,7 @@ class DrawerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return Container(
       child: Material(
         child: ListView(children: <Widget>[
           HeaderDrawer(),
