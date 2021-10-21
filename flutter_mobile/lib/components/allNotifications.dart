@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
 import 'package:google_fonts/google_fonts.dart';
 
-class Notifications extends StatelessWidget {
-  const Notifications({Key? key}) : super(key: key);
+class AllNotifications extends StatelessWidget {
+  const AllNotifications({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class Notifications extends StatelessWidget {
                   FeatherIcons.bell,
                   color: Color(0xFF65C88D),
                 ),
-                title: Text('Notifications',style:GoogleFonts.tajawal(textStyle: TextStyle(color: Color(0xFF65C88D),fontWeight:FontWeight.w900,))
+                title: Text('all Notifications',style:GoogleFonts.tajawal(textStyle: TextStyle(color: Color(0xFF65C88D),fontWeight:FontWeight.w900,))
                   )),
             Column(
               children: [
