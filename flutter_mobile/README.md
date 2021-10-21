@@ -1,6 +1,6 @@
-# flutter_mobile
+# Raskel
 
-A new Flutter project.
+A Platform for waste management & valoriztion.
 
 ## Getting Started
 
