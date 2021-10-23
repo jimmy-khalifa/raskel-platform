@@ -5,6 +5,8 @@ import './HomePage.dart';
 import '../components/calendar.dart';
 import '../components/allNotifications.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
+import 'package:badges/badges.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -52,9 +54,20 @@ class _HomeState extends State<Home> {
               icon: Icon(FeatherIcons.home, color: Color(0xFF65C88D)),
               label: "Home"),
           BottomNavigationBarItem(
-              icon: Stack(children: [
-                Icon(FeatherIcons.bell,
-                    color: Color(0xFF65C88D)),
+              icon: Badge(
+                badgeContent: Text("3",
+                    style: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                      color: Color(0xFFFFFFFF),
+                      fontWeight: FontWeight.w900,
+                    ))),
+                child: Icon(FeatherIcons.bell, color: Color(0xFF65C88D)),
+                badgeColor: Color(0xFFF07167),
+                elevation: 0,
+                padding: EdgeInsets.only(top: 10, bottom: 5, left: 5, right: 5),
+              ),
+              /*Stack(children: [
+                Icon(FeatherIcons.bell, color: Color(0xFF65C88D)),
                 Positioned(
                     top: -1.0,
                     right: -1.0,
@@ -76,11 +89,10 @@ class _HomeState extends State<Home> {
                         textAlign: TextAlign.center,
                       ),
                     ))
-              ]),
+              ]),*/
               label: "Notifications"),
           BottomNavigationBarItem(
-              icon:
-                  Icon(FeatherIcons.calendar, color: Color(0xFF65C88D)),
+              icon: Icon(FeatherIcons.calendar, color: Color(0xFF65C88D)),
               label: "Calendar"),
           BottomNavigationBarItem(
               icon: Icon(FeatherIcons.menu, color: Color(0xFF65C88D)),
