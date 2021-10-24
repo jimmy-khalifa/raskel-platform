@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import './screen/Home.dart';
+//import './screen/Home.dart';
+import './screen/_getstarted.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,13 +15,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Raskel Mobile Application',
       theme: ThemeData(
           textTheme: GoogleFonts.tajawalTextTheme(
             Theme.of(context).textTheme,
           ),
           scaffoldBackgroundColor: const Color(0xFFDFF4EC)),
-      home: const Home(),
+      //home: const Home(),
+      //home: const GetStarted(),
+      home: OrientationBuilder(
+        builder: (context, orientation) {
+          return const GetStarted();
+        },
+      ),
     );
   }
 }
