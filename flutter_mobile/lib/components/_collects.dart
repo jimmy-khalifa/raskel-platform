@@ -15,14 +15,14 @@ class Collects extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              leading: Icon(
+              leading:const Icon(
                 FeatherIcons.truck,
                 color: Color(0xFF65C88D),
               ),
               title: Text(
                 'Collectes',
                 style: GoogleFonts.tajawal(
-                    textStyle: TextStyle(
+                    textStyle:const TextStyle(
                   color: Color(0xFF65C88D),
                   fontWeight: FontWeight.w700,
                   fontSize: 20.0,
@@ -32,7 +32,7 @@ class Collects extends StatelessWidget {
             Divider(
               height: 1,
               thickness: 1,
-              color: Color(0xFFdff4ec),
+              color:const Color(0xFFdff4ec),
               indent: MediaQuery.of(context).size.width * 4 / 100,
               endIndent: MediaQuery.of(context).size.width * 4 / 100,
             ),
@@ -41,14 +41,14 @@ class Collects extends StatelessWidget {
                 InkWell(
                     onTap: () {},
                     child: Card(
-                      margin: EdgeInsets.all(10),
+                      margin:const EdgeInsets.all(10),
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Color(0xFF79D1B4)),
+                        side:const BorderSide(color: Color(0xFF79D1B4)),
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       elevation: 0,
                       child: ListTile(
-                        leading: CircleAvatar(
+                        leading:const CircleAvatar(
                           backgroundColor: Color(0xFFDFF4EC),
                           radius: 20,
                           child: Icon(
@@ -58,23 +58,23 @@ class Collects extends StatelessWidget {
                         ),
                         title: Text("Samedi jan 10.2022",
                             style: GoogleFonts.tajawal(
-                                textStyle: TextStyle(
+                                textStyle:const TextStyle(
                               color: Color(0xFF393E41),
                               fontWeight: FontWeight.w700,
                             ))),
-                        subtitle: Text("Collecte des déchets en Plastique."),
+                        subtitle:const Text("Collecte des déchets en Plastique."),
                       ),
                     )),
                 InkWell(
                     onTap: () {},
                     child: Card(
-                      margin: EdgeInsets.all(10),
+                      margin:const EdgeInsets.all(10),
                       shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Color(0xFF79D1B4)),
+                          side:const BorderSide(color: Color(0xFF79D1B4)),
                           borderRadius: BorderRadius.circular(15.0)),
                       elevation: 0,
                       child: ListTile(
-                        leading: CircleAvatar(
+                        leading:const CircleAvatar(
                           backgroundColor: Color(0xFFDFF4EC),
                           radius: 20,
                           child: Icon(
@@ -84,11 +84,11 @@ class Collects extends StatelessWidget {
                         ),
                         title: Text("Jeudi jan 29.2022",
                             style: GoogleFonts.tajawal(
-                                textStyle: TextStyle(
+                                textStyle:const TextStyle(
                               color: Color(0xFF393E41),
                               fontWeight: FontWeight.w700,
                             ))),
-                        subtitle: Text("Collecte des déchets en verre."),
+                        subtitle:const Text("Collecte des déchets en verre."),
                       ),
                     ))
               ],

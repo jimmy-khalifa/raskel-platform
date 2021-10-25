@@ -12,17 +12,17 @@ class Notifications extends StatelessWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         elevation: 0,
-        margin: EdgeInsets.all(5),
+        margin:const EdgeInsets.all(5),
         child: Column(
           children: [
             ListTile(
-                leading: Icon(
+                leading:const Icon(
                   FeatherIcons.bell,
                   color: Color(0xFF65C88D),
                 ),
                 title: Text('Notifications',
                     style: GoogleFonts.tajawal(
-                        textStyle: TextStyle(
+                        textStyle:const TextStyle(
                       color: Color(0xFF65C88D),
                       fontWeight: FontWeight.w700,
                       fontSize: 20.0,
@@ -30,21 +30,21 @@ class Notifications extends StatelessWidget {
             Divider(
               height: 1,
               thickness: 1,
-              color: Color(0xFFdff4ec),
+              color:const Color(0xFFdff4ec),
               indent: MediaQuery.of(context).size.width * 4 / 100,
               endIndent: MediaQuery.of(context).size.width * 4 / 100,
             ),
             Column(
               children: [
                 Card(
-                  margin: EdgeInsets.all(10),
-                  color: Color(0xFFF7FFFB),
+                  margin:const EdgeInsets.all(10),
+                  color:const Color(0xFFF7FFFB),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: ListTile(
-                    leading: CircleAvatar(
+                    leading:const CircleAvatar(
                       backgroundColor: Color(0xFFDFF4EC),
                       radius: 20,
                       child: Icon(
@@ -54,21 +54,21 @@ class Notifications extends StatelessWidget {
                     ),
                     title: Text("Collecte",
                         style: GoogleFonts.tajawal(
-                            textStyle: TextStyle(
+                            textStyle:const TextStyle(
                           color: Color(0xFF393E41),
                           fontWeight: FontWeight.w700,
                         ))),
-                    subtitle: Text("Demande de collecte accepté et traité"),
+                    subtitle:const Text("Demande de collecte accepté et traité"),
                   ),
                 ),
                 Card(
-                  color: Color(0xFFF7FFFB),
-                  margin: EdgeInsets.all(10),
+                  color:const Color(0xFFF7FFFB),
+                  margin:const EdgeInsets.all(10),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0)),
                   child: ListTile(
-                    leading: CircleAvatar(
+                    leading:const CircleAvatar(
                       backgroundColor: Color(0xFFDFF4EC),
                       radius: 20,
                       child: Icon(
@@ -78,11 +78,12 @@ class Notifications extends StatelessWidget {
                     ),
                     title: Text("Récompense",
                         style: GoogleFonts.tajawal(
-                            textStyle: TextStyle(
+                            textStyle:const TextStyle(
                           color: Color(0xFF393E41),
                           fontWeight: FontWeight.w700,
                         ))),
                     subtitle:
+                    const
                         Text("Vous avez reçu une récompense de 200 points"),
                   ),
                 )

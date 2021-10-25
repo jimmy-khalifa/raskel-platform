@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 //import './screen/Home.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import './screen/_getstarted.dart';
 
 void main() {
@@ -14,6 +16,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+       localizationsDelegates:const [
+        GlobalMaterialLocalizations.delegate
+      ],
+      supportedLocales: const[
+         Locale('fr')
+      ],
       debugShowCheckedModeBanner: false,
       title: 'Raskel Mobile Application',
       theme: ThemeData(

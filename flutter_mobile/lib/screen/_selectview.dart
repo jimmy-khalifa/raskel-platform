@@ -11,7 +11,7 @@ class SelectView extends StatefulWidget {
 }
 
 class _SelectViewState extends State<SelectView> {
-  TextEditingController _textEditingController = new TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
   var inputText = "";
 
   List<String> garbageList = [
@@ -36,11 +36,9 @@ class _SelectViewState extends State<SelectView> {
           children: <Widget>[
             Container(
               width: MediaQuery.of(context).size.width / 1,
-              padding: EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 30),
               child: ListTile(
-                
                 title: TextField(
-                  
                   //selectionHeightStyle: BoxHeightStyle.max,
                   controller: _textEditingController,
                   onChanged: (text) {
@@ -49,46 +47,47 @@ class _SelectViewState extends State<SelectView> {
                     });
                   },
                   decoration: InputDecoration(
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.search,
                         color: Color(0xFF393E41),
                         size: 25,
                       ),
-                      
                       suffixIcon: hidingIcon(),
-                      enabledBorder: OutlineInputBorder(
+                      enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: Color(0xFFDFF4EC))),
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: Color(0xFF79D1B4))),
                       hintText: 'Recherche',
                       border: InputBorder.none),
                 ),
-                trailing: RaisedButton(onPressed: (){},child: Text("Annuler",),),
-
+                trailing: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "Annuler",
+                  ),
+                ),
               ),
-            
-             
             ),
             Expanded(
                 child: ListView.separated(
               itemCount: garbageList.length,
               itemBuilder: (context, index) {
                 return Container(
-                    padding: EdgeInsets.all(10.0),
+                    padding:const EdgeInsets.all(10.0),
                     child: Row(
                       children: [
                         //Padding(padding: EdgeInsets.all(18)),
-                        Icon(
+                        const Icon(
                           Icons.add_alert,
                           color: Color(0xDE393E41),
                           size: 30,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(garbageList[index],
                             style: GoogleFonts.tajawal(
-                                textStyle: TextStyle(
+                                textStyle:const TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.w300,
                                     color: Color(0xDE393E41)))),
@@ -106,9 +105,9 @@ class _SelectViewState extends State<SelectView> {
   }
 
   hidingIcon() {
-    if (inputText.length > 0) {
+    if (inputText.isNotEmpty) {
       return IconButton(
-          icon: Icon(
+          icon:const Icon(
             Icons.clear,
             color: Color(0xFF393E41),
           ),

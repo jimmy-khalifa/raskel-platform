@@ -27,6 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  
   flutter:
     sdk: flutter
 
@@ -43,6 +44,13 @@ dependencies:
   flutter_feather_icons: ^2.0.0+1
   badges: ^2.0.1
   carousel_slider: ^4.0.0
+  table_calendar: ^3.0.3
+  intl: ^0.17.0
+  flutter_clean_calendar: ^1.1.0
+
+  flutter_localizations:
+     sdk: flutter
+
   
 dev_dependencies:
   flutter_test:

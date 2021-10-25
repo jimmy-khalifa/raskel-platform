@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'headerDrawer.dart';
-import 'DrawerView.dart';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'mapView.dart';
+import '_mapview.dart';
 
 class WaitView extends StatelessWidget {
   const WaitView({Key? key}) : super(key: key);
@@ -13,14 +12,13 @@ class WaitView extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme:const IconThemeData(color: Colors.black),
         ),
-        body: Container(
-            child: Column(
+        body:  Column(
           children: [
-            Text("عملية الجمع القادمة",
+            const Text("عملية الجمع القادمة",
                 style: TextStyle(fontSize: 30, color: Colors.black)),
-            Text("14:15:30",
+            const Text("14:15:30",
                 style: TextStyle(fontSize: 30, color: Colors.black)),
             Padding(
                 padding: EdgeInsets.only(
@@ -36,7 +34,7 @@ class WaitView extends StatelessWidget {
                         width: 6.0,
                         style: BorderStyle.solid), //Border.all
 
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10.0),
                       topRight: Radius.circular(10.0),
                       bottomLeft: Radius.circular(10.0),
@@ -48,7 +46,7 @@ class WaitView extends StatelessWidget {
                       style:
                           const TextStyle(fontSize: 18.0, color: Colors.green),
                       child: AnimatedTextKit(
-                        pause: Duration(milliseconds: 300),
+                        pause:const Duration(milliseconds: 300),
                         repeatForever: true,
                         animatedTexts: [
                           FadeAnimatedText('تنبيه'),
@@ -69,22 +67,29 @@ class WaitView extends StatelessWidget {
                     top: MediaQuery.of(context).size.height / 6)),
             Align(
                 alignment: FractionalOffset.bottomCenter,
-                child: FlatButton(
-                  shape: CircleBorder(),
-                  padding: EdgeInsets.all(40),
-                  color: Colors.black38,
+                child: ElevatedButton(
+                  style:ElevatedButton.styleFrom(
+                    primary:Colors.black,
+                    shape:const CircleBorder(),
+                  padding:const EdgeInsets.all(40),
+                  ),
+                                
+
+
+                  
+                  
                   onPressed: () {
                      Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MapView()));
+                              builder: (context) =>const MapView()));
                   },
-                  child: Text('تأكيد',
+                  child:const Text('تأكيد',
                       style: (TextStyle(
                         fontSize: 20,
                       ))),
                 ))
           ],
-        )));
+        ));
   }
 }

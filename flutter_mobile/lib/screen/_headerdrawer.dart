@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HeaderDrawer extends StatefulWidget {
+    const HeaderDrawer({Key? key}) : super(key: key);
+
   @override
   _HeaderDrawerState createState() => _HeaderDrawerState();
 }
@@ -12,14 +14,14 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
       
       width: double.infinity,
       height: 200,
-      padding: EdgeInsets.only(top: 20.0),
+      padding:const EdgeInsets.only(top: 20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             height: 90,
             width: 90,
-            decoration: BoxDecoration(
+            decoration:const BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
                 image: AssetImage('assets/images/user_profile.png'),
@@ -29,7 +31,7 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
               ),
             ),
           ),
-          Text(' فلان الفلاني', style: TextStyle(fontSize: 20, ),),
+          const Text(' فلان الفلاني', style: TextStyle(fontSize: 20, ),),
         ],
       ),
     );

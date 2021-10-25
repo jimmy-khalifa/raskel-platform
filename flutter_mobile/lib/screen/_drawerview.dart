@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import './maintenanceView.dart';
-import 'headerDrawer.dart';
-import 'operationsView.dart';
-import 'dataView.dart';
-import 'maintenanceView.dart';
-import 'settingsView.dart';
+import '_maintenanceview.dart';
+import '_headerdrawer.dart';
+import '_operationsview.dart';
+import '_dataview.dart';
+import '_settingsview.dart';
 
 
 
@@ -13,12 +12,10 @@ class DrawerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Material(
+    return Material(
         child: ListView(children: <Widget>[
-          HeaderDrawer(),
-          Container(
-              child: Column(
+         const HeaderDrawer(),
+          Column(
                 children: [
                   const SizedBox(height: 12),
                   
@@ -48,7 +45,7 @@ class DrawerView extends StatelessWidget {
                     onClicked: () => selectedItem(context, 3),
                   ),
                   const SizedBox(height: 24),
-                  Divider(color: Colors.white70),
+                 const Divider(color: Colors.white70),
                   const SizedBox(height: 24),
                   buildMenuItem(
                     text: 'خروج',
@@ -58,10 +55,10 @@ class DrawerView extends StatelessWidget {
                   
                 ],
               ),
-            ),
+            
           ],
         ),
-      ),
+      
     );
   
 
@@ -91,22 +88,22 @@ class DrawerView extends StatelessWidget {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => operationsView(),
+          builder: (context) => const OperationsView(),
         ));
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => DataView(),
+          builder: (context) => const DataView(),
         ));
         break;
         case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MaintenanceView(),
+          builder: (context) =>const MaintenanceView(),
         ));
         break;
         case 3:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => SettingsView(),
+          builder: (context) => const SettingsView(),
         ));
         break;
     }
