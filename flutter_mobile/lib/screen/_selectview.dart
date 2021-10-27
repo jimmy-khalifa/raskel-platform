@@ -31,7 +31,8 @@ class _SelectViewState extends State<SelectView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
+        body: 
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(

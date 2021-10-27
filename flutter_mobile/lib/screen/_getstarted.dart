@@ -5,8 +5,8 @@ import 'package:flutter_mobile/components/getstarted/_gsjoin.dart';
 import 'package:flutter_mobile/components/getstarted/_gsparticipate.dart';
 import 'package:flutter_mobile/components/getstarted/_gsstart.dart';
 import 'package:flutter_mobile/components/getstarted/_gswin.dart';
+import 'package:flutter_mobile/screen/_singin.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '_home.dart';
 
 final List<Widget> pages = [
   const StartWidget(),
@@ -121,7 +121,7 @@ class CarouselSliderWidget extends State<GetStarted> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>const Home()),
+                                        builder: (context) =>const SignIn()),
                                   );
                                 },
                                 child: Text('Passer',

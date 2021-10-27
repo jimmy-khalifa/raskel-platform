@@ -85,6 +85,8 @@ flutter:
    - assets/getstarted/communicate.png
    - assets/getstarted/win.png
    - assets/getstarted/join.png
+   - assets/images/secondprofile.png
+   - assets/images/pngwing.png
    #- images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

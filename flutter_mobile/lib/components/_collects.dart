@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
+import 'package:flutter_mobile/components/_collectsdetail.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Collects extends StatelessWidget {
@@ -39,7 +40,10 @@ class Collects extends StatelessWidget {
             Column(
               children: [
                 InkWell(
-                    onTap: () {},
+                    onTap: () {Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CollectDetail()),
+                );},
                     child: Card(
                       margin:const EdgeInsets.all(10),
                       shape: RoundedRectangleBorder(

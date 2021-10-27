@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '_maintenanceview.dart';
 import '_headerdrawer.dart';
 import '_operationsview.dart';
@@ -15,41 +17,37 @@ class DrawerView extends StatelessWidget {
     return Material(
         child: ListView(children: <Widget>[
          const HeaderDrawer(),
+         const Padding(padding: EdgeInsets.only(top:40),),
           Column(
                 children: [
-                  const SizedBox(height: 12),
                   
-                  const SizedBox(height: 24),
                   buildMenuItem(
-                    text: "العمليات",
-                    icon:  Icons.show_chart,
+                    text: "Opération",
+                    icon:  FeatherIcons.activity, 
                     onClicked: () => selectedItem(context, 0),
                     
                   ),
-                  const SizedBox(height: 16),
                   buildMenuItem(
-                    text: 'البيانات',
-                    icon: Icons.insert_chart_outlined,
+                    text: 'Profile',
+                    icon: FeatherIcons.barChart2,
                     onClicked: () => selectedItem(context, 1),
                   ),
-                  const SizedBox(height: 16),
                   buildMenuItem(
-                    text: 'الصيانة',
-                    icon: Icons.tune,
+                    text: 'Maintenance',
+                    icon: FeatherIcons.sliders,
                     onClicked: () => selectedItem(context, 2),
                   ),
-                  const SizedBox(height: 16),
                   buildMenuItem(
-                    text: 'الإعدادات',
-                    icon: Icons.settings,
+                    text: 'Paramètre',
+                    icon: FeatherIcons.settings,
                     onClicked: () => selectedItem(context, 3),
                   ),
-                  const SizedBox(height: 24),
-                 const Divider(color: Colors.white70),
-                  const SizedBox(height: 24),
+
+                  const Divider(color: Color(0xFFDFF4EC)),
                   buildMenuItem(
-                    text: 'خروج',
-                    icon:Icons.logout,
+                    
+                    text: 'Déconnexion',
+                    icon:FeatherIcons.logOut,
                     onClicked: () => selectedItem(context, 4),
                   ),
                   
@@ -71,12 +69,12 @@ class DrawerView extends StatelessWidget {
     required IconData icon,
     VoidCallback? onClicked,
   }) {
-    final color = Colors.black;
+    const color = Color(0xFF65C88D);
     final hoverColor = Colors.black12;
 
     return ListTile(
-      leading: Icon(icon, color: color),
-      title: Text(text, style: TextStyle(color: color, fontSize: 20)),
+      leading: Icon(icon, color: color,),
+      title: Text(text, style: GoogleFonts.tajawal(textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.w500)),),
       hoverColor: hoverColor,
       onTap: onClicked,
     );

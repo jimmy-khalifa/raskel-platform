@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 class HeaderDrawer extends StatefulWidget {
     const HeaderDrawer({Key? key}) : super(key: key);
 
@@ -15,25 +15,18 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
       width: double.infinity,
       height: 200,
       padding:const EdgeInsets.only(top: 20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 90,
-            width: 90,
-            decoration:const BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage('assets/images/user_profile.png'),
-                //image: NetworkImage(
-                    //"https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          const Text(' فلان الفلاني', style: TextStyle(fontSize: 20, ),),
-        ],
-      ),
+      child: ListTile(
+        title: Column(children: [ 
+          Image.asset('assets/images/profile.png',height: 120,),
+          const Spacer(),
+         Text('ElFouleni Foulen', style: GoogleFonts.tajawal(textStyle: const TextStyle(
+                    color: Color(0xFF393E41),
+                    fontWeight: FontWeight.w300,
+                    fontSize: 30.0,
+                  ))),
+        ]))
+          
+      
     );
   }
 }
