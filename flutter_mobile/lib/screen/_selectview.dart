@@ -37,7 +37,7 @@ class _SelectViewState extends State<SelectView> {
           children: <Widget>[
             Container(
               width: MediaQuery.of(context).size.width / 1,
-              padding: const EdgeInsets.only(top: 30),
+              padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/15),
               child: ListTile(
                 title: TextField(
                   //selectionHeightStyle: BoxHeightStyle.max,
@@ -61,10 +61,12 @@ class _SelectViewState extends State<SelectView> {
                       hintText: 'Recherche',
                       border: InputBorder.none),
                 ),
-                trailing: ElevatedButton(
+                trailing: TextButton(
+                  
+                  
                   onPressed: () {},
                   child: const Text(
-                    "Annuler",
+                    "Annuler", style: TextStyle(color:Color(0xFF79D1B4),fontSize: 18),
                   ),
                 ),
               ),
@@ -74,7 +76,7 @@ class _SelectViewState extends State<SelectView> {
               itemCount: garbageList.length,
               itemBuilder: (context, index) {
                 return Container(
-                    padding:const EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(MediaQuery.of(context).size.height / 35),
                     child: Row(
                       children: [
                         //Padding(padding: EdgeInsets.all(18)),
@@ -83,8 +85,8 @@ class _SelectViewState extends State<SelectView> {
                           color: Color(0xDE393E41),
                           size: 30,
                         ),
-                        const SizedBox(
-                          width: 10,
+                         SizedBox(
+                          width: MediaQuery.of(context).size.width / 15,
                         ),
                         Text(garbageList[index],
                             style: GoogleFonts.tajawal(

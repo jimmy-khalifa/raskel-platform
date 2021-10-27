@@ -85,9 +85,6 @@ class Social extends StatelessWidget {
                               color: Color(0xFF65C88D))),
                       OutlinedButton(
                        
-                         // padding:
-                             //const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                          //focusColor:const Color(0xFF65C88D),
                           style: OutlinedButton.styleFrom(
                            side: const BorderSide(color: Color(0xFF65C88D)),
                                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -97,14 +94,14 @@ class Social extends StatelessWidget {
 
                           onPressed: () {},
                           child: Row(
-                            children: const [
-                              Text(
+                            children:  [
+                              const Text(
                                 " @flen",
                                 style: TextStyle(color: Color(0xFF79D1B4)),
                               ),
                               Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Image(
+                                  padding: EdgeInsets.only(left:  MediaQuery.of(context).size.width/25),
+                                  child: const Image(
                                     image:
                                         AssetImage('assets/images/profile.png'),
                                     height: 30,
@@ -176,14 +173,14 @@ class Social extends StatelessWidget {
                          ),
                           onPressed: () {},
                           child: Row(
-                            children: const [
-                              Text(
+                            children:  [
+                              const Text(
                                 " @flen",
                                 style: TextStyle(color: Color(0xFF79D1B4)),
                               ),
                               Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Image(
+                                  padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/25),
+                                  child: const Image(
                                     image:
                                         AssetImage('assets/images/profile.png'),
                                     height: 30,
@@ -191,7 +188,7 @@ class Social extends StatelessWidget {
                                   ))
                             ],
                           ),
-                          //borderSide:const BorderSide(color: Color(0xFF65C88D))),
+                         
                       )],
                   ),
                 ],

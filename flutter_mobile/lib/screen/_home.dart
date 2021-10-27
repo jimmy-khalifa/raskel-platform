@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                 child: const Icon(FeatherIcons.bell, color: Color(0xFF65C88D)),
                 badgeColor: const Color(0xFFF07167),
                 elevation: 0,
-                padding: const EdgeInsets.only(top: 10, bottom: 5, left: 5, right: 5),
+                padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/100, bottom: MediaQuery.of(context).size.height/130, left: 5, right: 5),
               ),
              
               label: "Notifications"),

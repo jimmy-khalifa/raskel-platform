@@ -85,6 +85,7 @@ flutter:
    - assets/getstarted/communicate.png
    - assets/getstarted/win.png
    - assets/getstarted/join.png
+   - assets/getstarted/back_login.png
    - assets/images/secondprofile.png
    - assets/images/pngwing.png
    #- images/a_dot_ham.jpeg

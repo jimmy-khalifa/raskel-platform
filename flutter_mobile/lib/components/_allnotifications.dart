@@ -212,8 +212,8 @@ class _AllNotificationsState extends State<AllNotifications> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: 70,
-                    width: 70,
+                    height: MediaQuery.of(context).size.height / 8,
+                    width: MediaQuery.of(context).size.width /4,
                     decoration:const BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(

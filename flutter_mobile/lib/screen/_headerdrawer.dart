@@ -14,7 +14,7 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
       
       width: double.infinity,
       height: 200,
-      padding:const EdgeInsets.only(top: 20.0),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/50),
       child: ListTile(
         title: Column(children: [ 
           Image.asset('assets/images/profile.png',height: 120,),

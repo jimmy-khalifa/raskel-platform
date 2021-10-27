@@ -21,7 +21,7 @@ class _Calendar extends State<Calendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-          padding: const EdgeInsets.only(top: 30),
+          padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/30),
           child: Column(children: [
             Card(
               clipBehavior: Clip.antiAlias,

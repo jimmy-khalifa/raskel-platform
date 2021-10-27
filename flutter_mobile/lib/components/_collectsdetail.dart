@@ -15,7 +15,7 @@ class _CollectDetailState extends State<CollectDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        padding: const EdgeInsets.only(top: 30),
+        padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height / 30),
         itemCount: 3,
         itemBuilder: (context,index){
 
@@ -48,7 +48,7 @@ class _CollectDetailState extends State<CollectDetail> {
                 endIndent: MediaQuery.of(context).size.width * 4 / 100,
               ),
               Row(children: [
-                Padding(padding:const EdgeInsets.only(top:10,bottom: 10,left: 10),
+                Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height /40,bottom: MediaQuery.of(context).size.height /40,left:  MediaQuery.of(context).size.width/25),
                 child:
                 Image.asset('assets/images/secondprofile.png',
                       height: 120, fit: BoxFit.contain),
