@@ -92,6 +92,22 @@ flutter:
    - assets/images/secondprofile.png
    - assets/images/pngwing.png
    - assets/images/truck.png
+   - assets/images/battery.png
+   - assets/images/bottle.png
+   - assets/images/chaire.png
+   - assets/images/couche.png
+   - assets/images/clothes.png
+   - assets/images/chiken.png
+   - assets/images/tv.png
+   - assets/images/soda.png
+   - assets/images/oil.png
+   - assets/images/package.png
+   - assets/images/homogene.png
+
+
+
+
+
    #- images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
