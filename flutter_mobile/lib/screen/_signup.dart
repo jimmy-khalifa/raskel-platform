@@ -14,7 +14,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool isChecked = false;
   Object? _valueChoose;
-  List listItem = ["Rdayef", "Degueche", "Tozeur"];
+  List listItem = ["Rdayef", "Degueche", "Mahres","Sfax"];
   @override
   Widget build(BuildContext context) {
     return Container(

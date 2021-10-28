@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
+import 'package:flutter_mobile/screen/_mapview.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CollectDetail extends StatefulWidget {
@@ -137,7 +138,13 @@ class _CollectDetailState extends State<CollectDetail> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           splashColor: Colors.transparent,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MapView()),
+                              );
+                          },
                           icon:const Icon(FeatherIcons.mapPin, color: Color(0xFF65C88D))),
                            IconButton(
                           hoverColor: Colors.transparent,

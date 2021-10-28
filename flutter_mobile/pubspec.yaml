@@ -47,6 +47,9 @@ dependencies:
   table_calendar: ^3.0.3
   intl: ^0.17.0
   flutter_clean_calendar: ^1.1.0
+  flutter_polyline_points: ^1.0.0
+  form_field_validator: ^1.1.0
+
 
   flutter_localizations:
      sdk: flutter
@@ -88,6 +91,7 @@ flutter:
    - assets/getstarted/back_login.png
    - assets/images/secondprofile.png
    - assets/images/pngwing.png
+   - assets/images/truck.png
    #- images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
