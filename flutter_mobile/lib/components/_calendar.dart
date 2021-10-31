@@ -20,8 +20,12 @@ class _Calendar extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //resizeToAvoidBottomPadding: false ,
+      resizeToAvoidBottomInset: false,
+
       body: Padding(
           padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/30),
+         // child:SingleChildScrollView( 
           child: Column(children: [
             Card(
               clipBehavior: Clip.antiAlias,

@@ -12,7 +12,7 @@ class AllNotifications extends StatefulWidget {
 class _AllNotificationsState extends State<AllNotifications> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Scaffold(body:Padding(
         padding: const EdgeInsets.only(top: 30),
         child: Card(
             clipBehavior: Clip.antiAlias,
@@ -197,7 +197,7 @@ class _AllNotificationsState extends State<AllNotifications> {
                   ],
                 )
               ],
-            )));
+            ))));
   }
 
   _onButtonPressed() {

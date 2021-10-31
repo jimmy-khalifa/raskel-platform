@@ -17,15 +17,17 @@ class _SignUpState extends State<SignUp> {
   List listItem = ["Rdayef", "Degueche", "Mahres","Sfax"];
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: const BoxDecoration(color: Color(0xFFDFF4EC)),
-        child: Card(
+    return Scaffold(
+       resizeToAvoidBottomInset: false,
+        //decoration: const BoxDecoration(color: Color(0xFFDFF4EC)),
+        body: Card(
             child: Container(
                 constraints: const BoxConstraints.expand(),
                 decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/getstarted/back_login.png'),
                         fit: BoxFit.contain)),
+                        
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

@@ -145,10 +145,8 @@ class UserWidget extends StatelessWidget {
     return new Container(
       margin: const EdgeInsets.symmetric(vertical: 1.0),
       child: new ListTile(
-        leading: new Image(
-          
-          image: new AssetImage(imageURL),
-        ),
+        leading:  Image.asset(imageURL,height: MediaQuery.of(context).size.height / 30,),
+        
         title: new Text(name),
       ),
     );

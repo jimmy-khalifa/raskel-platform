@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
+import 'package:flutter_mobile/components/_allnotifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Notifications extends StatelessWidget {
@@ -36,6 +37,12 @@ class Notifications extends StatelessWidget {
             ),
             Column(
               children: [
+                 InkWell(
+                    onTap: () {Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AllNotifications()),
+                );},
+                    child: 
                 Card(
                   margin:const EdgeInsets.all(10),
                   color:const Color(0xFFF7FFFB),
@@ -60,7 +67,13 @@ class Notifications extends StatelessWidget {
                         ))),
                     subtitle:const Text("Demande de collecte accepté et traité"),
                   ),
-                ),
+                ),),
+                 InkWell(
+                    onTap: () {Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AllNotifications()),
+                );},
+                    child: 
                 Card(
                   color:const Color(0xFFF7FFFB),
                   margin:const EdgeInsets.all(10),
@@ -86,7 +99,7 @@ class Notifications extends StatelessWidget {
                     const
                         Text("Vous avez reçu une récompense de 200 points"),
                   ),
-                )
+                ))
               ],
             )
           ],
