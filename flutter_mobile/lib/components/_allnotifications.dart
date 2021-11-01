@@ -15,7 +15,10 @@ class _AllNotificationsState extends State<AllNotifications> {
     return Scaffold(
         body: Padding(
             padding: const EdgeInsets.only(top: 30),
-            child: Card(
+            child: SingleChildScrollView(
+                        reverse: true,
+                        child:
+            Card(
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0)),
@@ -275,7 +278,7 @@ class _AllNotificationsState extends State<AllNotifications> {
                       ],
                     )
                   ],
-                ))));
+                )))));
   }
 
   _onButtonPressed() {
