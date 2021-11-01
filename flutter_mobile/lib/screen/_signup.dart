@@ -18,16 +18,18 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       resizeToAvoidBottomInset: false,
+       //resizeToAvoidBottomInset: false,
         //decoration: const BoxDecoration(color: Color(0xFFDFF4EC)),
-        body: Card(
+        body: 
+        Card(
             child: Container(
                 constraints: const BoxConstraints.expand(),
                 decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/getstarted/back_login.png'),
                         fit: BoxFit.contain)),
-                        
+                       child: SingleChildScrollView(
+                        reverse: true,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -224,6 +226,6 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ]),
                   ],
-                ))));
+    )))));
   }
 }

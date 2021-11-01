@@ -26,6 +26,13 @@ class _SignInState extends State<SignIn> {
       print("Non validée !");
     }
   }
+    final TextEditingController name = TextEditingController();
+      final TextEditingController password = TextEditingController();
+
+
+
+
+  bool _isObscure = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +62,7 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     Form(
-                      autovalidate: true,
+                        autovalidate: true,
                         key: formkey,
                         child: Column(children: [
                           Container(
@@ -64,15 +71,15 @@ class _SignInState extends State<SignIn> {
                                 right: MediaQuery.of(context).size.width / 10),
                             child: Column(children: [
                               TextFormField(
-                               validator: RequiredValidator(errorText: 'Nom required'),
+                                initialValue: "rim.horchani",
+                                validator: RequiredValidator(
+                                    errorText: 'Nom required'),
                                 cursorColor: const Color(0xFFDFF4EC),
                                 decoration: const InputDecoration(
-                                
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
                                         BorderSide(color: Color(0xFF65C88D)),
                                   ),
-                                  
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
                                         BorderSide(color: Color(0xFFDFF4EC)),
@@ -85,29 +92,45 @@ class _SignInState extends State<SignIn> {
                               SizedBox(
                                 height: MediaQuery.of(context).size.height / 30,
                               ),
-                               TextFormField(
-                                 validator: MultiValidator([  
-    RequiredValidator(errorText: 'Mot de passe required'),  
-    MinLengthValidator(8, errorText: 'Mot de passe doit contenir minimum 8 chiffres'),  
-    PatternValidator(r'(?=.*?[#?!@$%^&*-])', errorText: 'Mot de passe doit contenir au moins un spécial caractère')  
- ]),
-  
+                              TextFormField(
+                                initialValue: "123456789**",
+                                validator: MultiValidator([
+                                  RequiredValidator(
+                                      errorText: 'Mot de passe required'),
+                                  MinLengthValidator(8,
+                                      errorText:
+                                          'Mot de passe doit contenir minimum 8 chiffres'),
+                                  PatternValidator(r'(?=.*?[#?!@$%^&*-])',
+                                      errorText:
+                                          'Mot de passe doit contenir au moins un spécial caractère')
+                                ]),
                                 cursorColor: const Color(0xFFDFF4EC),
-                                decoration: const InputDecoration(
-                                  
-                                  suffixIcon: Icon(
-                                    FeatherIcons.eye,
-                                    color: Color(0xFFDFF4EC),
+                                obscureText: !_isObscure,
+                                decoration: InputDecoration(
+                                 
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _isObscure
+                                          ? FeatherIcons.eye
+                                          : FeatherIcons.eyeOff,
+                                      color: const Color(0xFFDFF4EC),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isObscure = !_isObscure;
+                                      });
+                                    },
                                   ),
-                                  focusedBorder: OutlineInputBorder(
+                                  focusedBorder: const OutlineInputBorder(
                                     borderSide:
                                         BorderSide(color: Color(0xFF65C88D)),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide:
                                         BorderSide(color: Color(0xFFDFF4EC)),
                                   ),
                                   hintText: "Mot de passe",
+                                  
                                   filled: true,
                                   fillColor: Colors.white,
                                 ),
@@ -157,15 +180,13 @@ class _SignInState extends State<SignIn> {
                                           Radius.circular(10))),
                                 ),
                                 onPressed: () {
-                                 if(formkey.currentState!.validate()) {
-                                     Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Home()),
-                                  );
-
-                                 }
-                                
+                                  if (formkey.currentState!.validate()) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Home()),
+                                    );
+                                  }
                                 },
                                 child: Text(
                                   "Se Connecter",
@@ -186,7 +207,7 @@ class _SignInState extends State<SignIn> {
                                               80,
                                       horizontal:
                                           MediaQuery.of(context).size.width /
-                                              15),
+                                              9),
                                   backgroundColor: Colors.white,
                                   side: const BorderSide(
                                       color: Color(0xFF65C88D)),
