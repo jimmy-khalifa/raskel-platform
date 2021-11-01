@@ -1,6 +1,6 @@
 from django.db import models
-from .address import Address
-from .property import Property
+#from .address import Address
+#from .property import Property
 
 
 class Producer(models.Model):
@@ -33,9 +33,12 @@ class Producer(models.Model):
     is_principal=models.BooleanField( default=True)
 
     #address presenting the producer’s address
-    address=models.ForeignKey(Address, on_delete=models.PROTECT, blank=True)
+    #address=models.ForeignKey(Address, on_delete=models.PROTECT, blank=True)
 
     #producer’s property (House, Coffee Shop, Restaurant…)
-    property=models.ForeignKey(Property,on_delete=models.PROTECT, blank=True)
+    #property=models.ForeignKey(Property,on_delete=models.PROTECT, blank=True)
 
     objects = models.Manager()
+
+    def __str__(self):
+       return self.first_name + " " + self.last_name

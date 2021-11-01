@@ -37,12 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'graphene_django',
-    'graphql_auth',
-    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
-    'django_filters',
+    'producers.apps.ProducersConfig',
+    'ariadne_django',
     'users',
-    'producers.apps.ProducersConfig'
     
 ]
 
