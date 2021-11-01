@@ -105,11 +105,8 @@ flutter:
    - assets/images/homogene.png
    - assets/images/waste.png
    - assets/images/verre.png
-   - assets/images/home.png
-
-
-
-
+   - assets/images/maptruck.png
+   - assets/images/bin.png
 
    #- images/a_dot_ham.jpeg
 

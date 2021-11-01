@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
   final screens = [
     const HomePage(),
     const AllNotifications(),
-     const Calendar(),
+    const Calendar(),
     const DrawerView(),
   ];
 
@@ -32,7 +32,8 @@ class _HomeState extends State<Home> {
         children: screens,
       ),
       floatingActionButton: Theme(
-          data: Theme.of(context).copyWith(splashColor: const Color(0xFF393E41)),
+          data:
+              Theme.of(context).copyWith(splashColor: const Color(0xFF393E41)),
           child: FloatingActionButton(
               backgroundColor: const Color(0xFF65C88D),
               child: const Icon(Icons.add),
@@ -50,32 +51,40 @@ class _HomeState extends State<Home> {
         currentIndex: currentIndex,
         onTap: (index) => setState(() => currentIndex = index),
         items: [
-         const BottomNavigationBarItem(
-              icon: Icon(FeatherIcons.home, color: Color(0xFF65C88D)),
-              label: "Home"),
+          const BottomNavigationBarItem(
+            activeIcon: Icon(FeatherIcons.home, color: Color(0xFF65C88D)),
+            icon: Icon(FeatherIcons.home, color: Color(0xFF78D0B4)),
+            label: "Home",
+          ),
           BottomNavigationBarItem(
+              activeIcon:
+                  const Icon(FeatherIcons.bell, color: Color(0xFF65C88D)),
               icon: Badge(
-                badgeContent: Text("3",
+                badgeContent: Text("4",
                     style: GoogleFonts.tajawal(
                         textStyle: const TextStyle(
                       color: Color(0xFFFFFFFF),
                       fontWeight: FontWeight.w900,
                     ))),
-                child: const Icon(FeatherIcons.bell, color: Color(0xFF65C88D)),
+                child: const Icon(FeatherIcons.bell, color: Color(0xFF78D0B4)),
                 badgeColor: const Color(0xFFF07167),
                 elevation: 0,
-                padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/100, bottom: MediaQuery.of(context).size.height/130, left: 5, right: 5),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 100,
+                    bottom: MediaQuery.of(context).size.height / 130,
+                    left: 5,
+                    right: 5),
               ),
-             
               label: "Notifications"),
-         const BottomNavigationBarItem(
-              icon: Icon(FeatherIcons.calendar, color: Color(0xFF65C88D)),
+          const BottomNavigationBarItem(
+              activeIcon: Icon(FeatherIcons.calendar, color: Color(0xFF65C88D)),
+              icon: Icon(FeatherIcons.calendar, color: Color(0xFF78D0B4)),
               label: "Calendar"),
           const BottomNavigationBarItem(
-              icon: Icon(FeatherIcons.menu, color: Color(0xFF65C88D)),
+              activeIcon: Icon(FeatherIcons.menu, color: Color(0xFF65C88D)),
+              icon: Icon(FeatherIcons.menu, color: Color(0xFF78D0B4)),
               label: "Drawer"),
         ],
-        
       ),
     );
   }

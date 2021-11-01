@@ -98,7 +98,7 @@ class _SelectViewState extends State<SelectView> {
                     ));*/
                     UserWidget(
                   name: garbageList[index]['name'],
-                   imageURL: garbageList[index]['icon'],
+                  imageURL: garbageList[index]['icon'],
                 );
               },
               separatorBuilder: (BuildContext context, int index) =>
@@ -132,21 +132,21 @@ class _SelectViewState extends State<SelectView> {
 
 class UserWidget extends StatelessWidget {
   final String name;
-    final String imageURL;
+  final String imageURL;
 
-  const UserWidget({
-    Key? key,
-    required this.name,
-    required this.imageURL
-  }) : super(key: key);
+  const UserWidget({Key? key, required this.name, required this.imageURL})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return new Container(
-      margin: const EdgeInsets.symmetric(vertical: 1.0),
+      margin: const EdgeInsets.only(top: 0.5, bottom: 0.5),
+      padding: const EdgeInsets.only(top: 0.5, bottom: 0.5),
       child: new ListTile(
-        leading:  Image.asset(imageURL,height: MediaQuery.of(context).size.height / 30,),
-        
+        leading: Image.asset(
+          imageURL,
+          height: MediaQuery.of(context).size.height / 30,
+        ),
         title: new Text(name),
       ),
     );
