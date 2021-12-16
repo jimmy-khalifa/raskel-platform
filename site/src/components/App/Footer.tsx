@@ -116,7 +116,7 @@ const Footer = () => {
                 <div className="footer-bottom-area">
                     <div className="row align-items-center">
                         <div className="col-lg-6 col-md-6">
-                            <p>{intl.formatMessage({ id: "copyright" })}{" "} © {currentYear} <strong>iPalm</strong> {intl.formatMessage({ id: "copyrightreserved" })}{" "} </p>
+                            <p>{intl.formatMessage({ id: "copyright" })}{" "} © {currentYear} <a href='https://www.ipalm.tn' ><strong>iPalm</strong></a> {intl.formatMessage({ id: "copyrightreserved" })}{" "} </p>
                         </div>
 
                     </div>

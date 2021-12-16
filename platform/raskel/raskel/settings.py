@@ -37,9 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'producers.apps.ProducersConfig',
     'ariadne_django',
-    'users',
+    'django.contrib.gis',
+    'security.apps.SecurityConfig',
+    'geo.apps.GeoConfig',
+    'producer.apps.ProducerConfig',
+    'company.apps.CompanyConfig',
     
 ]
 
@@ -51,7 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'ariadne_jwt.middleware.JSONWebTokenMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'raskel.urls'
@@ -80,11 +84,14 @@ WSGI_APPLICATION = 'raskel.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'iraskel',
+        'USER': 'iraskel',
+        'PASSWORD': 'iraskel',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -130,19 +137,21 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # GRAPHQL SETTINGS
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'security.CustomUser'
 
-GRAPHENE = {
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'ariadne_jwt.backends.JSONWebTokenBackend',
+]
+"""GRAPHENE = {
     'SCHEMA': 'raskel.schema.schema', # this file doesn't exist yet
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
 }
 
-AUTHENTICATION_BACKENDS = [
-    'graphql_auth.backends.GraphQLAuthBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
+
 
 GRAPHQL_JWT = {
     "JWT_VERIFY_EXPIRATION": True,
@@ -161,9 +170,9 @@ GRAPHQL_JWT = {
         "graphql_auth.mutations.VerifySecondaryEmail",
     ],
 }
-
+"""
 GRAPHQL_AUTH = {
-    'LOGIN_ALLOWED_FIELDS': ['username'],
+    'LOGIN_ALLOWED_FIELDS': ['username', 'phone_number'],
     'ALLOW_LOGIN_WITH_SECONDARY_EMAIL': False,
     'SEND_ACTIVATION_EMAIL': False
 

@@ -75,8 +75,8 @@ body {
   margin: 0;
   font-size: 17px;
   font-family: "Nunito", "Tajawal", sans-serif;
-  background-color: #393e41;
-  color: #fff;
+  background-color: #dff4ec;
+  color: #404648;
 }
 
 .container {
@@ -107,7 +107,7 @@ img {
 }
 
 p {
-  color: #f5f5f5;
+  color: #404648;
   line-height: 1.8;
   margin-bottom: 15px;
   font-weight: 600;
@@ -507,7 +507,7 @@ Navbar Area CSS
 }
 
 .tarn-nav .navbar .navbar-nav .nav-item a {
-  color: #f5f5f5;
+  color: #00f083;
   font-size: 17px;
   font-weight: 700;
   padding-left: 0;
@@ -526,7 +526,7 @@ Navbar Area CSS
 }
 
 .tarn-nav .navbar .navbar-nav .nav-item a:hover, .tarn-nav .navbar .navbar-nav .nav-item a:focus, .tarn-nav .navbar .navbar-nav .nav-item a.active {
-  color: #00f083;
+  color: #78d0b4;
 }
 
 .tarn-nav .navbar .navbar-nav .nav-item:last-child {
@@ -965,7 +965,7 @@ Navbar Area CSS
   z-index: 999;
   -webkit-box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.09);
           box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.09);
-  background-color: #4d5255 !important;
+  background-color: #fff;
   padding-top: 5px;
   padding-bottom: 5px;
 }
@@ -2066,8 +2066,7 @@ Main Banner Area CSS
 .it-services-banner {
   position: relative;
   z-index: 1;
-  background-color: #ffffff;
-  background-image: url(../images/banner-bg3.png);
+  background-color: #dff4ec;
   background-position: bottom center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -11841,7 +11840,7 @@ Footer Area CSS
 }
 
 .footer-area.bg-color {
-  background-color: #4d5255;
+  background-color: #ffffff;
 }
 
 .single-footer-widget {
