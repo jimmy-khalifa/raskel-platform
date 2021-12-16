@@ -1,0 +1,1 @@
+from .company import type_defs as company_type_defs

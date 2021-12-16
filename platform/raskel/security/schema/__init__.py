@@ -1,0 +1,1 @@
+from .user import type_defs as user_type_defs
