@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_mobile/classes/language.dart';
+import 'package:flutter_mobile/main.dart';
 import 'package:flutter_mobile/screen/_signup.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 
+import '../app_localizations.dart';
 import '_home.dart';
 
 class SignIn extends StatefulWidget {
@@ -26,17 +28,60 @@ class _SignInState extends State<SignIn> {
       print("Non validée !");
     }
   }
-    final TextEditingController name = TextEditingController();
-      final TextEditingController password = TextEditingController();
 
-
-
+  final TextEditingController name = TextEditingController();
+  final TextEditingController password = TextEditingController();
 
   bool _isObscure = false;
+  void _changeLanguage(Language language) {
+    Locale _temp;
+    switch (language.languageCode) {
+      case 'fr':
+        _temp = Locale(language.languageCode, 'FR');
+        break;
+      case 'ar':
+        _temp = Locale(language.languageCode, 'AR');
+        break;
+      default:
+        _temp = Locale(language.languageCode, 'FR');
+    }
+    MyApp.setLocale(context, _temp);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+      actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButton<Language>(
+              underline: const SizedBox(),
+              icon: const Icon(
+                Icons.language,
+                color: Colors.white,
+              ),
+             onChanged: ( language)  {
+                _changeLanguage(language!);
+              },
+              items: Language.languageList()
+                  .map<DropdownMenuItem<Language>>(
+                    (e) => DropdownMenuItem<Language>(
+                      value: e,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                          e.languageCode)
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ],
+      ),
         body: Card(
             child: Container(
                 constraints: const BoxConstraints.expand(),
@@ -47,11 +92,12 @@ class _SignInState extends State<SignIn> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                  
                     Container(
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).size.height / 20),
                       child: Text(
-                        "Connectez-Vous",
+                        '${LocalizationHelper.of(context)!.description}',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.tajawal(
                             textStyle: const TextStyle(
@@ -62,8 +108,7 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     Form(
-                        autovalidate: true,
-                        key: formkey,
+                        autovalidateMode: AutovalidateMode.always, key: formkey,
                         child: Column(children: [
                           Container(
                             padding: EdgeInsets.only(
@@ -107,7 +152,6 @@ class _SignInState extends State<SignIn> {
                                 cursorColor: const Color(0xFFDFF4EC),
                                 obscureText: !_isObscure,
                                 decoration: InputDecoration(
-                                 
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _isObscure
@@ -130,7 +174,6 @@ class _SignInState extends State<SignIn> {
                                         BorderSide(color: Color(0xFFDFF4EC)),
                                   ),
                                   hintText: "Mot de passe",
-                                  
                                   filled: true,
                                   fillColor: Colors.white,
                                 ),
