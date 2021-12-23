@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:iraskel_mobile/_signin.dart';
 
 import 'localizations/app_localizations.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale){
 
    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
-    state!.setLocale(newLocale);
+    state?.setLocale(newLocale);
   }
 
   @override
@@ -31,7 +32,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  late Locale _locale = const Locale('fr', 'FR') ;
+  late Locale _locale =  const Locale('fr', 'FR') ;
 
   void setLocale( Locale locale){
     setState(() {
@@ -87,8 +88,13 @@ class _MyAppState extends State<MyApp> {
           ),
           scaffoldBackgroundColor: const Color(0xFFDFF4EC)
       ),
-      home: const Scaffold( body:Center(child: Text( ' Home Page'),),)
+      home:  OrientationBuilder(
+        builder: (context, orientation) {
+          return const SignIn();
+        },
+      ),
     );
   }
 }
+  
 
