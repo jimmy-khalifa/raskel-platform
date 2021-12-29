@@ -3,9 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Button extends StatefulWidget {
   final String txt;
+  final page;
 
   // ignore: use_key_in_widget_constructors
-  const Button(this.txt);
+  const Button(this.txt, this.page);
 
   @override
   State<Button> createState() => _ButtonState();
@@ -32,6 +33,11 @@ class _ButtonState extends State<Button> {
                                           Radius.circular(10))),
                                 ),
                                 onPressed: () {
+                                   Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => widget.page),
+                                  );
                                  
                                 },
                                 child: Text(
