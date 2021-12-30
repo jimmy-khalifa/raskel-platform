@@ -1,3 +1,6 @@
 {
-    "description":"Page maison"
+    "description":"Page maison",
+
+    "languageTitle":"Choisir votre langue !",
+    "buttonText": "Passer"
   }

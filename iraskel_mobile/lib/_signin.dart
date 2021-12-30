@@ -3,7 +3,6 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 
 import 'localizations/app_localizations.dart';
 
@@ -210,7 +209,9 @@ class _SignInState extends State<SignIn> {
                                   )),
                                 )),
                           ),
-                          const Button("se connecter", SignIn)
+
+                        //  const Button("se connecter", )
+
                         ])),
                   ],
                 ))));

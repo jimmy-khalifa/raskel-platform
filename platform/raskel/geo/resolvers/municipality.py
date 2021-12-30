@@ -10,6 +10,8 @@ def resolve_municipalities(*_):
 
 @municipality_query.field('municipality_by_state')
 def resolve_municipality_by_state(_, info, stateId):
+    if stateId == '' :
+        return Municipality.objects.all()
     state = State.objects.get(pk=stateId)
     state_municipalities = Municipality.objects.filter(state=state)
     return list(state_municipalities)

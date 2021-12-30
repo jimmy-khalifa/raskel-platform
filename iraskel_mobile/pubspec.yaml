@@ -90,7 +90,7 @@ flutter:
     - assets/getstarted/communicate.png
     - assets/getstarted/win.png
     - assets/getstarted/join.png
-
+    - assets/getstarted/back_login.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
