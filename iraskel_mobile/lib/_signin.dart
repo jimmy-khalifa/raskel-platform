@@ -209,9 +209,7 @@ class _SignInState extends State<SignIn> {
                                   )),
                                 )),
                           ),
-
-                        //  const Button("se connecter", )
-
+                          //  const Button("se connecter", )
                         ])),
                   ],
                 ))));

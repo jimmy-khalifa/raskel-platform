@@ -42,32 +42,30 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        locale: _locale,
-        supportedLocales: const [
-          Locale('ar', 'AR'),
-          Locale('fr', 'FR'),
-          Locale('tn', 'TN'),
-        ],
-        localizationsDelegates: const [
-          // built in localizations of basic text for material widgets
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          // a class which load the transformations from JSON files
-          //AppLocalizations.delegate,
-          // for text directions LTR-RTL
-          GlobalWidgetsLocalizations.delegate,
-          LocalizationHelper.delegate
-        ],
-        //returns a locale which will be used by the app
-        localeResolutionCallback: (locale, supportedLocales) {
-          //check if the current device locale is supported
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale!.languageCode &&
-                supportedLocale.countryCode == locale.countryCode) {
-              return supportedLocale;
-            }
+      locale: _locale,
+      supportedLocales: const [
+        Locale('ar', 'AR'),
+        Locale('fr', 'FR'),
+        Locale('tn', 'TN'),
+      ],
+      localizationsDelegates: const [
+        // built in localizations of basic text for material widgets
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        // a class which load the transformations from JSON files
+        //AppLocalizations.delegate,
+        // for text directions LTR-RTL
+        GlobalWidgetsLocalizations.delegate,
+        LocalizationHelper.delegate
+      ],
+      //returns a locale which will be used by the app
+      localeResolutionCallback: (locale, supportedLocales) {
+        //check if the current device locale is supported
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale!.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
           }
-
         }
         return supportedLocales.first;
       },
@@ -75,41 +73,24 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Raskel Mobile Application',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-         textTheme: GoogleFonts.tajawalTextTheme(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          textTheme: GoogleFonts.tajawalTextTheme(
             Theme.of(context).textTheme,
           ),
-          scaffoldBackgroundColor: const Color(0xFFDFF4EC)
-      ),
-      home:  OrientationBuilder(
+          scaffoldBackgroundColor: const Color(0xFFDFF4EC)),
+      home: OrientationBuilder(
         builder: (context, orientation) {
           return const SelectLanguage();
-
         },
-        debugShowCheckedModeBanner: false,
-        title: 'Raskel Mobile Application',
-        theme: ThemeData(
-            // This is the theme of your application.
-            //
-            // Try running your application with "flutter run". You'll see the
-            // application has a blue toolbar. Then, without quitting the app, try
-            // changing the primarySwatch below to Colors.green and then invoke
-            // "hot reload" (press "r" in the console where you ran "flutter run",
-            // or simply save your changes to "hot reload" in a Flutter IDE).
-            // Notice that the counter didn't reset back to zero; the application
-            // is not restarted.
-            textTheme: GoogleFonts.tajawalTextTheme(
-              Theme.of(context).textTheme,
-            ),
-            scaffoldBackgroundColor: const Color(0xFFDFF4EC)),
-        home: const GetStarted());
+      ),
+    );
   }
 }
