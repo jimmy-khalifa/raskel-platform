@@ -209,11 +209,8 @@ class _SignInState extends State<SignIn> {
                                   )),
                                 )),
                           ),
-<<<<<<< HEAD
                           const Button("se connecter", SignIn)
-=======
-                        //  const Button("se connecter", )
->>>>>>> App commit all work
+                          //  const Button("se connecter", )
                         ])),
                   ],
                 ))));
