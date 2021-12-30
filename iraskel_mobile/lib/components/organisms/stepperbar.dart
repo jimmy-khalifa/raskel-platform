@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iraskel_mobile/_signin.dart';
 import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/molecules/stepper.dart';
+import 'package:iraskel_mobile/components/pages/selectlanguage.dart';
 
 class StepperBar extends StatefulWidget {
   final pagesLength;
@@ -26,6 +27,12 @@ class StepperBar extends StatefulWidget {
 }
 
 class _StepperBarState extends State<StepperBar> {
+  onpressed(){
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => SelectLanguage()),
+  );
+  }
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -42,7 +49,7 @@ class _StepperBarState extends State<StepperBar> {
               selectedIndex: widget.selectedIndex,
               setter: widget.setter,
             ),
-            Button(widget.buttonText, SignIn),
+            Button(widget.buttonText, onpressed),
           ],
         ),
       ),
