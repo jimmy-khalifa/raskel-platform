@@ -4,9 +4,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 import 'localizations/app_localizations.dart';
-
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -32,50 +30,44 @@ class _SignInState extends State<SignIn> {
   final TextEditingController password = TextEditingController();
 
   bool _isObscure = false;
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DropdownButton<Language>(
-              underline: const SizedBox(),
-              icon: const Icon(
-                Icons.language,
-                color: Colors.white,
-              ),
-             onChanged: ( language)  {
-                LocalizationHelper.ChangeLanguage(language!,context);
-              },
-              items: Language.languageList()
-                  .map<DropdownMenuItem<Language>>(
-                    (e) => DropdownMenuItem<Language>(
-                      value: e,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Text(
-                          e.languageCode)
-                        ],
+        appBar: AppBar(
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: DropdownButton<Language>(
+                underline: const SizedBox(),
+                icon: const Icon(
+                  Icons.language,
+                  color: Colors.white,
+                ),
+                onChanged: (language) {
+                  LocalizationHelper.ChangeLanguage(language!, context);
+                },
+                items: Language.languageList()
+                    .map<DropdownMenuItem<Language>>(
+                      (e) => DropdownMenuItem<Language>(
+                        value: e,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[Text(e.languageCode)],
+                        ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
         body: Card(
             child: Container(
                 constraints: const BoxConstraints.expand(),
-                
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                  
                     Container(
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).size.height / 20),
@@ -91,7 +83,8 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     Form(
-                        autovalidateMode: AutovalidateMode.always, key: formkey,
+                        autovalidateMode: AutovalidateMode.always,
+                        key: formkey,
                         child: Column(children: [
                           Container(
                             padding: EdgeInsets.only(
@@ -205,10 +198,7 @@ class _SignInState extends State<SignIn> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(10))),
                                 ),
-                                onPressed: () {
-                                 
-                                  
-                                },
+                                onPressed: () {},
                                 child: Text(
                                   "Se Connecter",
                                   style: GoogleFonts.tajawal(
@@ -219,7 +209,9 @@ class _SignInState extends State<SignIn> {
                                   )),
                                 )),
                           ),
+
                         //  const Button("se connecter", )
+
                         ])),
                   ],
                 ))));
