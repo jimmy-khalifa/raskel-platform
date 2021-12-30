@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-%=2_rfl0t90#teilh10xon4^b6kw-%%(u=!0t0&ypenbdi9y_9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*'
+]
 
 
 # Application definition
@@ -85,9 +87,9 @@ WSGI_APPLICATION = 'raskel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'iraskel',
-        'USER': 'iraskel',
-        'PASSWORD': 'iraskel',
+        'NAME': 'raskel',
+        'USER': 'raskel',
+        'PASSWORD': 'raskel',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
