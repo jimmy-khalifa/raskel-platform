@@ -85,16 +85,13 @@ flutter:
     - lang/fr.json
     - lang/ar.json
     - lang/tn.json
-<<<<<<< HEAD
     - assets/getstarted/start.png
     - assets/getstarted/participate.png
     - assets/getstarted/communicate.png
     - assets/getstarted/win.png
     - assets/getstarted/join.png
-
-=======
     - assets/getstarted/back_login.png
->>>>>>> App commit all work
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

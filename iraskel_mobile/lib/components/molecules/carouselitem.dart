@@ -25,9 +25,7 @@ class CarouselItem extends StatelessWidget {
               //   margin: EdgeInsets.only(
               //       top: MediaQuery.of(context).size.height / 7 - 30),
               // ),
-              StartImage(
-                imageSrc: imageSrcItem,
-              ),
+              StartImage(imageSrcItem, BoxFit.scaleDown),
               H2Text(h2text: h2TextItem),
               StartDescription(
                 descriptionText: descriptionTextItem,
