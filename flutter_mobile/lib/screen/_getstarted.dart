@@ -117,35 +117,34 @@ class CarouselSliderWidget extends State<GetStarted> {
                         ),
                         Center(
                             child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.of(context).size.height /
-                                              80,
-                                      horizontal:
-                                          MediaQuery.of(context).size.width /
-                                              15),
-                                  backgroundColor: Colors.white,
-                                  side: const BorderSide(
-                                      color: Color(0xFF65C88D)),
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>const SignIn()),
-                                  );
-                                },
-                                child: Text('Passer',
-                                   style: GoogleFonts.tajawal(
-                                      textStyle: const TextStyle(
-                                    color: Color(0xFF65C88D),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 20.0,
-                                  )),),
+                          style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                vertical:
+                                    MediaQuery.of(context).size.height / 80,
+                                horizontal:
+                                    MediaQuery.of(context).size.width / 15),
+                            backgroundColor: Colors.white,
+                            side: const BorderSide(color: Color(0xFF65C88D)),
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignIn()),
+                            );
+                          },
+                          child: Text(
+                            'Passer',
+                            style: GoogleFonts.tajawal(
+                                textStyle: const TextStyle(
+                              color: Color(0xFF65C88D),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20.0,
+                            )),
+                          ),
                         )),
                       ],
                     ),
