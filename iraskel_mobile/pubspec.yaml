@@ -85,6 +85,7 @@ flutter:
     - lang/fr.json
     - lang/ar.json
     - lang/tn.json
+    - assets/getstarted/back_login.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -53,6 +53,10 @@ class LocalizationHelper {
 
   // ignore: non_constant_identifier_names
   String? get t_description => _translate('description');
+  // ignore: non_constant_identifier_names
+  String? get t_languageTitle => _translate('languageTitle');
+  // ignore: non_constant_identifier_names
+  String? get t_buttonText => _translate('buttonText');
 
 }
 
@@ -85,9 +89,9 @@ class Language {
 
   static List<Language> languageList() {
     return <Language>[
-      Language(1, "fr"),
-      Language(2, "ar"),
-      Language(3, "tn")
+      Language(1, "FR"),
+      Language(2, "AR"),
+      Language(3, "TN")
      
     ];
   }

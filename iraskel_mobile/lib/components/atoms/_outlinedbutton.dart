@@ -3,10 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Button extends StatefulWidget {
   final String txt;
-  final page;
+  // ignore: prefer_typing_uninitialized_variables
+  final  onpressed;
 
   // ignore: use_key_in_widget_constructors
-  const Button(this.txt, this.page);
+  const Button(this.txt, this.onpressed);
 
   @override
   State<Button> createState() => _ButtonState();
@@ -15,8 +16,7 @@ class Button extends StatefulWidget {
 class _ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: OutlinedButton(
+    return OutlinedButton(
         style: OutlinedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(
                                       vertical:
@@ -32,14 +32,16 @@ class _ButtonState extends State<Button> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(10))),
                                 ),
-                                onPressed: () {
-                                   Navigator.push(
+                                onPressed: (){
+                                   widget.onpressed();
+
+                                },
+                                /*   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => widget.page),
-                                  );
+                                  );*/
                                  
-                                },
                                 child: Text(
                                   widget.txt,
                                   style: GoogleFonts.tajawal(
@@ -49,7 +51,7 @@ class _ButtonState extends State<Button> {
                                     fontSize: 20.0,
                                   )),
                                 )
-      )
+      
       
     );
   }

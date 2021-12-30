@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:iraskel_mobile/_signin.dart';
+import 'package:iraskel_mobile/components/pages/selectlanguage.dart';
 
 import 'localizations/app_localizations.dart';
 
@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home:  OrientationBuilder(
         builder: (context, orientation) {
-          return const SignIn();
+          return const SelectLanguage();
         },
       ),
     );
