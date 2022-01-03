@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdownlanguage.dart';
-import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
+import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
+import 'package:iraskel_mobile/components/pages/signup.dart';
 import 'package:iraskel_mobile/components/pages/_getstarted.dart';
 
 class SelectLanguageTemplate extends StatefulWidget {

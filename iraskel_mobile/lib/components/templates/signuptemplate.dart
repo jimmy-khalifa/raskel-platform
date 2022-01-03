@@ -4,9 +4,10 @@ import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
 import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_custominput.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
-import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
+import 'package:iraskel_mobile/components/atoms/_graphqloutlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_phonefield.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
+import 'package:iraskel_mobile/components/molecules/_querydropdown.dart';
 
 
 String createUser = """
@@ -49,6 +50,10 @@ class SignUpTemplate extends StatefulWidget {
   final String text;
   final String txt;
   final String id;
+  final bool isquery;
+  final grahqlCode;
+    final Map<String, dynamic> variables;
+
 
   // ignore: prefer_typing_uninitialized_variables
   final int;
@@ -69,7 +74,11 @@ class SignUpTemplate extends StatefulWidget {
     this.listItems2,
     this.text,
     this.id,
+
     this.txt,
+    this.isquery,
+    this.grahqlCode,
+    this.variables
   );
 
   @override
@@ -86,7 +95,7 @@ class _SignUpTemplateState extends State<SignUpTemplate> {
   late String municipalityId = "";
   late String lastName = "";
   late String firstName = "";
-  late String phoneNumber = "";
+  late int phoneNumber  ;
 
   setStateId(value) {
     setState(() => {stateId = value});
@@ -109,6 +118,7 @@ class _SignUpTemplateState extends State<SignUpTemplate> {
   }
 
   onpressed() {
+    
     }
 
   @override
@@ -140,9 +150,9 @@ class _SignUpTemplateState extends State<SignUpTemplate> {
                 CustomInput(widget.hinttext2, setFirstName),
                 Spacing(widget.int),
 
-                /* QueryDropDownGraphQl(widget.grahqlCode1, widget.dropdowntextinput1,
-                widget.listItems1, widget.text1),*/
-                Query(
+                 QueryDropDownGraphQl(widget.grahqlCode1,const {"countryId": "1"},  widget.dropdowntextinput1,
+                widget.listItems1, widget.text,widget.id,setStateId),
+               /* Query(
                     options: QueryOptions(
                         document: gql(widget.grahqlCode1),
                         variables: {"countryId": "1"}),
@@ -159,11 +169,11 @@ class _SignUpTemplateState extends State<SignUpTemplate> {
                       final listItems1 = result.data?[widget.listItems1];
                       return (DropdownInput(widget.dropdowntextinput1,
                           listItems1, widget.text, widget.id, setStateId));
-                    }),
+                    }),*/
                 Spacing(widget.int),
-                /*QueryDropDownGraphQl(widget.grahqlCode2,
-                    widget.dropdowntextinput2, widget.listItems2, widget.text2),*/
-                Query(
+                QueryDropDownGraphQl(widget.grahqlCode2,{"stateId": stateId},
+                    widget.dropdowntextinput2, widget.listItems2, widget.text,widget.id,setMunicipalityId),
+               /* Query(
                     options: QueryOptions(
                         document: gql(widget.grahqlCode2),
                         variables: {"stateId": stateId}),
@@ -184,14 +194,10 @@ class _SignUpTemplateState extends State<SignUpTemplate> {
                           widget.text,
                           widget.id,
                           setMunicipalityId));
-                    }),
+                    }),*/
                 Spacing(widget.int),
-                Mutation(
-                    options: MutationOptions(document: gql(createUser)),
-                    builder: (RunMutation? runMutation, QueryResult? result) {
-                      return Button(widget.txt, onpressed);
-                          
-                        })
+                GraphqlButton(widget.txt, widget.isquery, widget.grahqlCode, widget.variables)
+                
                       
                     
               ],
