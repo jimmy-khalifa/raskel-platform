@@ -1,33 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iraskel_mobile/components/molecules/carouselitem.dart';
 import 'package:iraskel_mobile/components/organisms/getstartedtemp.dart';
-
-final List<Widget> pages = [
-  const CarouselItem(
-      imageSrcItem: 'assets/getstarted/start.png',
-      h2TextItem: 'Commencer',
-      descriptionTextItem: 'Commencez dès maintenant à prendre soin de l'
-          'environnement. Raskel vous guide pour mieux gèrer vos dèchets'),
-  const CarouselItem(
-      imageSrcItem: 'assets/getstarted/participate.png',
-      h2TextItem: 'Participer',
-      descriptionTextItem:
-          'Participez par le trie de vos déchets dans les bacs désignés. Raskel vous permet de suivre le cycle de vie de vos déchets. '),
-  const CarouselItem(
-      imageSrcItem: 'assets/getstarted/communicate.png',
-      h2TextItem: 'Communiquer',
-      descriptionTextItem:
-          'Communiquer avec  vos collecteurs et votre communité. Raskel vous permet de partager et communiquer avec les autres membres.'),
-  const CarouselItem(
-      imageSrcItem: 'assets/getstarted/win.png',
-      h2TextItem: 'Gagner',
-      descriptionTextItem:
-          'Gagner des points et des cadeaux, pour votre participation au Triage des déchets. Raskel récompense votre participation'),
-  const CarouselItem(
-      imageSrcItem: 'assets/getstarted/join.png',
-      h2TextItem: 'Joindre',
-      descriptionTextItem: 'Rejoingez nous et une votre communité.'),
-];
+import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
 class GetStarted extends StatefulWidget {
   @override
@@ -39,6 +13,7 @@ class GetStarted extends StatefulWidget {
 }
 
 class CarouselSliderWidget extends State<GetStarted> {
+  //final List<Widget> pages =
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +22,43 @@ class CarouselSliderWidget extends State<GetStarted> {
         builder: (context, orientation) {
           return GStartTemplate(
             orientation: orientation,
-            pages: pages,
+            pages: [
+              CarouselItem(
+                imageSrcItem: 'assets/getstarted/start.png',
+                h2TextItem: '${LocalizationHelper.of(context)!.t_start}',
+                descriptionTextItem:
+                    '${LocalizationHelper.of(context)!.t_startText}',
+                orientation: orientation,
+              ),
+              CarouselItem(
+                imageSrcItem: 'assets/getstarted/participate.png',
+                h2TextItem: '${LocalizationHelper.of(context)!.t_participate}',
+                descriptionTextItem:
+                    '${LocalizationHelper.of(context)!.t_participateText}',
+                orientation: orientation,
+              ),
+              CarouselItem(
+                imageSrcItem: 'assets/getstarted/communicate.png',
+                h2TextItem: '${LocalizationHelper.of(context)!.t_communicate}',
+                descriptionTextItem:
+                    '${LocalizationHelper.of(context)!.t_communicateText}',
+                orientation: orientation,
+              ),
+              CarouselItem(
+                imageSrcItem: 'assets/getstarted/win.png',
+                h2TextItem: '${LocalizationHelper.of(context)!.t_win}',
+                descriptionTextItem:
+                    '${LocalizationHelper.of(context)!.t_winText}',
+                orientation: orientation,
+              ),
+              CarouselItem(
+                imageSrcItem: 'assets/getstarted/join.png',
+                h2TextItem: '${LocalizationHelper.of(context)!.t_join}',
+                descriptionTextItem:
+                    '${LocalizationHelper.of(context)!.t_joinText}',
+                orientation: orientation,
+              ),
+            ],
           );
         },
       ),

@@ -1,6 +1,23 @@
 {
     "description":"Page maison",
-
-    "languageTitle":"Choisir votre langue !",
-    "buttonText": "Passer"
+    "languageTitle":"Choisissez votre langue !",
+    "buttonText": "Passer",
+    "skip": "Passer",
+    "continue": "Continuer",
+    "start": "Commencer",
+    "participate": "Participer",
+    "communicate": "Communiquer",
+    "win": "Gagner",
+    "join": "Joindre",
+    "startText": "Commencez dès maintenant à prendre soin de l'environnement. Raskel vous guide pour mieux gèrer vos dèchets.",
+    "participateText": "Participez par le trie de vos déchets dans les bacs désignés. Raskel vous permet de suivre le cycle de vie de vos déchets.",
+    "communicateText": "Communiquer avec  vos collecteurs et votre communité. Raskel vous permet de partager et communiquer avec les autres membres.",
+    "winText": "Gagner des points et des cadeaux, pour votre participation au Triage des déchets. Raskel récompense votre participation.",
+    "joinText": "Rejoingez nous et une votre communité.",
+    "firstname": "Prénom",
+    "lastname": "Nom",
+    "country": "Pays",
+    "state": "Gouvernorat",
+    "municipality": "Commune",
+    "phonenumber": "N° Téléphone"
   }

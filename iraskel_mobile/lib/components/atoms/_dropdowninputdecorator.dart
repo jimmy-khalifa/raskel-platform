@@ -10,7 +10,8 @@ class DropdownInput extends StatefulWidget {
   //final String stateId;
   final Function setter;
   // ignore: use_key_in_widget_constructors
-  const DropdownInput(this.dropdowntextinput ,this.listItems, this.text,this.id,this.setter);
+  const DropdownInput(
+      this.dropdowntextinput, this.listItems, this.text, this.id, this.setter);
 
   @override
   _DropdownInputState createState() => _DropdownInputState();
@@ -22,6 +23,8 @@ class _DropdownInputState extends State<DropdownInput> {
   Widget build(BuildContext context) {
     return InputDecorator(
         decoration: InputDecoration(
+            filled: true,
+            fillColor: const Color(0xFFFFFFFF),
             focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: Color(0xFF65C88D)),
                 borderRadius: BorderRadius.circular(5.0)),
@@ -47,7 +50,7 @@ class _DropdownInputState extends State<DropdownInput> {
           items: widget.listItems.map<DropdownMenuItem<String>>((valueItem) {
             return DropdownMenuItem<String>(
               value: valueItem[widget.id],
-            //  key: valueItem[widget.id],
+              //  key: valueItem[widget.id],
               child: Text(valueItem[widget.text]),
             );
           }).toList(),

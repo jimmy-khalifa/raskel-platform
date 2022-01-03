@@ -4,11 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:iraskel_mobile/components/pages/selectlanguage.dart';
 
-import 'components/pages/_getstarted.dart';
 import 'localizations/app_localizations.dart';
 
 void main() {
-  final HttpLink httpLink = HttpLink("http://172.17.32.3:8000/graphql/");
+  final HttpLink httpLink = HttpLink("http://192.168.43.57:8000/graphql/");
   ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(
       link: httpLink,
@@ -85,6 +84,6 @@ class _MyAppState extends State<MyApp> {
               Theme.of(context).textTheme,
             ),
             scaffoldBackgroundColor: const Color(0xFFDFF4EC)),
-        home: const GetStarted());
+        home: const SelectLanguage());
   }
 }
