@@ -11,13 +11,7 @@ class PhoneField extends StatefulWidget {
 }
 
 class _PhoneFieldState extends State<PhoneField> {
-  final myController = TextEditingController();
-   @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
-    super.dispose();
-  }
+
   @override
   Widget build(BuildContext context) {
     return IntlPhoneField(

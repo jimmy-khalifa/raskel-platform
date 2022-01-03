@@ -22,7 +22,35 @@ query(\$stateId: ID!){
   }
 }
 """;
+const createUser = """
+mutation (\$input: UserInput!) {
+  create_user(input: \$input) {
+    created
+    user {
+      email
+      username
+			is_confirmed
+			is_verified
+			
+    }
+    err {
+      code
+      message
+    }
+  }
+}
+""";
+const variables= {
+  
+	"input": {
+		"phone_number": "55478123",
+		"first_name": "rima",
+		"last_name": "hor",
+		"municipality_id": "65"
+	}
 
+
+};
 class SignUpPage extends StatefulWidget {
  
   const SignUpPage({Key? key}) : super(key: key);
@@ -55,6 +83,11 @@ class _SignUpPageState extends State<SignUpPage> {
             'id',
             
             'Rejoindre',
+            false,
+            createUser,
+            variables
+
+
             
            ));
   }
