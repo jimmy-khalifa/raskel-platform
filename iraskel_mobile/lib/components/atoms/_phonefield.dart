@@ -15,11 +15,10 @@ class _PhoneFieldState extends State<PhoneField> {
   @override
   Widget build(BuildContext context) {
     return IntlPhoneField(
-     // controller:myController ,
-     onChanged: (phone){
+      // controller:myController ,
+      onChanged: (phone) {
         widget.setter(phone);
-
-     },
+      },
       decoration: const InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFF65C88D)),
@@ -27,7 +26,6 @@ class _PhoneFieldState extends State<PhoneField> {
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Color(0xFFDFF4EC))),
         filled: true,
-      
         fillColor: Colors.white,
         hintText: "XXXXXXXX",
       ),

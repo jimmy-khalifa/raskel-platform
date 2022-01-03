@@ -14,11 +14,18 @@ class _SelectLanguageState extends State<SelectLanguage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SelectLanguageTemplate(
-            'assets/getstarted/back_login.png',
-            BoxFit.contain,
-            '${LocalizationHelper.of(context)!.t_languageTitle}',
-            '${LocalizationHelper.of(context)!.t_buttonText}',
-             ));
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          return SelectLanguageTemplate(
+              'assets/getstarted/back_login.png',
+              orientation == Orientation.portrait
+                  ? BoxFit.contain
+                  : BoxFit.fitHeight,
+              '${LocalizationHelper.of(context)!.t_languageTitle}',
+              '${LocalizationHelper.of(context)!.t_continue}',
+              orientation);
+        },
+      ),
+    );
   }
 }

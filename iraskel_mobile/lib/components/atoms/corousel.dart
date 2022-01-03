@@ -6,9 +6,14 @@ class AppCarouselSlider extends StatefulWidget {
   final orientation;
   final Function setter;
   final controller;
+  final pages;
 
   const AppCarouselSlider(
-      {Key? key, this.orientation, required this.setter, this.controller})
+      {Key? key,
+      this.orientation,
+      required this.setter,
+      this.controller,
+      this.pages})
       : super(key: key);
 
   @override
@@ -19,7 +24,7 @@ class _AppCarouselSliderState extends State<AppCarouselSlider> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        flex: widget.orientation == Orientation.portrait ? 4 : 6,
+        flex: widget.orientation == Orientation.portrait ? 4 : 2,
         child: CarouselSlider(
           options: CarouselOptions(
             height: MediaQuery.of(context).size.height,
@@ -34,7 +39,7 @@ class _AppCarouselSliderState extends State<AppCarouselSlider> {
             },
           ),
           carouselController: widget.controller,
-          items: pages
+          items: widget.pages
               .map<Widget>((item) => Container(
                     margin: const EdgeInsets.all(0),
                     child: Center(child: item),

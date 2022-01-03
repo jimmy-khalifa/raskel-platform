@@ -4,21 +4,19 @@ class CustomInput extends StatefulWidget {
   final String hinttext;
   final Function setter;
   // ignore: use_key_in_widget_constructors
-  const CustomInput(this.hinttext,this.setter);
+  const CustomInput(this.hinttext, this.setter);
 
   @override
   _CustomInputState createState() => _CustomInputState();
 }
 
 class _CustomInputState extends State<CustomInput> {
- 
   @override
   Widget build(BuildContext context) {
     return TextField(
       //controller: myController,
-      onChanged: (text){
+      onChanged: (text) {
         widget.setter(text);
-
       },
       cursorColor: const Color(0xFFDFF4EC),
       decoration: InputDecoration(
