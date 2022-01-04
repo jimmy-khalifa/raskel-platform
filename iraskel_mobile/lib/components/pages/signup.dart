@@ -54,6 +54,7 @@ query(\$stateId: ID!){
 }
 """;
 
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
