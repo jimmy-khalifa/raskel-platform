@@ -17,7 +17,8 @@ class _PhoneFieldState extends State<PhoneField> {
     return IntlPhoneField(
       // controller:myController ,
       onChanged: (phone) {
-        widget.setter(phone);
+        widget.setter(phone.number);
+        
       },
       decoration: const InputDecoration(
         focusedBorder: OutlineInputBorder(

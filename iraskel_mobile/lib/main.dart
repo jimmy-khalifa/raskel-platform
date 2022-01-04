@@ -7,7 +7,7 @@ import 'package:iraskel_mobile/components/pages/selectlanguage.dart';
 import 'localizations/app_localizations.dart';
 
 void main() {
-  final HttpLink httpLink = HttpLink("http://192.168.43.57:8000/graphql/");
+  final HttpLink httpLink = HttpLink("http://172.17.32.3:8000/graphql/");
   ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(
       link: httpLink,
