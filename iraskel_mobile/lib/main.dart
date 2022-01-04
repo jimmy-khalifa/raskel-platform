@@ -3,11 +3,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:iraskel_mobile/components/pages/selectlanguage.dart';
+import 'package:iraskel_mobile/components/templates/compteform.dart';
 
 import 'localizations/app_localizations.dart';
 
 void main() {
-  final HttpLink httpLink = HttpLink("http://192.168.43.57:8000/graphql/");
+  final HttpLink httpLink = HttpLink("http://172.17.32.6:8000/graphql/");
   ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(
       link: httpLink,
@@ -66,7 +67,6 @@ class _MyAppState extends State<MyApp> {
               return supportedLocale;
             }
           }
-          return supportedLocales.first;
         },
         debugShowCheckedModeBanner: false,
         title: 'Raskel Mobile Application',
@@ -84,6 +84,6 @@ class _MyAppState extends State<MyApp> {
               Theme.of(context).textTheme,
             ),
             scaffoldBackgroundColor: const Color(0xFFDFF4EC)),
-        home: const SelectLanguage());
+        home: const CompteForm());
   }
 }
