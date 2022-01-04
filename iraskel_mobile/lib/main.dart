@@ -84,6 +84,6 @@ class _MyAppState extends State<MyApp> {
               Theme.of(context).textTheme,
             ),
             scaffoldBackgroundColor: const Color(0xFFDFF4EC)),
-        home: const CompteForm());
+        home: const SelectLanguage());
   }
 }
