@@ -19,6 +19,14 @@
     "country": "الدولة",
     "state": "الولاية",
     "municipality": "البلدية",
-    "phonenumber": "رقم الهاتف"
+    "phonenumber": "رقم الهاتف",
+    "code":" ",
+    "confirmTitle" :" !",
+    "confirmButton" :" ",
+    "rejoin" : " ",
+    "home": " ",
+    "notification":" ",
+    "calendar": " ",
+    "menu":" "
     
   }

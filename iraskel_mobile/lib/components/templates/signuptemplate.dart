@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
 import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_custominput.dart';
-import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
-import 'package:iraskel_mobile/components/atoms/_graphqloutlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_phonefield.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/molecules/_querydropdown.dart';
@@ -51,6 +48,7 @@ class SignUpTemplate extends StatefulWidget {
   final String txt;
   final String id;
   final bool isquery;
+  // ignore: prefer_typing_uninitialized_variables
   final grahqlCode;
     final Map<String, dynamic> variables;
 
@@ -196,7 +194,7 @@ class _SignUpTemplateState extends State<SignUpTemplate> {
                           setMunicipalityId));
                     }),*/
                 Spacing(widget.int),
-                GraphqlButton(widget.txt, widget.isquery, widget.grahqlCode, widget.variables)
+               // GraphqlButton(widget.txt, widget.isquery, widget.grahqlCode, widget.variables,)
                 
                       
                     

@@ -4,7 +4,10 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 class GraphqlButton extends StatefulWidget {
   final bool isquery;
+  // ignore: prefer_typing_uninitialized_variables
   final grahqlCode;
+  // ignore: prefer_typing_uninitialized_variables
+  final oncompleted;
   // final listItems;
   final Map<String, dynamic> variables;
 
@@ -12,7 +15,7 @@ class GraphqlButton extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
 
   // ignore: use_key_in_widget_constructors
-  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables);
+  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables,this.oncompleted);
 
   @override
   State<GraphqlButton> createState() => _GraphqlButtonState();
@@ -59,8 +62,15 @@ class _GraphqlButtonState extends State<GraphqlButton> {
                   ));
             })
         : Mutation(
-            options: MutationOptions(document: gql(widget.grahqlCode)),
+            options: MutationOptions(document: gql(widget.grahqlCode),
+            onCompleted: (data) {
+              widget.oncompleted(data);
+             //Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPage()));
+            },
+            
+            ),
             builder: (RunMutation? _runMutation, QueryResult? result) {
+              // ignore: prefer_function_declarations_over_variables
               final runMutation = () => _runMutation!(widget.variables);
               return OutlinedButton(
                   style: OutlinedButton.styleFrom(
@@ -74,6 +84,7 @@ class _GraphqlButtonState extends State<GraphqlButton> {
                   ),
                   onPressed: () {
                     runMutation();
+
                   },
                   child: Text(
                     widget.txt,
