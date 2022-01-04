@@ -196,7 +196,7 @@ class _SignUpTemplateState extends State<SignUpTemplate> {
                           setMunicipalityId));
                     }),*/
                 Spacing(widget.int),
-                GraphqlButton(widget.txt, widget.isquery, widget.grahqlCode, widget.variables)
+               // GraphqlButton(widget.txt, widget.isquery, widget.grahqlCode, widget.variables,)
                 
                       
                     

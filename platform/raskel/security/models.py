@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
 
-    phone_number = models.CharField(unique=True, blank=False, max_length=16, verbose_name="Phone Number")
+    phone_number = models.CharField(unique=True, blank=False, max_length=200, verbose_name="Phone Number")
 
     is_active = models.BooleanField('active',
         default=False,

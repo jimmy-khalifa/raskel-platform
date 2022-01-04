@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:iraskel_mobile/components/pages/confirmpage.dart';
 
 class GraphqlButton extends StatefulWidget {
   final bool isquery;
   final grahqlCode;
+  final oncompleted;
   // final listItems;
   final Map<String, dynamic> variables;
 
@@ -12,7 +14,7 @@ class GraphqlButton extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
 
   // ignore: use_key_in_widget_constructors
-  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables);
+  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables,this.oncompleted);
 
   @override
   State<GraphqlButton> createState() => _GraphqlButtonState();
@@ -59,7 +61,13 @@ class _GraphqlButtonState extends State<GraphqlButton> {
                   ));
             })
         : Mutation(
-            options: MutationOptions(document: gql(widget.grahqlCode)),
+            options: MutationOptions(document: gql(widget.grahqlCode),
+            onCompleted: (data) {
+              widget.oncompleted(data);
+             //Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPage()));
+            },
+            
+            ),
             builder: (RunMutation? _runMutation, QueryResult? result) {
               final runMutation = () => _runMutation!(widget.variables);
               return OutlinedButton(
@@ -74,6 +82,7 @@ class _GraphqlButtonState extends State<GraphqlButton> {
                   ),
                   onPressed: () {
                     runMutation();
+
                   },
                   child: Text(
                     widget.txt,
