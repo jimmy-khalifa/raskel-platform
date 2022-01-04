@@ -87,13 +87,13 @@ def resolve_verify_phone_number(_,info, input):
         login(info.context['request'], authenticated, '')
         success = True
         # we change the user to active
-        authenticated.is_active = True
+        authenticated.is_confirmed = True
         authenticated.save()
         
     else:
         err = "Not Successful"
 
-    return {'success': success, 'err': err}
+    return {'user':authenticated,'success': success, 'err': err}
 
 
 """

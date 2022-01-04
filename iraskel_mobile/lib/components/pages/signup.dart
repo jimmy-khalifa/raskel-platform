@@ -5,12 +5,14 @@ import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
 import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_custominput.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
-import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
+import 'package:iraskel_mobile/components/atoms/_graphqloutlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_phonefield.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
+import 'package:iraskel_mobile/components/pages/confirmpage.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
-String createUser = """
+
+const  createUser = """
 mutation (\$input: UserInput!) {
   create_user(input: \$input) {
     created
@@ -19,6 +21,7 @@ mutation (\$input: UserInput!) {
       username
 			is_confirmed
 			is_verified
+      phone_number
 			
     }
     err {
@@ -51,14 +54,6 @@ query(\$stateId: ID!){
 }
 """;
 
-const variables = {
-  "input": {
-    "phone_number": "55478123",
-    "first_name": "rima",
-    "last_name": "hor",
-    "municipality_id": "65"
-  }
-};
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -98,8 +93,20 @@ class _SignUpPageState extends State<SignUpPage> {
   setPhoneNumber(value) {
     setState(() => {phoneNumber = value});
   }
+   oncompleted(data){
+    // Map<String,dynamic> user = data["create_user"]["user"];
+  /*  {
+      "email": data["create_user"]["user"]["email"],
+      "username": data["create_user"]["user"]["username"],
+      "phone_number": data["create_user"]["user"]["phone_number"],
+      "is_confirmed": data["create_user"]["user"]["is_confirmed"],
+      "is_verified": data["create_user"]["user"]["is_verified"],
 
-  onpressed() {}
+    };*/
+     Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPage(data["create_user"]["user"])));
+   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -190,12 +197,20 @@ class _SignUpPageState extends State<SignUpPage> {
                           setMunicipalityId));
                     }),
                 const Spacing(40),
-                Mutation(
+                /* Mutation(
                     options: MutationOptions(document: gql(createUser)),
                     builder: (RunMutation? runMutation, QueryResult? result) {
                       return Button('${LocalizationHelper.of(context)!.t_join}',
                           onpressed);
-                    })
+                    })*/
+                GraphqlButton('${LocalizationHelper.of(context)!.t_rejoin}', false, createUser, { 
+                  "input": {
+                    "phone_number": phoneNumber,
+                    "first_name": firstName,
+                    "last_name": lastName,
+                    "municipality_id": municipalityId
+                  }
+                },oncompleted)
               ],
             ),
           ),

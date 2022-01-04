@@ -3,7 +3,6 @@ import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdownlanguage.dart';
 import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
 import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
-import 'package:iraskel_mobile/components/pages/signup.dart';
 import 'package:iraskel_mobile/components/pages/_getstarted.dart';
 
 class SelectLanguageTemplate extends StatefulWidget {
@@ -12,6 +11,7 @@ class SelectLanguageTemplate extends StatefulWidget {
   final fitType;
   final String title;
   final String txt;
+  // ignore: prefer_typing_uninitialized_variables
   final orientation;
 
   // ignore: use_key_in_widget_constructors

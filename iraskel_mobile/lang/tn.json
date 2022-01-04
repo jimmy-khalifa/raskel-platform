@@ -19,6 +19,14 @@
     "country": "البلاد",
     "state": "الولاية",
     "municipality": "البلدية",
-    "phonenumber": "نومرو التليفون"
+    "phonenumber": "نومرو التليفون",
+    "code":" ",
+    "confirmTitle" :" !",
+    "confirmButton" :" ",
+    "rejoin" : " ",
+    "home": " ",
+    "notification":" ",
+    "calendar": " ",
+    "menu":" "
     
   }
