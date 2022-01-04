@@ -202,7 +202,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       return Button('${LocalizationHelper.of(context)!.t_join}',
                           onpressed);
                     })*/
-                GraphqlButton('Rejoindre', false, createUser, {
+                GraphqlButton('${LocalizationHelper.of(context)!.t_rejoin}', false, createUser, { 
                   "input": {
                     "phone_number": phoneNumber,
                     "first_name": firstName,

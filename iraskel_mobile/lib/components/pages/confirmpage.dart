@@ -4,18 +4,32 @@ import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_custominput.dart';
 import 'package:iraskel_mobile/components/atoms/_graphqloutlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
+import 'package:iraskel_mobile/components/pages/mainpage.dart';
+import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
 const verifyNumber = """
 mutation(\$input: CodeInput!) {
   verify_phone_number(input: \$input) {
     success
     err
+    	user{
+			username
+			phone_number
+			first_name
+			last_name
+			email
+			is_active
+			is_confirmed
+			is_verified
+		}
+		
   }
 }
 """;
 
 class ConfirmPage extends StatefulWidget {
   final  Map<String,dynamic> user;
+  // ignore: use_key_in_widget_constructors
   const ConfirmPage(this.user);
 
   @override
@@ -32,7 +46,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
     setState(() => {code = value});
   }
   oncompleted(data){
-    print(data);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(data["verify_phone_number"]["user"])));
   }
   @override
   Widget build(BuildContext context) {
@@ -58,13 +72,13 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       Container(
                         padding: EdgeInsets.only(
                             top: MediaQuery.of(context).size.height / 4),
-                        child: BigTitle('Confirmez'),
+                        child:  BigTitle('${LocalizationHelper.of(context)!.t_confirmTitle}'),
                       ),
-                      Spacing(40),
-                      CustomInput('Code',setCode),
+                      const Spacing(40),
+                      CustomInput('${LocalizationHelper.of(context)!.t_code}',setCode),
                       Container(
                           padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: GraphqlButton('Confimer', false, verifyNumber, {
+                          child: GraphqlButton('${LocalizationHelper.of(context)!.t_confirmButton}', false, verifyNumber, {
                             "input": {
                               "phone_number": widget.user["phone_number"],
                               "code": code

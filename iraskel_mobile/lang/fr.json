@@ -19,5 +19,13 @@
     "country": "Pays",
     "state": "Gouvernorat",
     "municipality": "Commune",
-    "phonenumber": "N° Téléphone"
+    "phonenumber": "N° Téléphone",
+    "code":" Code",
+    "confirmTitle" :"Confirmez !",
+    "confirmButton" :"Confirmer",
+    "rejoin" : "Rejoindre",
+    "home": "Maison",
+    "notification":"Notification",
+    "calendar": "Calendrier",
+    "menu":"Menu"
   }

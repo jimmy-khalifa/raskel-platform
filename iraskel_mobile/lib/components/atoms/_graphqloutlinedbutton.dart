@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:iraskel_mobile/components/pages/confirmpage.dart';
 
 class GraphqlButton extends StatefulWidget {
   final bool isquery;
+  // ignore: prefer_typing_uninitialized_variables
   final grahqlCode;
+  // ignore: prefer_typing_uninitialized_variables
   final oncompleted;
   // final listItems;
   final Map<String, dynamic> variables;
@@ -69,6 +70,7 @@ class _GraphqlButtonState extends State<GraphqlButton> {
             
             ),
             builder: (RunMutation? _runMutation, QueryResult? result) {
+              // ignore: prefer_function_declarations_over_variables
               final runMutation = () => _runMutation!(widget.variables);
               return OutlinedButton(
                   style: OutlinedButton.styleFrom(
