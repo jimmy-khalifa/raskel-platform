@@ -96,6 +96,23 @@ class LocalizationHelper {
   String? get t_state => _translate("state");
   // ignore: non_constant_identifier_names
   String? get t_municipality => _translate('municipality');
+  // ignore: non_constant_identifier_names
+  String? get t_rejoin => _translate("rejoin");
+  // ignore: non_constant_identifier_names
+  String? get t_code => _translate("code");
+  // ignore: non_constant_identifier_names
+  String? get t_confirmButton => _translate("confirmButton");
+  // ignore: non_constant_identifier_names
+  String? get t_confirmTitle => _translate("confirmTitle");
+  // ignore: non_constant_identifier_names
+  String? get t_home => _translate("home");
+  // ignore: non_constant_identifier_names
+  String? get t_notification => _translate("notification");
+  // ignore: non_constant_identifier_names
+  String? get t_calendar => _translate("calendar");
+  // ignore: non_constant_identifier_names
+  String? get t_menu => _translate("menu");
+
 }
 
 class _AppLocalizationsDelegate

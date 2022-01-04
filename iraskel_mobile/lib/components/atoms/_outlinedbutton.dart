@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 class Button extends StatefulWidget {
    final String txt;
+   // ignore: prefer_typing_uninitialized_variables
    final onpressed;
+  // ignore: use_key_in_widget_constructors
   const Button(this.txt,this.onpressed);
 
   @override
