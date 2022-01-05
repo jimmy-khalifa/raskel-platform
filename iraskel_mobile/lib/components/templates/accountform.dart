@@ -35,14 +35,14 @@ query(\$stateId: ID!){
 }
 """;
 
-class CompteForm extends StatefulWidget {
-  const CompteForm({Key? key}) : super(key: key);
+class AccountForm extends StatefulWidget {
+  const AccountForm({Key? key}) : super(key: key);
 
   @override
-  _CompteFormState createState() => _CompteFormState();
+  _AccountFormState createState() => _AccountFormState();
 }
 
-class _CompteFormState extends State<CompteForm> {
+class _AccountFormState extends State<AccountForm> {
   late String stateId = "";
   late String municipalityId = "";
   late String lastName = "";
