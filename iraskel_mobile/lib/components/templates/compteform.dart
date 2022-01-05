@@ -10,6 +10,7 @@ import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/atoms/datefield.dart';
 import 'package:iraskel_mobile/components/atoms/h2.dart';
 import 'package:iraskel_mobile/components/molecules/_profilewidget.dart';
+import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
 const stateBYCountry = """
@@ -107,103 +108,104 @@ class _CompteFormState extends State<CompteForm> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)),
               child: Container(
-                  /*
-            appBar: AppBar(
-              title: const H2Text(h2text: 'Compte'),
-              backgroundColor: Colors.white,
-            ),
-            */
-                  // body: Container(
                   margin: const EdgeInsets.only(
                       top: 25, left: 20, right: 20, bottom: 10),
-                  child: SingleChildScrollView(
-                      padding: EdgeInsets.zero,
-                      reverse: true,
-                      child: Container(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const ProfileWidget(),
-                              CustomInput('@ffoulen', setUserName),
-                              const Spacing(40),
-                              CustomInput('Fouleni', setFirstName),
-                              const Spacing(40),
-                              CustomInput('Foulen', setLastName),
-                              const Spacing(40),
-                              PhoneField(setPhoneNumber),
-                              const Spacing(40),
+                  child: Column(children: [
+                    const FormHeader(headerText: 'Compte'),
+                    Expanded(
+                        child: SingleChildScrollView(
+                            padding: EdgeInsets.zero,
+                            reverse: true,
+                            child: Container(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  const ProfileWidget(),
+                                  CustomInput('@ffoulen', setUserName),
+                                  const Spacing(40),
+                                  CustomInput('Fouleni', setFirstName),
+                                  const Spacing(40),
+                                  CustomInput('Foulen', setLastName),
+                                  const Spacing(40),
+                                  PhoneField(setPhoneNumber),
+                                  const Spacing(40),
 
-                              /* QueryDropDownGraphQl(widget.grahqlCode1, widget.dropdowntextinput1,
+                                  /* QueryDropDownGraphQl(widget.grahqlCode1, widget.dropdowntextinput1,
                 widget.listItems1, widget.text1),*/
-                              Query(
-                                  options: QueryOptions(
-                                      document: gql(stateBYCountry),
-                                      variables: {"countryId": "1"}),
-                                  builder: (QueryResult result,
-                                      {fetchMore, refetch}) {
-                                    if (result.hasException) {
-                                      return Text(result.exception.toString());
-                                    }
-                                    if (result.isLoading) {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
+                                  Query(
+                                      options: QueryOptions(
+                                          document: gql(stateBYCountry),
+                                          variables: {"countryId": "1"}),
+                                      builder: (QueryResult result,
+                                          {fetchMore, refetch}) {
+                                        if (result.hasException) {
+                                          return Text(
+                                              result.exception.toString());
+                                        }
+                                        if (result.isLoading) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
 
-                                    final listItems1 =
-                                        result.data?['states_by_country'];
-                                    return (DropdownInput(
-                                        '${LocalizationHelper.of(context)!.t_state}',
-                                        listItems1,
-                                        'name',
-                                        'id',
-                                        setStateId));
-                                  }),
-                              /*QueryDropDownGraphQl(widget.grahqlCode2,
+                                        final listItems1 =
+                                            result.data?['states_by_country'];
+                                        return (DropdownInput(
+                                            '${LocalizationHelper.of(context)!.t_state}',
+                                            listItems1,
+                                            'name',
+                                            'id',
+                                            setStateId));
+                                      }),
+                                  /*QueryDropDownGraphQl(widget.grahqlCode2,
                     widget.dropdowntextinput2, widget.listItems2, widget.text2),*/
 
-                              const Spacing(40),
-                              Query(
-                                  options: QueryOptions(
-                                      document: gql(municipalities),
-                                      variables: {"stateId": stateId}),
-                                  builder: (QueryResult result,
-                                      {fetchMore, refetch}) {
-                                    if (result.hasException) {
-                                      return Text(result.exception.toString());
-                                    }
-                                    if (result.isLoading) {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
+                                  const Spacing(40),
+                                  Query(
+                                      options: QueryOptions(
+                                          document: gql(municipalities),
+                                          variables: {"stateId": stateId}),
+                                      builder: (QueryResult result,
+                                          {fetchMore, refetch}) {
+                                        if (result.hasException) {
+                                          return Text(
+                                              result.exception.toString());
+                                        }
+                                        if (result.isLoading) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
 
-                                    final listItems2 =
-                                        result.data?['municipality_by_state'];
-                                    return (DropdownInput(
-                                        '${LocalizationHelper.of(context)!.t_municipality}',
-                                        listItems2,
-                                        'name',
-                                        'id',
-                                        setMunicipalityId));
-                                  }),
-                              const Spacing(40),
-                              CustomInput('N° Carte identité', setNumCIN),
-                              const Spacing(40),
-                              DateField(
-                                dateinput: cindateinput,
-                                hinttext: 'Date Délivré',
+                                        final listItems2 = result
+                                            .data?['municipality_by_state'];
+                                        return (DropdownInput(
+                                            '${LocalizationHelper.of(context)!.t_municipality}',
+                                            listItems2,
+                                            'name',
+                                            'id',
+                                            setMunicipalityId));
+                                      }),
+                                  const Spacing(40),
+                                  CustomInput('N° Carte identité', setNumCIN),
+                                  const Spacing(40),
+                                  DateField(
+                                    dateinput: cindateinput,
+                                    hinttext: 'Date Délivré',
+                                  ),
+                                  const Spacing(40),
+                                  DateField(
+                                    dateinput: birthDate,
+                                    hinttext: 'Date De Naissance',
+                                  ),
+                                  const Spacing(40),
+                                  CustomInput('age', setAge)
+                                ],
                               ),
-                              const Spacing(40),
-                              DateField(
-                                dateinput: birthDate,
-                                hinttext: 'Date De Naissance',
-                              ),
-                              const Spacing(40),
-                              CustomInput('age', setAge)
-                            ],
-                          )))));
+                            )))
+                  ])));
         },
       ),
     );
