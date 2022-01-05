@@ -3,14 +3,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:iraskel_mobile/components/pages/selectlanguage.dart';
-import 'package:iraskel_mobile/components/templates/compteform.dart';
 
 import 'localizations/app_localizations.dart';
 
 void main() {
-
   final HttpLink httpLink = HttpLink("http://172.17.32.3:8000/graphql/");
-  ValueNotifier<GraphQLClient> client = ValueNotifier( 
+  ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(
       link: httpLink,
       cache: GraphQLCache(store: InMemoryStore()),

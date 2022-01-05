@@ -5,13 +5,13 @@ import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/calendarpage.dart';
 import 'package:iraskel_mobile/components/pages/notificationpage.dart';
+import 'package:iraskel_mobile/components/templates/accountform.dart';
 import 'package:iraskel_mobile/components/templates/adresseform.dart';
-import 'package:iraskel_mobile/components/templates/compteform.dart';
 
 class HomePage extends StatefulWidget {
   final Map<String, dynamic> user;
- // final bool visible;
-  
+  // final bool visible;
+
   const HomePage(this.user);
 
   @override
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   int activestep = 0;
   int dotcount = 4;
   final screens = [
-    CompteForm(),
+    AccountForm(),
     AdresseForm(),
     NotificationPage(),
     CalendarPage()
@@ -49,63 +49,58 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return widget.user['is_confirmed'] && !widget.user['is_verified']
-        ?  Card(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                  Spacing(20),
-                  /* Container(
+        ? Card(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Spacing(20),
+              /* Container(
             //  height:  MediaQuery.of(context).size.height / 2,
                 child: Stepper(
             type: StepperType.horizontal,
             steps: _stepper(),
             physics: const ClampingScrollPhysics(),
           ))*/
-          Expanded(
-                    child: IndexedStack(
-                      index: activestep,
-                      children: screens,
-                    ),
-                  ),
-                  // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
-                 
-                  Container(
-                    /* decoration: BoxDecoration(
+              Expanded(
+                child: IndexedStack(
+                  index: activestep,
+                  children: screens,
+                ),
+              ),
+              // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
+
+              Container(
+                /* decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(35),
                     color: Color(0xFF65C88D)),*/
-                    child: DotStepper(
-                      direction: Axis.horizontal,
-                      activeStep: activestep,
-                      dotCount: dotcount,
-                      dotRadius: 20,
-                      shape: Shape.ring,
-                      tappingEnabled:false,
-                      lineConnectorsEnabled:true,
-                      spacing: 80,
-                      //fillStep: true,
-                      indicator: Indicator.jump,
-                      fixedDotDecoration:
-                          FixedDotDecoration(color: Color(0xFFDFF4EC)),
-                      indicatorDecoration:
-                          IndicatorDecoration(color: Color(0xFF65C88D)),
-                          lineConnectorDecoration: LineConnectorDecoration(
-                           strokeWidth: 20,
-                            color:Color(0xFFDFF4EC) ),
-                   /*  onDotTapped: (tap) {
+                child: DotStepper(
+                  direction: Axis.horizontal,
+                  activeStep: activestep,
+                  dotCount: dotcount,
+                  dotRadius: 20,
+                  shape: Shape.ring,
+                  tappingEnabled: false,
+                  lineConnectorsEnabled: true,
+                  spacing: 80,
+                  //fillStep: true,
+                  indicator: Indicator.jump,
+                  fixedDotDecoration:
+                      FixedDotDecoration(color: Color(0xFFDFF4EC)),
+                  indicatorDecoration:
+                      IndicatorDecoration(color: Color(0xFF65C88D)),
+                  lineConnectorDecoration: LineConnectorDecoration(
+                      strokeWidth: 20, color: Color(0xFFDFF4EC)),
+                  /*  onDotTapped: (tap) {
                         setState(() {
                           activestep = activestep;
                         });
                       },*/
-                      
-                    ),
-                  ),
-                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [previousButton(), nextButton()],
-                  ),
-                  
-                ]),
-              
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [previousButton(), nextButton()],
+              ),
+            ]),
           )
         : Container(
             child: Text("error"),
