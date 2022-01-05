@@ -10,6 +10,7 @@ import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
 class MainPage extends StatefulWidget {
   final Map<String, dynamic> user;
+ // final bool visible;
   // ignore: use_key_in_widget_constructors
   const MainPage(this.user);
 
@@ -24,16 +25,26 @@ class _MainPageState extends State<MainPage> {
   }
 
   onpressed() {}
-  final screens = [const HomePage(), const NotificationPage(), const CalendarPage(), const MenuPage()];
+
+    
   @override
   Widget build(BuildContext context) {
+     
+     final _isVisible = true;
+
+   final screens = [ HomePage(widget.user),  const NotificationPage(),  const CalendarPage(),  const MenuPage()];
+           
+        
+   
     return Scaffold(
       body: IndexedStack(
         index: currentIndex,
         children: screens,
       ),
-      floatingActionButton:
-          CustomFloatingButton(0xFF65C88D, FeatherIcons.plus, onpressed),
+      floatingActionButton: Visibility(
+        visible:_isVisible,
+        child:
+          CustomFloatingButton(0xFF65C88D, FeatherIcons.plus, onpressed),),
       bottomNavigationBar: NavigationBar(
           0xFF65C88D,
           0xFF78D0B4,
