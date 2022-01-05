@@ -10,7 +10,7 @@ import 'localizations/app_localizations.dart';
 void main() {
 
   final HttpLink httpLink = HttpLink("http://172.17.32.3:8000/graphql/");
-  ValueNotifier<GraphQLClient> client = ValueNotifier(
+  ValueNotifier<GraphQLClient> client = ValueNotifier( 
     GraphQLClient(
       link: httpLink,
       cache: GraphQLCache(store: InMemoryStore()),
