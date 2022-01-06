@@ -3,7 +3,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:iraskel_mobile/components/pages/selectlanguage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'components/pages/mainpage.dart';
 import 'localizations/app_localizations.dart';
 
 void main() {
@@ -30,11 +32,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   late Locale _locale = const Locale('fr', 'FR');
 
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
+    });
+  }
+
+  //late bool isAuthenticated = false;
+  late Future<bool?> isAuthenticated;
+  @override
+  void initState() {
+    super.initState();
+    isAuthenticated = _prefs.then((SharedPreferences prefs) {
+      return prefs.getBool('isAuthenticated');
     });
   }
 
@@ -83,6 +97,12 @@ class _MyAppState extends State<MyApp> {
               Theme.of(context).textTheme,
             ),
             scaffoldBackgroundColor: const Color(0xFFDFF4EC)),
-        home: const SelectLanguage());
+        home: FutureBuilder<bool?>(
+            future: isAuthenticated,
+            builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
+              return snapshot.data != null ? MainPage() : const SelectLanguage();
+             // snapshot.data != null ? MainPage() : 
+            }) //isAuthenticated as bool ?  MainPage({}) : const SelectLanguage());
+        );
   }
 }

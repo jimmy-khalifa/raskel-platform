@@ -8,6 +8,7 @@ class GraphqlButton extends StatefulWidget {
   final grahqlCode;
   // ignore: prefer_typing_uninitialized_variables
   final oncompleted;
+ // final onpressedData;
   // final listItems;
   final Map<String, dynamic> variables;
 
@@ -15,7 +16,7 @@ class GraphqlButton extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
 
   // ignore: use_key_in_widget_constructors
-  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables,this.oncompleted);
+  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables,this.oncompleted,);
 
   @override
   State<GraphqlButton> createState() => _GraphqlButtonState();
@@ -51,6 +52,7 @@ class _GraphqlButtonState extends State<GraphqlButton> {
                   onPressed: () {
                     // final listItems = result.data?[widget.listItems];
                   },
+                  
                   child: Text(
                     widget.txt,
                     style: GoogleFonts.tajawal(
@@ -82,8 +84,9 @@ class _GraphqlButtonState extends State<GraphqlButton> {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
-                  onPressed: () {
+                  onPressed: ()  async {
                     runMutation();
+                    //widget.onpressedData();
 
                   },
                   child: Text(

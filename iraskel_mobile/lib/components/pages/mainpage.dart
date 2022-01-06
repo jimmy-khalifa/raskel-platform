@@ -9,10 +9,10 @@ import 'package:iraskel_mobile/components/pages/notificationpage.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
 class MainPage extends StatefulWidget {
-  final Map<String, dynamic> user;
+  //final Map<String, dynamic> user;
  // final bool visible;
   // ignore: use_key_in_widget_constructors
-  const MainPage(this.user);
+  const MainPage();
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -32,7 +32,7 @@ class _MainPageState extends State<MainPage> {
      
      final _isVisible = true;
 
-   final screens = [ HomePage(widget.user),  const NotificationPage(),  const CalendarPage(),  const MenuPage()];
+   final screens = [ HomePage(),  const NotificationPage(),  const CalendarPage(),  const MenuPage()];
            
         
    
