@@ -7,18 +7,21 @@ import 'package:iraskel_mobile/components/pages/calendarpage.dart';
 import 'package:iraskel_mobile/components/pages/notificationpage.dart';
 import 'package:iraskel_mobile/components/templates/accountform.dart';
 import 'package:iraskel_mobile/components/templates/adresseform.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
-  final Map<String, dynamic> user;
+//  final Map<String, dynamic> user;
   // final bool visible;
 
-  const HomePage(this.user);
+  const HomePage();
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+    final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   int activestep = 0;
   int dotcount = 4;
   final screens = [
@@ -43,12 +46,36 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  late Future<bool?> isConfirmed;
+    late Future<bool?> isVerified;
+
+  @override
+  void initState() {
+    super.initState();
+    isConfirmed = _prefs.then((SharedPreferences prefs) {
+      return prefs.getBool('isConfirmed');
+    });
+     isVerified = _prefs.then((SharedPreferences prefs) {
+      return prefs.getBool('isVerified');
+    });
+  }
   /* List<FAStep> _stepper =[
     FAStep(content:CompteForm() )
   ];*/
   @override
   Widget build(BuildContext context) {
-    return widget.user['is_confirmed'] && !widget.user['is_verified']
+    return FutureBuilder<bool?>(
+            future: isConfirmed,
+            //initialData: false,
+             builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
+               return FutureBuilder<bool?>(
+                 future: isVerified,
+                // initialData: false,
+                 builder: (BuildContext context1, AsyncSnapshot<bool?> snapshot1){
+                 return
+            
+    
+    ((snapshot.hasData )&& (snapshot.data as bool) )&& ((snapshot1.hasData )&&  !(snapshot1.data as bool))
         ? Card(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -104,7 +131,7 @@ class _HomePageState extends State<HomePage> {
           )
         : Container(
             child: Text("error"),
-          );
+                  );});   }  );
   }
 
   Row steps() {

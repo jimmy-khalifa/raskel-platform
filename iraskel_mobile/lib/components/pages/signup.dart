@@ -10,18 +10,23 @@ import 'package:iraskel_mobile/components/atoms/_phonefield.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/confirmpage.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
-const  createUser = """
+const createUser = """
 mutation (\$input: UserInput!) {
   create_user(input: \$input) {
     created
     user {
       email
       username
-			is_confirmed
+      is_confirmed
 			is_verified
       phone_number
+      			first_name
+			last_name
+			is_active
+
+			
 			
     }
     err {
@@ -54,7 +59,6 @@ query(\$stateId: ID!){
 }
 """;
 
-
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
@@ -63,6 +67,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   @override
   void initState() {
     super.initState();
@@ -93,9 +98,10 @@ class _SignUpPageState extends State<SignUpPage> {
   setPhoneNumber(value) {
     setState(() => {phoneNumber = value});
   }
-   oncompleted(data){
+
+  oncompleted(data) async {
     // Map<String,dynamic> user = data["create_user"]["user"];
-  /*  {
+    /*  {
       "email": data["create_user"]["user"]["email"],
       "username": data["create_user"]["user"]["username"],
       "phone_number": data["create_user"]["user"]["phone_number"],
@@ -103,10 +109,24 @@ class _SignUpPageState extends State<SignUpPage> {
       "is_verified": data["create_user"]["user"]["is_verified"],
 
     };*/
-     Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPage(data["create_user"]["user"])));
-   }
+    final SharedPreferences prefs = await _prefs;
 
-  
+    prefs.setString(
+        'phone_number', data["create_user"]["user"]["phone_number"]);
+    prefs.setString('username', data["create_user"]["user"]["username"]);
+    prefs.setString('email', data["create_user"]["user"]["email"]);
+    prefs.setString('firstname', data["create_user"]["user"]["first_name"]);
+    prefs.setString('lastname', data["create_user"]["user"]["last_name"]);
+    prefs.setBool('isActive', data["create_user"]["user"]["is_active"]);
+    //prefs.setBool('isConfirmed', data["create_user"]["user"]["is_confirmed"]);
+    prefs.setBool('isVerified', data["create_user"]["user"]["is_verified"]);
+    prefs.setBool('isAuthenticated', true);
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ConfirmPage()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -203,14 +223,19 @@ class _SignUpPageState extends State<SignUpPage> {
                       return Button('${LocalizationHelper.of(context)!.t_join}',
                           onpressed);
                     })*/
-                GraphqlButton('${LocalizationHelper.of(context)!.t_rejoin}', false, createUser, { 
-                  "input": {
-                    "phone_number": phoneNumber,
-                    "first_name": firstName,
-                    "last_name": lastName,
-                    "municipality_id": municipalityId
-                  }
-                },oncompleted)
+                GraphqlButton(
+                    '${LocalizationHelper.of(context)!.t_rejoin}',
+                    false,
+                    createUser,
+                    {
+                      "input": {
+                        "phone_number": phoneNumber,
+                        "first_name": firstName,
+                        "last_name": lastName,
+                        "municipality_id": municipalityId
+                      }
+                    },
+                    oncompleted)
               ],
             ),
           ),
