@@ -6,9 +6,11 @@ import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_custominput.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
 import 'package:iraskel_mobile/components/atoms/_graphqloutlinedbutton.dart';
+import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_phonefield.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/confirmpage.dart';
+import 'package:iraskel_mobile/components/pages/signin.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,6 +61,7 @@ query(\$stateId: ID!){
 }
 """;
 
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
@@ -98,17 +101,16 @@ class _SignUpPageState extends State<SignUpPage> {
   setPhoneNumber(value) {
     setState(() => {phoneNumber = value});
   }
-
+ onpressedSignin(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => SignIn()));
+      
+    }
   oncompleted(data) async {
-    // Map<String,dynamic> user = data["create_user"]["user"];
-    /*  {
-      "email": data["create_user"]["user"]["email"],
-      "username": data["create_user"]["user"]["username"],
-      "phone_number": data["create_user"]["user"]["phone_number"],
-      "is_confirmed": data["create_user"]["user"]["is_confirmed"],
-      "is_verified": data["create_user"]["user"]["is_verified"],
-
-    };*/
+    
+   
     final SharedPreferences prefs = await _prefs;
 
     prefs.setString(
@@ -235,7 +237,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         "municipality_id": municipalityId
                       }
                     },
-                    oncompleted)
+                    oncompleted,),
+                    Button('Se connecter', onpressedSignin)
               ],
             ),
           ),

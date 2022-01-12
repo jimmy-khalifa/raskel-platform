@@ -27,7 +27,14 @@ mutation(\$input: CodeInput!) {
   }
 }
 """;
-
+const tokenCreate = """
+mutation TokenAuth(\$phone_number: String!, \$password: String!) {
+    tokenAuth(phone_number: \$phone_number, password: \$password) {
+        token
+    
+    }
+}
+""";
 class ConfirmPage extends StatefulWidget {
   //final  Map<String,dynamic> user;
   // ignore: use_key_in_widget_constructors
@@ -38,6 +45,8 @@ class ConfirmPage extends StatefulWidget {
 }
 
 class _ConfirmPageState extends State<ConfirmPage> {
+
+  
     final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 
@@ -47,7 +56,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
   }
   oncompleted(data) async{
     final SharedPreferences prefs = await _prefs;
-    prefs.setBool('isConfirmed', data["verify_phone_number"]["user"]["is_confirmed"]);
+    prefs.setString('token', data["tokenAuth"]["token"]);
     Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
   }
    late Future<String?> phoneNumber;
@@ -97,12 +106,12 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       CustomInput('${LocalizationHelper.of(context)!.t_code}',setCode),
                       Container(
                           padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: GraphqlButton('${LocalizationHelper.of(context)!.t_confirmButton}', false, verifyNumber, {
-                            "input": {
+                          child: GraphqlButton('${LocalizationHelper.of(context)!.t_confirmButton}', false, tokenCreate, {
                               "phone_number":phone.data ,
-                              "code": code
-                            }
-                          },oncompleted,))
+                              "password": code 
+                            
+                          },oncompleted, 
+                          ))
                     ]))));})
 
         //ComfirmTemplate('assets/getstarted/back_login.png', BoxFit.contain, 'Confirmez', 'Confirmer', 40, 'Code')

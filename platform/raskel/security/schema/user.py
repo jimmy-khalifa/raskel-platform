@@ -3,8 +3,8 @@ from ariadne import gql
 type_defs= gql("""
 
 type Error{
-    code: String!
-    message: String!
+    code: String
+    message: String
 }
 
 type User {
@@ -13,6 +13,7 @@ type User {
     first_name: String!
     last_name: String!
     email: String!
+    password: String!
     is_active: Boolean!
     is_confirmed: Boolean!
     is_verified: Boolean!
@@ -31,7 +32,9 @@ type UserResults {
         user: User
         err: Error
 }
-
+input PhoneInput{
+    phone_number: String!
+}
 input CodeInput {
     phone_number: String!
     code: String!

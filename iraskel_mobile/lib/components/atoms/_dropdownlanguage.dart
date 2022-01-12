@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
-class DropdownLanguageSelect extends StatefulWidget {
+class DropdownLanguageSelect extends StatelessWidget {
   const DropdownLanguageSelect({Key? key}) : super(key: key);
 
   // final String titleradio;
   // ignore: use_key_in_widget_constructors
   //const DropdownLanguageSelect( this.titleradio);
 
-  @override
-  _DropdownLanguageSelectState createState() => _DropdownLanguageSelectState();
-}
-
-class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
   @override
   Widget build(BuildContext context) {
     return Center(

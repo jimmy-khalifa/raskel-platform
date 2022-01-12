@@ -9,7 +9,15 @@ import 'components/pages/mainpage.dart';
 import 'localizations/app_localizations.dart';
 
 void main() {
+
+  final SharedPreferences pref;
+  
   final HttpLink httpLink = HttpLink("http://172.17.32.3:8000/graphql/");
+ /* final AuthLink authLink = AuthLink(
+    getToken: () async => pref.getString('token'),
+    // OR
+    // getToken: () => 'Bearer <YOUR_PERSONAL_ACCESS_TOKEN>',
+  );*/
   ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(
       link: httpLink,
@@ -32,7 +40,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+   late Future<String?> token;
+  @override
+  void initState() {
+    super.initState();
+    token = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString('token');
+    });
+  }
 
   late Locale _locale = const Locale('fr', 'FR');
 
@@ -43,14 +60,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   //late bool isAuthenticated = false;
-  late Future<bool?> isAuthenticated;
-  @override
-  void initState() {
-    super.initState();
-    isAuthenticated = _prefs.then((SharedPreferences prefs) {
-      return prefs.getBool('isAuthenticated');
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +106,10 @@ class _MyAppState extends State<MyApp> {
               Theme.of(context).textTheme,
             ),
             scaffoldBackgroundColor: const Color(0xFFDFF4EC)),
-        home: FutureBuilder<bool?>(
-            future: isAuthenticated,
-            builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
-              return snapshot.data != null ? MainPage() : const SelectLanguage();
+        home: FutureBuilder<String?>(
+            future: token,
+            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+              return snapshot.data!=null ? MainPage() :  SelectLanguage();
              // snapshot.data != null ? MainPage() : 
             }) //isAuthenticated as bool ?  MainPage({}) : const SelectLanguage());
         );

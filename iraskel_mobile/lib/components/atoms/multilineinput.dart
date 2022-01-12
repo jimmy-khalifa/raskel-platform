@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MultiLineInput extends StatefulWidget {
+class MultiLineInput extends StatelessWidget {
   final String hinttext;
   const MultiLineInput({Key? key, required this.hinttext}) : super(key: key);
 
-  @override
-  _MultiLineInputState createState() => _MultiLineInputState();
-}
+  
 
-class _MultiLineInputState extends State<MultiLineInput> {
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -24,7 +21,7 @@ class _MultiLineInputState extends State<MultiLineInput> {
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFFDFF4EC)),
         ),
-        hintText: widget.hinttext,
+        hintText: hinttext,
         filled: true,
         fillColor: Colors.white,
       ),

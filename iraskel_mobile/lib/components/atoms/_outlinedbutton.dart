@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-class Button extends StatefulWidget {
+class Button extends StatelessWidget {
    final String txt;
    // ignore: prefer_typing_uninitialized_variables
    final onpressed;
   // ignore: use_key_in_widget_constructors
   const Button(this.txt,this.onpressed);
 
-  @override
-  _ButtonState createState() => _ButtonState();
-}
-
-class _ButtonState extends State<Button> {
+ 
   @override
   Widget build(BuildContext context) {
     return   OutlinedButton(
@@ -25,10 +21,10 @@ class _ButtonState extends State<Button> {
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
                   onPressed: () {
-                    widget.onpressed();
+                    onpressed();
                   },
                   child: Text(
-                    widget.txt,
+                    txt,
                     style: GoogleFonts.tajawal(
                         textStyle: const TextStyle(
                       color: Color(0xFF65C88D),
