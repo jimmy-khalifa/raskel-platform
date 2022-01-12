@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-class GraphqlButton extends StatefulWidget {
+class GraphqlButton extends StatelessWidget {
   final bool isquery;
   // ignore: prefer_typing_uninitialized_variables
   final grahqlCode;
+  //final grahqlCode2;
   // ignore: prefer_typing_uninitialized_variables
   final oncompleted;
  // final onpressedData;
   // final listItems;
   final Map<String, dynamic> variables;
+  //final Map<String, dynamic> variables2;
 
   final String txt;
   // ignore: prefer_typing_uninitialized_variables
@@ -18,17 +20,13 @@ class GraphqlButton extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
   const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables,this.oncompleted,);
 
-  @override
-  State<GraphqlButton> createState() => _GraphqlButtonState();
-}
-
-class _GraphqlButtonState extends State<GraphqlButton> {
+  
   @override
   Widget build(BuildContext context) {
-    return widget.isquery
+    return isquery
         ? Query(
             options: QueryOptions(
-                document: gql(widget.grahqlCode), variables: widget.variables),
+                document: gql(grahqlCode), variables: variables),
             builder: (QueryResult result, {fetchMore, refetch}) {
               if (result.hasException) {
                 return Text(result.exception.toString());
@@ -54,7 +52,7 @@ class _GraphqlButtonState extends State<GraphqlButton> {
                   },
                   
                   child: Text(
-                    widget.txt,
+                    txt,
                     style: GoogleFonts.tajawal(
                         textStyle: const TextStyle(
                       color: Color(0xFF65C88D),
@@ -64,16 +62,16 @@ class _GraphqlButtonState extends State<GraphqlButton> {
                   ));
             })
         : Mutation(
-            options: MutationOptions(document: gql(widget.grahqlCode),
+            options: MutationOptions(document: gql(grahqlCode),
             onCompleted: (data) {
-              widget.oncompleted(data);
+              oncompleted(data);
              //Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPage()));
             },
             
             ),
             builder: (RunMutation? _runMutation, QueryResult? result) {
               // ignore: prefer_function_declarations_over_variables
-              final runMutation = () => _runMutation!(widget.variables);
+              final runMutation = () => _runMutation!(variables);
               return OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     padding: EdgeInsets.symmetric(
@@ -87,10 +85,11 @@ class _GraphqlButtonState extends State<GraphqlButton> {
                   onPressed: ()  async {
                     runMutation();
                     //widget.onpressedData();
+                   // addOtherMutation();
 
                   },
                   child: Text(
-                    widget.txt,
+                    txt,
                     style: GoogleFonts.tajawal(
                         textStyle: const TextStyle(
                       color: Color(0xFF65C88D),
@@ -100,4 +99,16 @@ class _GraphqlButtonState extends State<GraphqlButton> {
                   ));
             });
   }
+  /*addOtherMutation(){
+    Mutation(options:MutationOptions(document: gql(grahqlCode2),),
+   
+    builder: (RunMutation? runMutation, QueryResult? result) {
+        
+          runMutation!(variables2);
+          return Text( "result");
+          
+          
+          
+          });
+  }*/
 }

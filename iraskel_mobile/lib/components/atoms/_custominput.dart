@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 
-class CustomInput extends StatefulWidget {
+class CustomInput extends  StatelessWidget {
+ 
+
   final String hinttext;
   final Function setter;
   // ignore: use_key_in_widget_constructors
   const CustomInput(this.hinttext, this.setter);
 
-  @override
-  _CustomInputState createState() => _CustomInputState();
-}
-
-class _CustomInputState extends State<CustomInput> {
+ 
   @override
   Widget build(BuildContext context) {
     return TextField(
       //controller: myController,
       onChanged: (text) {
-        widget.setter(text);
+        setter(text);
       },
       cursorColor: const Color(0xFFDFF4EC),
       decoration: InputDecoration(
@@ -26,7 +24,7 @@ class _CustomInputState extends State<CustomInput> {
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFFDFF4EC)),
         ),
-        hintText: widget.hinttext,
+        hintText: hinttext,
         filled: true,
         fillColor: Colors.white,
       ),

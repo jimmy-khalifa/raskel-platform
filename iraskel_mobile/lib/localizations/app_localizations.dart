@@ -112,6 +112,8 @@ class LocalizationHelper {
   String? get t_calendar => _translate("calendar");
   // ignore: non_constant_identifier_names
   String? get t_menu => _translate("menu");
+  // ignore: non_constant_identifier_names
+  String? get t_connect => _translate("connectButton");
 
 }
 

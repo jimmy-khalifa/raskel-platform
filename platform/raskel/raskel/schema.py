@@ -46,6 +46,7 @@ type Mutation{
     create_property_type(input: PropertyTypeInput): PropertyTypeResults
     create_company(input: CompanyInput): CompanyResults
     modify_company(input: CompanyUpdateInput): CompanyUpdateResult
+    user_phone(input:PhoneInput): UserResults
 }
 """)
 

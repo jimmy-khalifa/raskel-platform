@@ -27,5 +27,7 @@
     "home": "Maison",
     "notification":"Notification",
     "calendar": "Calendrier",
-    "menu":"Menu"
+    "menu":"Menu",
+    "connectButton":"Se connecter"
+
   }

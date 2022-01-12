@@ -27,6 +27,14 @@ mutation(\$input: CodeInput!) {
   }
 }
 """;
+const tokenCreate = """
+mutation TokenAuth(\$phone_number: String!, \$password: String!) {
+    tokenAuth(phone_number: \$phone_number, password: \$password) {
+        token
+    
+    }
+}
+""";
 
 class ConfirmPage extends StatefulWidget {
   //final  Map<String,dynamic> user;
@@ -38,19 +46,23 @@ class ConfirmPage extends StatefulWidget {
 }
 
 class _ConfirmPageState extends State<ConfirmPage> {
-    final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   late String code = "";
-   setCode(value) {
+  setCode(value) {
     setState(() => {code = value});
   }
-  oncompleted(data) async{
+
+  oncompleted(data) async {
+    //Save the token
     final SharedPreferences prefs = await _prefs;
-    prefs.setBool('isConfirmed', data["verify_phone_number"]["user"]["is_confirmed"]);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+    prefs.setString('token', data["tokenAuth"]["token"]);
+    //Pass to other page
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const MainPage()));
   }
-   late Future<String?> phoneNumber;
+
+  late Future<String?> phoneNumber;
   @override
   void initState() {
     super.initState();
@@ -59,51 +71,60 @@ class _ConfirmPageState extends State<ConfirmPage> {
     });
   }
 
- 
   @override
   Widget build(BuildContext context) {
-    return 
-    
-     Scaffold(
+    return Scaffold(
         body: FutureBuilder<String?>(
-          future: phoneNumber,
-          builder: (BuildContext context, AsyncSnapshot<String?> phone){
-        
-        return
-         Card(
-            margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 25,
-                bottom: MediaQuery.of(context).size.height / 80),
-            elevation: 0,
-            child: Container(
-                constraints: const BoxConstraints.expand(),
-                decoration: CustomDecoration(
-                  'assets/getstarted/back_login.png',
-                  BoxFit.contain,
-                ).baseBackgroundDecoration(),
-                child: SingleChildScrollView(
-                    //reverse: true,
-                    child: Column(
-                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisAlignment:
-                            MainAxisAlignment.center, // <-- alignments
-                        children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height / 4),
-                        child:  BigTitle('${LocalizationHelper.of(context)!.t_confirmTitle}'),
-                      ),
-                      const Spacing(40),
-                      CustomInput('${LocalizationHelper.of(context)!.t_code}',setCode),
-                      Container(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: GraphqlButton('${LocalizationHelper.of(context)!.t_confirmButton}', false, verifyNumber, {
-                            "input": {
-                              "phone_number":phone.data ,
-                              "code": code
-                            }
-                          },oncompleted,))
-                    ]))));})
+            future: phoneNumber,
+            builder: (BuildContext context, AsyncSnapshot<String?> phone) {
+              return Card(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height / 25,
+                      bottom: MediaQuery.of(context).size.height / 80),
+                  elevation: 0,
+                  child: Container(
+                      constraints: const BoxConstraints.expand(),
+                      decoration: CustomDecoration(
+                        'assets/getstarted/back_login.png',
+                        BoxFit.contain,
+                      ).baseBackgroundDecoration(),
+                      child: SingleChildScrollView(
+                          //reverse: true,
+                          child: Center(
+                              child: Column(
+                                  //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .center, // <-- alignments
+                                  children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height / 4,
+                                  left: MediaQuery.of(context).size.width / 10,
+                                  right: MediaQuery.of(context).size.width / 10,
+                                  bottom:
+                                      MediaQuery.of(context).size.height / 4),
+                              child: BigTitle(
+                                  '${LocalizationHelper.of(context)!.t_confirmTitle}'),
+                            ),
+                            const Spacing(40),
+                            CustomInput(
+                                '${LocalizationHelper.of(context)!.t_code}',
+                                setCode),
+                            Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: GraphqlButton(
+                                  '${LocalizationHelper.of(context)!.t_confirmButton}',
+                                  false,
+                                  tokenCreate,
+                                  {
+                                    "phone_number": phone.data,
+                                    "password": code
+                                  },
+                                  oncompleted,
+                                ))
+                          ])))));
+            })
 
         //ComfirmTemplate('assets/getstarted/back_login.png', BoxFit.contain, 'Confirmez', 'Confirmer', 40, 'Code')
         );

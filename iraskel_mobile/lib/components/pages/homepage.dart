@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:im_stepper/stepper.dart';
+import 'package:iraskel_mobile/components/atoms/_dotstepper.dart';
 import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/calendarpage.dart';
@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 //  final Map<String, dynamic> user;
   // final bool visible;
 
+  // ignore: use_key_in_widget_constructors
   const HomePage();
 
   @override
@@ -25,10 +26,10 @@ class _HomePageState extends State<HomePage> {
   int activestep = 0;
   int dotcount = 4;
   final screens = [
-    AccountForm(),
-    AdresseForm(),
-    NotificationPage(),
-    CalendarPage()
+    const AccountForm(),
+    const AdresseForm(),
+    const NotificationPage(),
+    const CalendarPage()
   ];
   onpressed() {
     if (activestep < dotcount - 1) {
@@ -79,14 +80,7 @@ class _HomePageState extends State<HomePage> {
         ? Card(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Spacing(20),
-              /* Container(
-            //  height:  MediaQuery.of(context).size.height / 2,
-                child: Stepper(
-            type: StepperType.horizontal,
-            steps: _stepper(),
-            physics: const ClampingScrollPhysics(),
-          ))*/
+              const Spacing(20),
               Expanded(
                 child: IndexedStack(
                   index: activestep,
@@ -95,43 +89,14 @@ class _HomePageState extends State<HomePage> {
               ),
               // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
 
-              Container(
-                /* decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(35),
-                    color: Color(0xFF65C88D)),*/
-                child: DotStepper(
-                  direction: Axis.horizontal,
-                  activeStep: activestep,
-                  dotCount: dotcount,
-                  dotRadius: 20,
-                  shape: Shape.ring,
-                  tappingEnabled: false,
-                  lineConnectorsEnabled: true,
-                  spacing: 80,
-                  //fillStep: true,
-                  indicator: Indicator.jump,
-                  fixedDotDecoration:
-                      FixedDotDecoration(color: Color(0xFFDFF4EC)),
-                  indicatorDecoration:
-                      IndicatorDecoration(color: Color(0xFF65C88D)),
-                  lineConnectorDecoration: LineConnectorDecoration(
-                      strokeWidth: 20, color: Color(0xFFDFF4EC)),
-                  /*  onDotTapped: (tap) {
-                        setState(() {
-                          activestep = activestep;
-                        });
-                      },*/
-                ),
-              ),
+             StepDot(activestep, dotcount),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [previousButton(), nextButton()],
               ),
             ]),
           )
-        : Container(
-            child: Text("error"),
-                  );});   }  );
+        : const Text("error");});   }  );
   }
 
   Row steps() {
@@ -182,14 +147,5 @@ class _HomePageState extends State<HomePage> {
     );*/
   }
 
-  /* List<Step> _stepper() {
-    List<Step> _steps = [
-      Step(title: Text('Compte'), content: CompteForm()),
-      /*Step(
-          title: Text('cc'),
-          content:
-              TextFormField(decoration: InputDecoration(labelText: "text"))),*/
-    ];
-    return _steps;
-  }*/
+ 
 }

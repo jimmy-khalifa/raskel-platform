@@ -95,6 +95,25 @@ def resolve_verify_phone_number(_,info, input):
 
     return {'user':authenticated,'success': success, 'err': err}
 
+@user_mutation.field('user_phone')
+def resolve_user_phone(_,info,input):
+    user = None
+    err = {}
+    try:
+        user = User.objects.get(phone_number = input['phone_number'])
+        if user != None :
+            alphanum = string.ascii_uppercase + string.digits
+            # we get a random list of 8 Upper characters digits
+            chars = random.choices(alphanum, weights=None, k=8)
+            # we change the list to a string and generate the code
+            pwd = "".join(chars)
+            print('The Code Is : ' + pwd)
+            user.set_password(pwd)
+            user.save()
+    except:
+        err = {'code' : 'ERR001', 'message': 'Phone number is not registred'}
+
+    return {'created': True, 'user': user, 'err': err}
 
 """
 Mutation resend_verification_code to resend a new verification 
