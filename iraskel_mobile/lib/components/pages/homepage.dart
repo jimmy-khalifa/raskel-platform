@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 //  final Map<String, dynamic> user;
   // final bool visible;
 
+  // ignore: use_key_in_widget_constructors
   const HomePage();
 
   @override
@@ -25,10 +26,10 @@ class _HomePageState extends State<HomePage> {
   int activestep = 0;
   int dotcount = 4;
   final screens = [
-    AccountForm(),
-    AdresseForm(),
-    NotificationPage(),
-    CalendarPage()
+    const AccountForm(),
+    const AdresseForm(),
+    const NotificationPage(),
+    const CalendarPage()
   ];
   onpressed() {
     if (activestep < dotcount - 1) {
@@ -95,9 +96,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ]),
           )
-        : Container(
-            child: Text("error"),
-                  );});   }  );
+        : const Text("error");});   }  );
   }
 
   Row steps() {

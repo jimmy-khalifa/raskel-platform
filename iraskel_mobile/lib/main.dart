@@ -10,7 +10,6 @@ import 'localizations/app_localizations.dart';
 
 void main() {
 
-  final SharedPreferences pref;
   
   final HttpLink httpLink = HttpLink("http://172.17.32.3:8000/graphql/");
  /* final AuthLink authLink = AuthLink(
@@ -109,7 +108,7 @@ class _MyAppState extends State<MyApp> {
         home: FutureBuilder<String?>(
             future: token,
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-              return snapshot.data!=null ? MainPage() :  SelectLanguage();
+              return snapshot.data!=null ? const MainPage() :  const SelectLanguage();
              // snapshot.data != null ? MainPage() : 
             }) //isAuthenticated as bool ?  MainPage({}) : const SelectLanguage());
         );

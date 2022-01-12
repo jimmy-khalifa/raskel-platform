@@ -105,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => SignIn()));
+          builder: (context) => const SignIn()));
       
     }
   oncompleted(data) async {
@@ -127,7 +127,7 @@ class _SignUpPageState extends State<SignUpPage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ConfirmPage()));
+            builder: (context) => const ConfirmPage()));
   }
 
   @override

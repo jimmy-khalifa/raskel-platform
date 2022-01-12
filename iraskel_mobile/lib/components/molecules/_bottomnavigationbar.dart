@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:iraskel_mobile/components/atoms/_icon.dart';
 
 class NavigationBar extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final  color1;
+  // ignore: prefer_typing_uninitialized_variables
   final  color2;
+  // ignore: prefer_typing_uninitialized_variables
   final name1;
+  // ignore: prefer_typing_uninitialized_variables
   final name2;
+  // ignore: prefer_typing_uninitialized_variables
   final name3;
+  // ignore: prefer_typing_uninitialized_variables
   final name4;
+  // ignore: prefer_typing_uninitialized_variables
   final name5;
   final String text1;
   final String text2;
@@ -19,6 +26,7 @@ class NavigationBar extends StatefulWidget {
   //final int currentIndex;
   
 
+  // ignore: use_key_in_widget_constructors
   const NavigationBar(this.color1,this.color2, this.name1, this.name2, this.name3,
       this.name4,this.name5, this.text1, this.text2, this.text3, this.text4,this.text5,this.currentIndex,this.ontap);
 
