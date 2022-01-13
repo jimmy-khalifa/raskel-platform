@@ -13,7 +13,7 @@ class QueryDropDownGraphQl extends StatefulWidget {
   final Function setter;
   final Map<String,dynamic> variables;
   // ignore: use_key_in_widget_constructors
-  const QueryDropDownGraphQl(this.grahqlCode,this.variables, this.dropdowntextinput, this.listItems, this.text,this.id,this.setter);
+  const QueryDropDownGraphQl(this.grahqlCode,this.variables, this.dropdowntextinput, this.listItems, this.text,this.id,this.setter,);
   
 
   @override
@@ -39,7 +39,7 @@ class _QueryDropDownGraphQlState extends State<QueryDropDownGraphQl> {
                                    
                                     final listItems = result.data?[widget.listItems];
                                     return(
-                                      DropdownInput(widget.dropdowntextinput,listItems, widget.text,widget.id,widget.setter)
+                                      DropdownInput(widget.dropdowntextinput,listItems, widget.text,widget.id,widget.setter,)
                                     );
       
                                        } );

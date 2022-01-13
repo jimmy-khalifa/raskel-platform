@@ -148,8 +148,8 @@ class _SignUpTemplateState extends State<SignUpTemplate> {
                 CustomInput(widget.hinttext2, setFirstName),
                 Spacing(widget.int),
 
-                 QueryDropDownGraphQl(widget.grahqlCode1,const {"countryId": "1"},  widget.dropdowntextinput1,
-                widget.listItems1, widget.text,widget.id,setStateId),
+              /*   QueryDropDownGraphQl(widget.grahqlCode1,const {"countryId": "1"},  widget.dropdowntextinput1,
+                widget.listItems1, widget.text,widget.id,setStateId),*/
                /* Query(
                     options: QueryOptions(
                         document: gql(widget.grahqlCode1),
@@ -169,8 +169,8 @@ class _SignUpTemplateState extends State<SignUpTemplate> {
                           listItems1, widget.text, widget.id, setStateId));
                     }),*/
                 Spacing(widget.int),
-                QueryDropDownGraphQl(widget.grahqlCode2,{"stateId": stateId},
-                    widget.dropdowntextinput2, widget.listItems2, widget.text,widget.id,setMunicipalityId),
+             /*   QueryDropDownGraphQl(widget.grahqlCode2,{"stateId": stateId},
+                    widget.dropdowntextinput2, widget.listItems2, widget.text,widget.id,setMunicipalityId),*/
                /* Query(
                     options: QueryOptions(
                         document: gql(widget.grahqlCode2),
