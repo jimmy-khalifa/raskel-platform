@@ -16,6 +16,10 @@ def resolve_company_by_id(_, info, companyId):
 
 @company_query.field('companies_by_municipality')
 def resolve_companies_by_municipality(_, info, municipalityId):
+    if municipalityId== '' :
+        companies = Company.objects.all()
+        return list(companies)
+    
     municipality = Municipality.objects.get(pk=municipalityId)
     company_queryset = Company.objects.filter(municipality=municipality)
 

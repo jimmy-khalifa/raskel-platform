@@ -60,7 +60,15 @@ query(\$stateId: ID!){
   }
 }
 """;
-
+const companyByMunicipality = """
+query(\$municipalityId: ID!){
+  companies_by_municipality(municipalityId: \$municipalityId){
+    
+    id
+    legal_name
+  }
+}
+""";
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -78,9 +86,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
   late String stateId = "";
   late String municipalityId = "";
+  late String companyId = "";
   late String lastName = "";
   late String firstName = "";
   late String phoneNumber = "";
+  late bool isMunicipality = false;
+  late bool isCommunity = false;
 
   setStateId(value) {
     setState(() => {stateId = value});
@@ -101,16 +112,19 @@ class _SignUpPageState extends State<SignUpPage> {
   setPhoneNumber(value) {
     setState(() => {phoneNumber = value});
   }
- onpressedSignin(){
+
+  setCompanyId(value) {
+    setState(() {
+      companyId = value;
+    });
+  }
+
+  onpressedSignin() {
     Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => const SignIn()));
-      
-    }
+        context, MaterialPageRoute(builder: (context) => const SignIn()));
+  }
+
   oncompleted(data) async {
-    
-   
     final SharedPreferences prefs = await _prefs;
 
     prefs.setString(
@@ -125,9 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
     prefs.setBool('isAuthenticated', true);
 
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const ConfirmPage()));
+        context, MaterialPageRoute(builder: (context) => const ConfirmPage()));
   }
 
   @override
@@ -184,6 +196,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: CircularProgressIndicator(),
                         );
                       }
+                      isMunicipality = true;
 
                       final listItems1 = result.data?['states_by_country'];
                       return (DropdownInput(
@@ -191,12 +204,12 @@ class _SignUpPageState extends State<SignUpPage> {
                           listItems1,
                           'name',
                           'id',
-                          setStateId));
+                          setStateId,));
                     }),
                 const Spacing(40),
                 /*QueryDropDownGraphQl(widget.grahqlCode2,
                     widget.dropdowntextinput2, widget.listItems2, widget.text2),*/
-                Query(
+         isMunicipality ?     Query(
                     options: QueryOptions(
                         document: gql(municipalities),
                         variables: {"stateId": stateId}),
@@ -209,6 +222,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: CircularProgressIndicator(),
                         );
                       }
+                      isCommunity = true;
 
                       final listItems2 = result.data?['municipality_by_state'];
                       return (DropdownInput(
@@ -217,28 +231,56 @@ class _SignUpPageState extends State<SignUpPage> {
                           'name',
                           'id',
                           setMunicipalityId));
-                    }),
-                const Spacing(40),
+                    }): const Spacing(40),
+                
                 /* Mutation(
                     options: MutationOptions(document: gql(createUser)),
                     builder: (RunMutation? runMutation, QueryResult? result) {
                       return Button('${LocalizationHelper.of(context)!.t_join}',
                           onpressed);
                     })*/
-                GraphqlButton(
-                    '${LocalizationHelper.of(context)!.t_rejoin}',
-                    false,
-                    createUser,
-                    {
-                      "input": {
-                        "phone_number": phoneNumber,
-                        "first_name": firstName,
-                        "last_name": lastName,
-                        "municipality_id": municipalityId
+            isCommunity ?    Query(
+                    options: QueryOptions(
+                        document: gql(companyByMunicipality),
+                        variables: {"municipalityId": municipalityId}),
+                    builder: (QueryResult result, {fetchMore, refetch}) {
+                      if (result.hasException) {
+                        return Text(result.exception.toString());
                       }
-                    },
-                    oncompleted,),
-                    Button('Se connecter', onpressedSignin)
+                      if (result.isLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      final listItems3 = result.data?['companies_by_municipality'];
+                      if (listItems3.length == 0){
+                        return Text('No company');
+                      }
+                      else{
+                        return (DropdownInput(
+                          'Company', listItems3, 'legal_name', 'id', setCompanyId));
+
+                      }
+
+                      
+                    }) :   const Spacing(40),
+                
+                GraphqlButton(
+                  '${LocalizationHelper.of(context)!.t_rejoin}',
+                  false,
+                  createUser,
+                  {
+                    "input": {
+                      "phone_number": phoneNumber,
+                      "first_name": firstName,
+                      "last_name": lastName,
+                      "municipality_id": municipalityId
+                    }
+                  },
+                  oncompleted,
+                ),
+                Button('Se connecter', onpressedSignin)
               ],
             ),
           ),
