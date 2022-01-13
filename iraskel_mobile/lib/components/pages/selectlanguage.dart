@@ -21,8 +21,8 @@ class _SelectLanguageState extends State<SelectLanguage> {
               orientation == Orientation.portrait
                   ? BoxFit.contain
                   : BoxFit.fitHeight,
-              '${LocalizationHelper.of(context)!.t_languageTitle}',
-              '${LocalizationHelper.of(context)!.t_continue}',
+              '${LocalizationHelper.of(context)?.t_languageTitle}',
+              '${LocalizationHelper.of(context)?.t_continue}',
               orientation);
         },
       ),
