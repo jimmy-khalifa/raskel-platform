@@ -33,20 +33,7 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child:InputDecorator(
-        decoration: InputDecoration(
-            filled: true,
-            fillColor: const Color(0xFFFFFFFF),
-            focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Color(0xFF65C88D)),
-                borderRadius: BorderRadius.circular(5.0)),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFFDFF4EC)),
-            ),
-            contentPadding:
-                EdgeInsets.all(MediaQuery.of(context).size.height / 100)),
-        child: 
-         DropdownButtonHideUnderline(
+     
         child: DropdownButton<Language>(
       underline: const SizedBox(),
       icon: const Icon(
@@ -54,7 +41,7 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
         color: Color(0xFF393E41),
       ),
       onChanged: ( language) {
-       // LocalizationHelper.ChangeLanguage(language!, context);
+       //LocalizationHelper.ChangeLanguage(language!, context);
        _changeLanguage(language!);
       },
       items: Language.languageList()
@@ -68,6 +55,6 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
             ),
           )
           .toList(),
-    ))));
+    ));
   }
 }

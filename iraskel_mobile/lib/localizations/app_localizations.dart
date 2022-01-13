@@ -24,7 +24,7 @@ class LocalizationHelper {
       case 'ar':
         _temp = Locale(language.languageCode, 'AR');
         break;
-      case 'tn':
+     case 'tn':
         _temp = Locale(language.languageCode, 'TN');
         break;
       default:
