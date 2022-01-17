@@ -24,9 +24,7 @@ class LocalizationHelper {
       case 'ar':
         _temp = Locale(language.languageCode, 'AR');
         break;
-     case 'tn':
-        _temp = Locale(language.languageCode, 'TN');
-        break;
+    
       default:
         _temp = Locale(language.languageCode, 'FR');
     }
@@ -126,7 +124,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) {
-    return ['fr', 'ar', 'tn'].contains(locale.languageCode);
+    return ['fr', 'ar'].contains(locale.languageCode);
   }
 
   @override
@@ -151,7 +149,7 @@ class Language {
     return <Language>[
       Language(1, "FR", "Français"),
       Language(2, "AR", "عربي"),
-      Language(3, "TN", "تونسي")
+     // Language(3, "TN", "تونسي")
     ];
   }
 }
