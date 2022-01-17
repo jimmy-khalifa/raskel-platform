@@ -9,6 +9,7 @@ import 'package:iraskel_mobile/components/atoms/_phonefield.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/atoms/datefield.dart';
 import 'package:iraskel_mobile/components/atoms/h2.dart';
+import 'package:iraskel_mobile/components/atoms/numinput.dart';
 import 'package:iraskel_mobile/components/molecules/_profilewidget.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
@@ -189,7 +190,9 @@ class _AccountFormState extends State<AccountForm> {
                                             setMunicipalityId));
                                       }),
                                   const Spacing(40),
-                                  CustomInput('N° Carte identité', setNumCIN),
+                                  NumInput(
+                                      hinttext: 'N° Carte identité',
+                                      setter: setNumCIN),
                                   const Spacing(40),
                                   DateField(
                                     dateinput: cindateinput,
@@ -201,7 +204,7 @@ class _AccountFormState extends State<AccountForm> {
                                     hinttext: 'Date De Naissance',
                                   ),
                                   const Spacing(40),
-                                  CustomInput('age', setAge)
+                                  NumInput(hinttext: 'age', setter: setAge)
                                 ],
                               ),
                             )))
