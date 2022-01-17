@@ -5,6 +5,7 @@ import 'package:iraskel_mobile/components/atoms/_custominput.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/atoms/multilineinput.dart';
+import 'package:iraskel_mobile/components/atoms/numinput.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
@@ -147,7 +148,9 @@ class _AddressFormState extends State<AddressForm> {
                                   const MultiLineInput(
                                       hinttext: 'Complément d\'adresse'),
                                   const Spacing(40),
-                                  CustomInput('Code Postale', setCodePostal),
+                                  NumInput(
+                                      hinttext: 'Code Postale',
+                                      setter: setCodePostal),
                                   CheckboxListTile(
                                       activeColor: const Color(0xFF65C88D),
                                       value: isChecked,
