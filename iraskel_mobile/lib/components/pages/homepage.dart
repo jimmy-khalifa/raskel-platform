@@ -6,7 +6,6 @@ import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/calendarpage.dart';
 import 'package:iraskel_mobile/components/pages/notificationpage.dart';
 import 'package:iraskel_mobile/components/templates/accountform.dart';
-import 'package:iraskel_mobile/components/templates/adresseform.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   int dotcount = 4;
   final screens = [
     const AccountForm(),
-    const AdresseForm(),
+    //const AdresseForm(),
     const NotificationPage(),
     const CalendarPage()
   ];
