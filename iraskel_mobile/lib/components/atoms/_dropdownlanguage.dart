@@ -12,7 +12,11 @@ class DropdownLanguageSelect extends StatefulWidget {
 }
 
 class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
-   void _changeLanguage(Language language) {
+  Language? _valueChoose; // Language(1,'fr', 'FR');
+  void _changeLanguage(Language language) {
+   /* setState(() {
+      _valueChoose = language;
+    });*/
     Locale _temp;
     switch (language.languageCode) {
       case 'FR':
@@ -21,9 +25,7 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
       case 'AR':
         _temp = Locale(language.languageCode, 'AR');
         break;
-      case 'TN':
-        _temp = Locale(language.languageCode, 'TN');
-        break;
+     
       default:
         _temp = Locale(language.languageCode, 'FR');
     }
@@ -32,29 +34,45 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-     
-        child: DropdownButton<Language>(
-      underline: const SizedBox(),
-      icon: const Icon(
-        Icons.language,
-        color: Color(0xFF393E41),
-      ),
-      onChanged: ( language) {
-       //LocalizationHelper.ChangeLanguage(language!, context);
-       _changeLanguage(language!);
-      },
-      items: Language.languageList()
-          .map<DropdownMenuItem<Language>>(
-            (e) => DropdownMenuItem<Language>(
-              value: e,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[Text(e.languageName)],
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width /3, vertical: MediaQuery.of(context).size.height / 15 ),
+      child:InputDecorator(
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: const Color(0xFFFFFFFF),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Color(0xFF65C88D)),
+                    borderRadius: BorderRadius.circular(5.0)),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFFDFF4EC)),
+                ),
+                contentPadding:
+                    EdgeInsets.all(MediaQuery.of(context).size.height / 100)),
+            child: DropdownButtonHideUnderline(
+                child: DropdownButton<Language>(
+              underline: const SizedBox(),
+              icon: const Icon(
+                Icons.language,
+                color: Color(0xFF393E41),
               ),
-            ),
-          )
-          .toList(),
-    ));
+             // isExpanded: false,
+              value: _valueChoose,
+              onChanged: (language) {
+                _changeLanguage(language!);
+                //LocalizationHelper.ChangeLanguage(language!, context);
+              },
+              items: Language.languageList()
+                  .map<DropdownMenuItem<Language>>(
+                    (e) => DropdownMenuItem<Language>(
+                      value: e,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[Text(e.languageName)],
+                      ),
+                    ),
+                  )
+                  .toList(),
+            )))
+            );
   }
 }
