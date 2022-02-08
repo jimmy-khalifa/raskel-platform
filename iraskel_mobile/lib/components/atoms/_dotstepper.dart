@@ -11,27 +11,29 @@ class StepDot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DotStepper(
+      
                   direction: Axis.horizontal,
                   activeStep: activestep,
                   dotCount: dotcount,
-                  dotRadius: 20,
+                  dotRadius: 12,
                   shape: Shape.ring,
                   tappingEnabled: false,
-                  lineConnectorsEnabled: true,
-                  spacing: 80,
+                  lineConnectorsEnabled: false,
+                  spacing: 20,
                   //fillStep: true,
                   indicator: Indicator.jump,
                   fixedDotDecoration:
-                      const FixedDotDecoration(color: Color(0xFFDFF4EC)),
+                      const FixedDotDecoration(color: Color(0xFFC7EBDD)),
                   indicatorDecoration:
                       const IndicatorDecoration(color: Color(0xFF65C88D)),
-                  lineConnectorDecoration: const LineConnectorDecoration(
-                      strokeWidth: 20, color: Color(0xFFDFF4EC)),
+                 /* lineConnectorDecoration: const LineConnectorDecoration(
+                      strokeWidth: 20, color: Color(0xFFDFF4EC)),*/
                   /*  onDotTapped: (tap) {
                         setState(() {
                           activestep = activestep;
                         });
                       },*/
+
                 );
   }
 }

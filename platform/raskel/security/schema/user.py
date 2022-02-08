@@ -8,6 +8,7 @@ type Error{
 }
 
 type User {
+    id: String!
     username: String!
     phone_number: String!
     first_name: String!

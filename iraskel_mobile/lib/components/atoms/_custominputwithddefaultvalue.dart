@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
 
-class CustomInput extends  StatelessWidget {
+class CustomInputWithDefaultValue extends  StatelessWidget {
  
- // final String? initialvalue;
+  final String? initialvalue;
   final String hinttext;
   final Function setter;
   // ignore: use_key_in_widget_constructors
-  const CustomInput(this.hinttext, this.setter);
+  const CustomInputWithDefaultValue(this.hinttext, this.setter,this.initialvalue);
 
  
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-     // initialValue: initialvalue,
-     /// controller: TextEditingController(text: initialvalue),
+      key: Key(initialvalue!),
+      initialValue: initialvalue,
+      //controller: TextEditingController(text: initialvalue),
       onChanged: (text) {
         setter(text);
-      },
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-                return '* Required';
-              }
-              return null;
-        
       },
       
       cursorColor: const Color(0xFFDFF4EC),

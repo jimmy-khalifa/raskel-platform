@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class H2Text extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final h2text;
+  // ignore: prefer_typing_uninitialized_variables
   final align;
   const H2Text({Key? key, this.h2text, this.align}) : super(key: key);
 

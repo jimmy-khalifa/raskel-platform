@@ -3,10 +3,51 @@ import 'package:flutter/material.dart';
 import 'package:iraskel_mobile/components/atoms/_dotstepper.dart';
 import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
-import 'package:iraskel_mobile/components/pages/calendarpage.dart';
-import 'package:iraskel_mobile/components/pages/notificationpage.dart';
+import 'package:iraskel_mobile/components/pages/confirmationinfo.dart';
 import 'package:iraskel_mobile/components/templates/accountform.dart';
+import 'package:iraskel_mobile/components/templates/addressform.dart';
+import 'package:iraskel_mobile/components/templates/bacform.dart';
+import 'package:iraskel_mobile/components/templates/propertiesform.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+const updateProducer = """
+mutation(\$input: ProducerInput!){
+  modify_producer(input: \$input){
+    modified
+    producer {
+      id
+      first_name
+			age
+			last_name
+			date_of_birth
+			phone_number
+			cin
+			cin_delivery
+			
+			
+			
+    }
+  }
+}
+""";
+const producerByUser = """
+query{
+  producer_by_user{
+    id
+    first_name
+    last_name
+		date_of_birth
+		email
+		phone_number
+		cin
+		cin_delivery
+		date_of_birth
+		
+		
+	
+  }
+}
+""";
 
 class HomePage extends StatefulWidget {
 //  final Map<String, dynamic> user;
@@ -22,19 +63,132 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+  oncompleted() {
+    // final SharedPreferences prefs = await _prefs;
+    // prefs.setString('id', data["producer_by_user"]["id"]);
+
+    setState(() {
+      activestep++;
+    });
+    Navigator.of(context, rootNavigator: true).pop('dialog');
+  }
+
   int activestep = 0;
-  int dotcount = 4;
+  int dotcount = 5;
   final screens = [
     const AccountForm(),
-    //const AdresseForm(),
-    const NotificationPage(),
-    const CalendarPage()
+    const AddressForm(),
+    const PropertiesForm(),
+    const BacForm(),
+    const ConfirmationInfo()
   ];
   onpressed() {
-    if (activestep < dotcount - 1) {
+    /* if (activestep < dotcount - 1) {
       setState(() {
         activestep++;
-      });
+      });*/
+    if (activestep == 0) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text('Confirmation !'),
+                content:
+                    const Text('Voulez vous enregistrer ces informations ?'),
+                actions: [
+                  /* GraphqlButton('Confirmer', false, updateProducer, {
+                     
+                   }, oncompleted)*/
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Annuler'),
+                    child: const Text('Annuler',
+                        style: TextStyle(color: Color(0xFF65C88D))),
+                  ),
+                  TextButton(
+                      onPressed: oncompleted,
+                      child: const Text(
+                        'Ok',
+                        style: TextStyle(color: Color(0xFF65C88D)),
+                      ))
+                ],
+                // content: ,
+              ));
+    } else if (activestep == 1) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text('Confirmation !'),
+                content:
+                    const Text('Voulez vous enregistrer ces informations ?'),
+                actions: [
+                  /* GraphqlButton('Confirmer', false, updateProducer, {
+                     
+                   }, oncompleted)*/
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Annuler'),
+                    child: const Text('Annuler',
+                        style: TextStyle(color: Color(0xFF65C88D))),
+                  ),
+                  TextButton(
+                      onPressed: oncompleted,
+                      child: const Text('Ok',
+                          style: TextStyle(color: Color(0xFF65C88D))))
+                ],
+                // content: ,
+              ));
+    } else if (activestep == 2) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text('Confirmation !'),
+                content:
+                    const Text('Voulez vous enregistrer ces informations ?'),
+                actions: [
+                  /* GraphqlBu
+                  tton('Confirmer', false, updateProducer, {
+                     
+                   }, oncompleted)*/
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Annuler'),
+                    child: const Text('Annuler',
+                        style: TextStyle(color: Color(0xFF65C88D))),
+                  ),
+                  TextButton(
+                      onPressed: oncompleted,
+                      child: const Text('Ok',
+                          style: TextStyle(color: Color(0xFF65C88D))))
+                ],
+                // content: ,
+              ));
+    } else if (activestep == 3) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text('Confirmation !'),
+                content:
+                    const Text('Voulez vous enregistrer ces informations ?'),
+                actions: [
+                  /* GraphqlButton('Confirmer', false, updateProducer, {
+                     
+                   }, oncompleted)*/
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Annuler'),
+                    child: const Text('Annuler',
+                        style: TextStyle(color: Color(0xFF65C88D))),
+                  ),
+                  TextButton(
+                      onPressed: oncompleted,
+                      child: const Text('Ok',
+                          style: TextStyle(color: Color(0xFF65C88D))))
+                ],
+                // content: ,
+              ));
+    } else if (activestep + 1 == dotcount) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) => const AlertDialog(
+                title: Text('Félicitation'),
+                // content: ,
+              ));
     }
   }
 
@@ -75,27 +229,24 @@ class _HomePageState extends State<HomePage> {
               builder: (BuildContext context1, AsyncSnapshot<bool?> snapshot1) {
                 return ((snapshot.hasData) && (snapshot.data as bool)) &&
                         ((snapshot1.hasData) && !(snapshot1.data as bool))
-                    ? Card(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Spacing(20),
-                              Expanded(
-                                child: IndexedStack(
-                                  index: activestep,
-                                  children: screens,
-                                ),
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                            const Spacing(20),
+                            Expanded(
+                              child: IndexedStack(
+                                index: activestep,
+                                children: screens,
                               ),
-                              // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
+                            ),
+                            // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
 
-                              StepDot(activestep, dotcount),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [previousButton(), nextButton()],
-                              ),
-                            ]),
-                      )
+                            StepDot(activestep, dotcount),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [previousButton(), nextButton()],
+                            ),
+                          ])
                     : const Text("error");
               });
         });
@@ -119,13 +270,21 @@ class _HomePageState extends State<HomePage> {
 
   /// Returns the next button widget.
   Widget nextButton() {
-    return Button('save', onpressed);
-  
+    return Button(
+      'Suite',
+      onpressed,
+      MediaQuery.of(context).size.width / 20,
+      MediaQuery.of(context).size.height / 80,
+    );
   }
 
   /// Returns the previous button widget.
   Widget previousButton() {
-    return Button('retourner', onBack);
-  
+    return Button(
+      'Retour',
+      onBack,
+      MediaQuery.of(context).size.width / 20,
+      MediaQuery.of(context).size.height / 80,
+    );
   }
 }

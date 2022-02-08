@@ -50,14 +50,14 @@ class _ComfirmTemplateState extends State<ComfirmTemplate> {
             Container(
               padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height / 4) ,
-              child: BigTitle(widget.title),
+              child: BigTitle(widget.title,36.0),
 
             ),
              Spacing(widget.int),
           //  CustomInput(widget.hinttext),
             Container(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Button(widget.txt, onpressed),
+                  child: Button(widget.txt, onpressed,MediaQuery.of(context).size.width /10,MediaQuery.of(context).size.height / 80,),
 
                 )
             ]))));

@@ -115,6 +115,35 @@ class LocalizationHelper {
   String? get t_menu => _translate("menu");
   // ignore: non_constant_identifier_names
   String? get t_connect => _translate("connectButton");
+  // ignore: non_constant_identifier_names
+  String? get t_company=>_translate("company");
+  // ignore: non_constant_identifier_names
+  String? get t_garden=> _translate("garden");
+  // ignore: non_constant_identifier_names
+  String? get t_garage=>_translate("garade");
+  // ignore: non_constant_identifier_names
+  String? get t_address=> _translate("address");
+  // ignore: non_constant_identifier_names
+  String? get t_residence => _translate("residence");
+  // ignore: non_constant_identifier_names
+  String? get t_sheepfold => _translate("sheepfold");
+  // ignore: non_constant_identifier_names
+  String? get t_type => _translate("type");
+  // ignore: non_constant_identifier_names
+  String? get t_personNumber => _translate('personNumber');
+  // ignore: non_constant_identifier_names
+  String? get t_area => _translate("area");
+  // ignore: non_constant_identifier_names
+  String? get t_property => _translate("property");
+  // ignore: non_constant_identifier_names
+  String? get t_bac => _translate("bac");
+  // ignore: non_constant_identifier_names
+  String? get t_usage => _translate("usage");
+  // ignore: non_constant_identifier_names
+  String? get t_size => _translate("size");
+  // ignore: non_constant_identifier_names
+  String? get t_confirmation => _translate("confirmation");
+
 
 }
 

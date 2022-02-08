@@ -5,6 +5,7 @@ import 'package:iraskel_mobile/components/atoms/startdescription.dart';
 
 class CarouselItem extends StatelessWidget {
   final String imageSrcItem, h2TextItem, descriptionTextItem;
+  // ignore: prefer_typing_uninitialized_variables
   final orientation;
 
   const CarouselItem(

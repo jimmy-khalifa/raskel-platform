@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class StepButton extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final pageIndex;
+  // ignore: prefer_typing_uninitialized_variables
   final controller;
   final int selectedIndex;
   final Function setter;

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:iraskel_mobile/components/atoms/stepbutton.dart';
 
 class AppStepper extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final pagesLength;
+  // ignore: prefer_typing_uninitialized_variables
   final controller;
   final int selectedIndex;
   final Function setter;

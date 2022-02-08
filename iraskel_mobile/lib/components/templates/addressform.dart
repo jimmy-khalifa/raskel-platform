@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -8,6 +10,14 @@ import 'package:iraskel_mobile/components/atoms/multilineinput.dart';
 import 'package:iraskel_mobile/components/atoms/numinput.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+//import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
+
+//import 'package:permission_handler/permission_handler.dart';
+
+
 
 const stateBYCountry = """
 query(\$countryId: ID!){
@@ -43,7 +53,23 @@ class _AddressFormState extends State<AddressForm> {
   late String stateId = "";
   late String municipalityId = "";
   late String codePostal = "";
+
+
   bool isChecked = false;
+  LatLng point = LatLng(33.984250, 8.216120);
+   
+  
+  var locationMessage = "";
+  void getCurrentLocation() async{
+   Position position= await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+   // var lastPosition = await Geolocator.getLastKnownPosition();
+   // print(lastPosition);
+    setState(() {
+      locationMessage = "$position.latitude , $position.longitude" ;
+      
+    });
+
+  }
 
   setPays(value) {
     setState(() => {pays = value});
@@ -64,9 +90,17 @@ class _AddressFormState extends State<AddressForm> {
       codePostal = value;
     });
   }
+ // late PermissionStatus _status;
+ /* @override
+  void initState(){
+    super.initState();
+    
+  }*/
+// final LatLng? long= new LatLng(40.7, -40.4);
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: Card(
             margin: EdgeInsets.only(
@@ -84,14 +118,16 @@ class _AddressFormState extends State<AddressForm> {
                   const FormHeader(headerText: 'Adresse'),
                   Expanded(
                       child: SingleChildScrollView(
+                          primary: false,
                           padding: EdgeInsets.zero,
+                          reverse: false,
                           child: Container(
                               padding: const EdgeInsets.all(10.0),
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  CustomInput('Pays', setPays),
+                                  CustomInput('Pays', setPays,),
                                   const Spacing(40),
                                   Query(
                                       options: QueryOptions(
@@ -166,6 +202,48 @@ class _AddressFormState extends State<AddressForm> {
                                                   color: Color(0xFF393E41)))),
                                       controlAffinity:
                                           ListTileControlAffinity.leading),
+                                  const Spacing(20),
+                                  SizedBox(
+                                    height: 400,
+                                    width: 400,
+                                    child: FlutterMap(
+                                      
+                                        options: MapOptions(
+                                          
+                                          
+                                            enableScrollWheel: true,
+                                            enableMultiFingerGestureRace: true,
+                                            allowPanning: true,
+                                            center: LatLng(33.921452, 8.129640),
+                                            zoom: 10.0),
+                                        layers: [
+                                          TileLayerOptions(
+                                            
+                                              urlTemplate:
+                                                  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?source=${DateTime.now().millisecondsSinceEpoch}",
+                                              subdomains: ['a', 'b', 'c']),
+                                          MarkerLayerOptions(
+                                            markers: [
+                                              Marker(
+                                                width: 80.0,
+                                                height: 80.0,
+                                                point: point,
+                                                builder: (ctx) => const Icon(
+                                                  Icons.location_on,
+                                                  color: Colors.red,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ]),
+
+                                  ),
+                                  IconButton(
+                                    onPressed: (){
+                                      getCurrentLocation();
+
+                                  }, icon:const Icon( Icons.location_on)),
+                                  Text('Position: $locationMessage'),
                                 ],
                               )))),
                 ]))));

@@ -16,9 +16,14 @@ class GraphqlButton extends StatelessWidget {
 
   final String txt;
   // ignore: prefer_typing_uninitialized_variables
+  final vertical;
+  // ignore: prefer_typing_uninitialized_variables
+  final horizontal;
+  // ignore: prefer_typing_uninitialized_variables
+  final formKey;
 
   // ignore: use_key_in_widget_constructors
-  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables,this.oncompleted,);
+  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables,this.oncompleted,this.horizontal,this.vertical,this.formKey);
 
   
   @override
@@ -75,15 +80,18 @@ class GraphqlButton extends StatelessWidget {
               return OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height / 80,
-                        horizontal: MediaQuery.of(context).size.width / 9),
+                        vertical:vertical,
+                        horizontal: horizontal),
                     backgroundColor: Colors.white,
                     side: const BorderSide(color: Color(0xFF65C88D)),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
                   onPressed: ()  async {
-                    runMutation();
+                     if (formKey.currentState!
+                                                    .validate()) {
+                                                  runMutation();
+                                                }
                     //widget.onpressedData();
                    // addOtherMutation();
 

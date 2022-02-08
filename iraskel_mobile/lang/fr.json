@@ -28,6 +28,20 @@
     "notification":"Notification",
     "calendar": "Calendrier",
     "menu":"Menu",
-    "connectButton":"Se connecter"
+    "connectButton":"Se connecter",
+    "company":"Entreprise",
+    "garden": "Jardin",
+    "garage":"Garage",
+    "residence":"Résidence Principale",
+    "address":"Adresse Principale",
+    "sheepfold":"Bergerie",
+    "type":"Type",
+    "personNumber":"Nombre de personnes",
+    "area": "Surface",
+    "property":"Proprieté",
+    "bac":"Bac",
+    "usage":"Usage",
+    "size":"Taille",
+    "confirmation": "Confirmation"
 
   }

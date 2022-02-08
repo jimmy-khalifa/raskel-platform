@@ -16,7 +16,7 @@ class _AppDrawerState extends State<AppDrawer> {
     return Material(
       child: ListView(
         children: <Widget>[
-          const ProfileWidget(),
+           const ProfileWidget('assets/images/profile.png','Foulen Foulani'),
           const Padding(
             padding: EdgeInsets.only(top: 40),
           ),

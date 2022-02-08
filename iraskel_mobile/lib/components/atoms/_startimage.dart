@@ -10,10 +10,9 @@ class StartImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Image.asset(
+    return Image.asset(
       imageSrc,
       fit: fitType,
-    ));
+    );
   }
 }

@@ -57,9 +57,10 @@ class _ConfirmPageState extends State<ConfirmPage> {
     //Save the token
     final SharedPreferences prefs = await _prefs;
     prefs.setString('token', data["tokenAuth"]["token"]);
+    prefs.setBool('isConfirmed', true);
     //Pass to other page
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const MainPage()));
+     context, MaterialPageRoute(builder: (context) => const MainPage()));
   }
 
   late Future<String?> phoneNumber;
@@ -70,6 +71,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
       return prefs.getString('phone_number');
     });
   }
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +91,11 @@ class _ConfirmPageState extends State<ConfirmPage> {
                         BoxFit.contain,
                       ).baseBackgroundDecoration(),
                       child: SingleChildScrollView(
+                      
                           //reverse: true,
                           child: Center(
+                            child:Form(
+                              key: formKey,
                               child: Column(
                                   //mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   mainAxisAlignment: MainAxisAlignment
@@ -104,12 +109,14 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                   bottom:
                                       MediaQuery.of(context).size.height / 4),
                               child: BigTitle(
-                                  '${LocalizationHelper.of(context)!.t_confirmTitle}'),
+                                  '${LocalizationHelper.of(context)!.t_confirmTitle}',
+                                  36.0),
                             ),
                             const Spacing(40),
                             CustomInput(
-                                '${LocalizationHelper.of(context)!.t_code}',
-                                setCode),
+                              '${LocalizationHelper.of(context)!.t_code}',
+                              setCode,
+                            ),
                             Container(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 20),
@@ -122,8 +129,19 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                     "password": code
                                   },
                                   oncompleted,
-                                ))
-                          ])))));
+                                  MediaQuery.of(context).size.width /30,MediaQuery.of(context).size.height / 80,formKey
+                                )
+                                /*   child: GraphqlButtonWith2mutation('confirmer', false, verifyNumber,  {
+                                    "phone_number": phone.data,
+                                    "password": code
+                                  }, oncompleted, tokenCreate,  {
+                                    "phone_number": phone.data,
+                                    "password": code
+                                  },),*/
+                                ),
+                           
+                            
+                          ]))))));
             })
 
         //ComfirmTemplate('assets/getstarted/back_login.png', BoxFit.contain, 'Confirmez', 'Confirmer', 40, 'Code')
