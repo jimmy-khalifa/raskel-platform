@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-class GraphqlButton extends StatelessWidget {
+class GraphqlButtonforImage extends StatelessWidget {
   final bool isquery;
   // ignore: prefer_typing_uninitialized_variables
   final grahqlCode;
   //final grahqlCode2;
   // ignore: prefer_typing_uninitialized_variables
-  final oncompleted;
  // final onpressedData;
   // final listItems;
   final Map<String, dynamic> variables;
@@ -20,10 +19,10 @@ class GraphqlButton extends StatelessWidget {
   // ignore: prefer_typing_uninitialized_variables
   final horizontal;
   // ignore: prefer_typing_uninitialized_variables
-  final formKey;
+ 
 
   // ignore: use_key_in_widget_constructors
-  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables,this.oncompleted,this.horizontal,this.vertical,this.formKey);
+  const GraphqlButtonforImage(this.txt, this.isquery, this.grahqlCode, this.variables,this.horizontal,this.vertical,);
 
   
   @override
@@ -68,10 +67,13 @@ class GraphqlButton extends StatelessWidget {
             })
         : Mutation(
             options: MutationOptions(document: gql(grahqlCode),
-            onCompleted: (data) {
-              oncompleted(data);
-             //Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPage()));
+            onCompleted: (d){},
+            update: (cache, result) {
+              
             },
+           
+             //Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPage()));
+            
             
             ),
             builder: (RunMutation? _runMutation, QueryResult? result) {
@@ -88,10 +90,10 @@ class GraphqlButton extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
                   onPressed: ()  async {
-                     if (formKey.currentState!
-                                                    .validate()) {
+                    
+                                                    
                                                   runMutation();
-                                                }
+                                                
                     //widget.onpressedData();
                    // addOtherMutation();
 
@@ -105,7 +107,8 @@ class GraphqlButton extends StatelessWidget {
                       fontSize: 20.0,
                     )),
                   ));
-            });
+            },
+            );
   }
   /*addOtherMutation(){
     Mutation(options:MutationOptions(document: gql(grahqlCode2),),

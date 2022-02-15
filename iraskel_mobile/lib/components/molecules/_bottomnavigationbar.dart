@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iraskel_mobile/components/atoms/_icon.dart';
 
-class NavigationBar extends StatefulWidget {
+class CustomNavBar extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
   final  color1;
   // ignore: prefer_typing_uninitialized_variables
@@ -15,26 +15,25 @@ class NavigationBar extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
   final name4;
   // ignore: prefer_typing_uninitialized_variables
-  final name5;
+ 
   final String text1;
   final String text2;
   final String text3;
   final String text4;
-  final String text5;
   final Function ontap;
   final int currentIndex;
   //final int currentIndex;
   
 
   // ignore: use_key_in_widget_constructors
-  const NavigationBar(this.color1,this.color2, this.name1, this.name2, this.name3,
-      this.name4,this.name5, this.text1, this.text2, this.text3, this.text4,this.text5,this.currentIndex,this.ontap);
+  const CustomNavBar(this.color1,this.color2, this.name1, this.name2, this.name3,
+      this.name4, this.text1, this.text2, this.text3, this.text4,this.currentIndex,this.ontap);
 
   @override
-  State<NavigationBar> createState() => _NavigationBarState();
+  State<CustomNavBar> createState() => _CustomNavBarState();
 }
 
-class _NavigationBarState extends State<NavigationBar> {
+class _CustomNavBarState extends State<CustomNavBar> {
  // int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -65,11 +64,7 @@ class _NavigationBarState extends State<NavigationBar> {
           activeIcon: CustomIcon(widget.name4, widget.color2),
           label: widget.text4
           ),
-           BottomNavigationBarItem(icon: CustomIcon(widget.name5, widget.color1),
-          activeIcon: CustomIcon(widget.name5, widget.color2),
-          label: widget.text5,
           
-          ),
           ]);
   }
 }

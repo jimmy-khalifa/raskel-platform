@@ -9,7 +9,7 @@ class FormHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BigTitle(headerText),
+        BigTitle(headerText,36.0),
         Divider(
           color: const Color(0xFF65C88D),
           endIndent: 5,

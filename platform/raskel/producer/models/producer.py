@@ -2,6 +2,7 @@ from django.db import models
 from six import add_move
 from geo.models import Address
 
+
 from security.models import CustomUser as User
 
 
@@ -40,6 +41,12 @@ class Producer(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, verbose_name="User", blank=False, null=False)
 
     address = models.ForeignKey(Address, on_delete=models.PROTECT, verbose_name="Address", blank=True, null=True)
+
+    image= models.FileField("image", default= None, blank=True,null=True, max_length= 100000)
+
+    cin_pic_front = models.FileField("cin_pic_front",default= None, blank=True,null=True)
+
+    cin_pic_back = models.FileField("cin_pic_back", default= None, blank=True,null=True)
 
     objects = models.Manager()
 

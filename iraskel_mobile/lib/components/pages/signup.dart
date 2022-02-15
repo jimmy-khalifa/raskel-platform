@@ -134,158 +134,194 @@ class _SignUpPageState extends State<SignUpPage> {
     prefs.setString('firstname', data["create_user"]["user"]["first_name"]);
     prefs.setString('lastname', data["create_user"]["user"]["last_name"]);
     prefs.setBool('isActive', data["create_user"]["user"]["is_active"]);
-    //prefs.setBool('isConfirmed', data["create_user"]["user"]["is_confirmed"]);
+    prefs.setBool('isConfirmed', data["create_user"]["user"]["is_confirmed"]);
     prefs.setBool('isVerified', data["create_user"]["user"]["is_verified"]);
     prefs.setBool('isAuthenticated', true);
+    prefs.setString('municipalityId', municipalityId);
+    prefs.setString('companyId', companyId);
+    prefs.setString('stateId', stateId);
 
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const ConfirmPage()));
   }
 
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Card(
-      margin: const EdgeInsets.only(top: 25, bottom: 10),
-      elevation: 0,
-      child: Container(
-        //constraints: const BoxConstraints.expand(),
-        decoration: CustomDecoration(
-          'assets/getstarted/back_login.png',
-          BoxFit.contain,
-        ).baseBackgroundDecoration(),
-        child: Container(
-          margin:
-              const EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 10),
-          child: SingleChildScrollView(
-            padding: EdgeInsets.zero,
-            reverse: true,
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.spaceAround,
-              // <-- alignments
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height / 20),
-                  child: BigTitle(
-                    '${LocalizationHelper.of(context)!.t_join}',
-                  ),
-                ),
-                PhoneField(setPhoneNumber),
-                const Spacing(40),
-                CustomInput('${LocalizationHelper.of(context)!.t_lastname}',
-                    setLastName),
-                const Spacing(40),
-                CustomInput('${LocalizationHelper.of(context)!.t_firstname}',
-                    setFirstName),
-                const Spacing(40),
-
-                /* QueryDropDownGraphQl(widget.grahqlCode1, widget.dropdowntextinput1,
-                widget.listItems1, widget.text1),*/
-                Query(
-                    options: QueryOptions(
-                        document: gql(stateBYCountry),
-                        variables: {"countryId": "1"}),
-                    builder: (QueryResult result, {fetchMore, refetch}) {
-                      if (result.hasException) {
-                        return Text(result.exception.toString());
-                      }
-                      if (result.isLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      isMunicipality = true;
-
-                      final listItems1 = result.data?['states_by_country'];
-                      return (DropdownInput(
-                          '${LocalizationHelper.of(context)!.t_state}',
-                          listItems1,
-                          'name',
-                          'id',
-                          setStateId,));
-                    }),
-                const Spacing(40),
-                /*QueryDropDownGraphQl(widget.grahqlCode2,
-                    widget.dropdowntextinput2, widget.listItems2, widget.text2),*/
-         isMunicipality ?     Query(
-                    options: QueryOptions(
-                        document: gql(municipalities),
-                        variables: {"stateId": stateId}),
-                    builder: (QueryResult result, {fetchMore, refetch}) {
-                      if (result.hasException) {
-                        return Text(result.exception.toString());
-                      }
-                      if (result.isLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      isCommunity = true;
-
-                      final listItems2 = result.data?['municipality_by_state'];
-                      return (DropdownInput(
-                          '${LocalizationHelper.of(context)!.t_municipality}',
-                          listItems2,
-                          'name',
-                          'id',
-                          setMunicipalityId));
-                    }): const Spacing(40),
-                
-                /* Mutation(
-                    options: MutationOptions(document: gql(createUser)),
-                    builder: (RunMutation? runMutation, QueryResult? result) {
-                      return Button('${LocalizationHelper.of(context)!.t_join}',
-                          onpressed);
-                    })*/
-            isCommunity ?    Query(
-                    options: QueryOptions(
-                        document: gql(companyByMunicipality),
-                        variables: {"municipalityId": municipalityId}),
-                    builder: (QueryResult result, {fetchMore, refetch}) {
-                      if (result.hasException) {
-                        return Text(result.exception.toString());
-                      }
-                      if (result.isLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-
-                      final listItems3 = result.data?['companies_by_municipality'];
-                      if (listItems3.length == 0){
-                        return Text('No company');
-                      }
-                      else{
-                        return (DropdownInput(
-                          'Company', listItems3, 'legal_name', 'id', setCompanyId));
-
-                      }
+          margin: EdgeInsets.only(
+            left: MediaQuery.of(context).size.height / 80 ,
+            right:MediaQuery.of(context).size.height / 80  ,
+                      top: MediaQuery.of(context).size.height / 80,
+                      bottom: MediaQuery.of(context).size.height / 80),
+                  elevation: 0,
+            child: Container(
+              constraints: const BoxConstraints.expand(),
+              decoration: CustomDecoration(
+                'assets/getstarted/back_login.png',
+                BoxFit.contain,
+              ).baseBackgroundDecoration(),
+              child: Container(
+                 margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height / 9,
+                          left: MediaQuery.of(context).size.width / 10,
+                          right: MediaQuery.of(context).size.width / 10,
+                          bottom: MediaQuery.of(context).size.height / 10),
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.zero,
+                  primary: false,
+                  reverse: true,
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.height / 20),
+                          child: BigTitle(
+                              '${LocalizationHelper.of(context)!.t_join}',
+                              36.0),
+                        ),
+                        PhoneField(
+                          setPhoneNumber,
+                        ),
+                        const Spacing(40),
+                        CustomInput(
+                          '${LocalizationHelper.of(context)!.t_lastname}',
+                          setLastName,
+                        ),
+                        const Spacing(40),
+                        CustomInput(
+                          '${LocalizationHelper.of(context)!.t_firstname}',
+                          setFirstName,
+                        ),
+                        const Spacing(40),
 
                       
-                    }) :   const Spacing(40),
-                
-                GraphqlButton(
-                  '${LocalizationHelper.of(context)!.t_rejoin}',
-                  false,
-                  createUser,
-                  {
-                    "input": {
-                      "phone_number": phoneNumber,
-                      "first_name": firstName,
-                      "last_name": lastName,
-                      "municipality_id": municipalityId
-                    }
-                  },
-                  oncompleted,
+                        Query(
+                            options: QueryOptions(
+                                document: gql(stateBYCountry),
+                                variables: {"countryId": "1"}),
+                            builder: (QueryResult result,
+                                {fetchMore, refetch}) {
+                              if (result.hasException) {
+                                return Text(result.exception.toString());
+                              }
+                              if (result.isLoading) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              isMunicipality = true;
+
+                              final listItems1 =
+                                  result.data?['states_by_country'];
+                              return (DropdownInput(
+                                '${LocalizationHelper.of(context)!.t_state}',
+                                listItems1,
+                                'name',
+                                'id',
+                                setStateId,
+                              ));
+                            }),
+                        const Spacing(40),
+                      
+                        isMunicipality
+                            ? Query(
+                                options: QueryOptions(
+                                    document: gql(municipalities),
+                                    variables: {"stateId": stateId}),
+                                builder: (QueryResult result,
+                                    {fetchMore, refetch}) {
+                                  if (result.hasException) {
+                                    return Text(result.exception.toString());
+                                  }
+                                  if (result.isLoading) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  isCommunity = true;
+
+                                  final listItems2 =
+                                      result.data?['municipality_by_state'];
+                                  return (DropdownInput(
+                                      '${LocalizationHelper.of(context)!.t_municipality}',
+                                      listItems2,
+                                      'name',
+                                      'id',
+                                      setMunicipalityId));
+                                })
+                            : const Spacing(40),
+                        const Spacing(30),
+                        (isCommunity && isMunicipality)
+                            ? Query(
+                                options: QueryOptions(
+                                    document: gql(companyByMunicipality),
+                                    variables: {
+                                      "municipalityId": municipalityId
+                                    }),
+                                builder: (QueryResult result,
+                                    {fetchMore, refetch}) {
+                                  if (result.hasException) {
+                                    return Text(result.exception.toString());
+                                  }
+                                  if (result.isLoading) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+
+                                  final listItems3 =
+                                      result.data?['companies_by_municipality'];
+                                  if (listItems3.length == 0) {
+                                    return const Text(
+                                      'Pas d"entreprise dans cette région',
+                                      style: TextStyle(),
+                                    );
+                                  } else {
+                                    return (DropdownInput(
+                                        '${LocalizationHelper.of(context)!.t_company}',
+                                        listItems3,
+                                        'legal_name',
+                                        'id',
+                                        setCompanyId));
+                                  }
+                                })
+                            : const Spacing(40),
+                        const Spacing(30),
+                        GraphqlButton(
+                            '${LocalizationHelper.of(context)!.t_rejoin}',
+                            false,
+                            createUser,
+                            {
+                              "input": {
+                                "phone_number": phoneNumber,
+                                "first_name": firstName,
+                                "last_name": lastName,
+                                "municipality_id": municipalityId
+                              }
+                            },
+                            oncompleted,
+                            MediaQuery.of(context).size.width / 50,
+                            MediaQuery.of(context).size.height / 80,
+                            formKey),
+                        const Spacing(30),
+                        Button(
+                          '${LocalizationHelper.of(context)!.t_connect}',
+                          onpressedSignin,
+                          MediaQuery.of(context).size.width / 50,
+                          MediaQuery.of(context).size.height / 80,
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-                Button('Se connecter', onpressedSignin)
-              ],
-            ),
-          ),
-        ),
-      ),
-    ));
+              ),
+            )));
   }
 }

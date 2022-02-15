@@ -1,11 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:iraskel_mobile/components/pages/_getstarted.dart';
 
 class AppCarouselSlider extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final orientation;
   final Function setter;
+  // ignore: prefer_typing_uninitialized_variables
   final controller;
+  // ignore: prefer_typing_uninitialized_variables
   final pages;
 
   const AppCarouselSlider(

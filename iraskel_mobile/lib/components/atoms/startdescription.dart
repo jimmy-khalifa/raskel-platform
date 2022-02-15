@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StartDescription extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final descriptionText;
   const StartDescription({Key? key, this.descriptionText}) : super(key: key);
 

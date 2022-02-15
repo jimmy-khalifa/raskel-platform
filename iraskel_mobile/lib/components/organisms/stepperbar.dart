@@ -4,9 +4,12 @@ import 'package:iraskel_mobile/components/molecules/stepper.dart';
 import 'package:iraskel_mobile/components/pages/signup.dart';
 
 class StepperBar extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final pagesLength;
   final String buttonText;
+  // ignore: prefer_typing_uninitialized_variables
   final horizPadding;
+  // ignore: prefer_typing_uninitialized_variables
   final controller;
   final int selectedIndex;
   final Function setter;
@@ -29,7 +32,7 @@ class _StepperBarState extends State<StepperBar> {
   onpressed() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SignUpPage()),
+      MaterialPageRoute(builder: (context) => const SignUpPage()),
     );
   }
 
@@ -49,7 +52,7 @@ class _StepperBarState extends State<StepperBar> {
               selectedIndex: widget.selectedIndex,
               setter: widget.setter,
             ),
-            Button(widget.buttonText, onpressed),
+            Button(widget.buttonText, onpressed,MediaQuery.of(context).size.width /10,MediaQuery.of(context).size.height / 80),
           ],
         ),
       ),

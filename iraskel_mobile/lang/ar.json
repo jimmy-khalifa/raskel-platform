@@ -28,7 +28,22 @@
     "notification":" ",
     "calendar": " ",
     "menu":" ",
-    "connectButton":" "
+    "connectButton":" ",
+    "company": " ",
+    "garden": " ",
+    "garage":" ",
+    "residence":"   ",
+    "address":"   ",
+    "sheepfold":" ",
+    "type":" ",
+    "personNumber":"  ",
+    "area": " ",
+    "property":" ",
+    "bac":" ",
+    "usage": " ",
+    "size":" ",
+    "confirmation":" "
+
 
     
   }
