@@ -72,7 +72,7 @@ class DrawerView extends StatelessWidget {
     const color = Color(0xFF65C88D);
     final hoverColor = Colors.black12;
 
-    return ListTile(
+    return ListTile( 
       leading: Icon(icon, color: color,),
       title: Text(text, style: GoogleFonts.tajawal(textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.w500)),),
       hoverColor: hoverColor,

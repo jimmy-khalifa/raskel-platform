@@ -13,7 +13,7 @@ class PhoneField extends StatelessWidget {
   Widget build(BuildContext context) {
     return IntlPhoneField(
       //  controller: TextEditingController(text: initialvalue) ,
-      keyboardType: TextInputType.phone,
+     // keyboardType: TextInputType.phone,
       // initialValue: initialvalue,
       onChanged: (phone) {
         setter(phone.number);

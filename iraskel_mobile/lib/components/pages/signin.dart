@@ -80,7 +80,7 @@ class _SignInState extends State<SignIn> {
         body: FutureBuilder<String?>(
             future: phoneNumber,
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
+             // if (snapshot.connectionState == ConnectionState.done) {
                 return // snapshot.data != null
                     Card(
                   margin: EdgeInsets.only(
@@ -119,7 +119,6 @@ class _SignInState extends State<SignIn> {
                             ),
                             PhoneField(setPhoneNumber, ),
                             const Spacing(40),
-                            //  Button('Se connecter', onpressedSignIn)
                            GraphqlButton(
                                 '${LocalizationHelper.of(context)!.t_connect}',
                                 false,
@@ -143,9 +142,9 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                     ));
-              } else {
-                return const Text("data");
-              }
+            //  } else {
+              //  return const Text("data");
+              //}
             }));
   }
 }

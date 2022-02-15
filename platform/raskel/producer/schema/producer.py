@@ -1,6 +1,11 @@
-from ariadne import gql
+from ariadne import gql,make_executable_schema, upload_scalar
+
+
 
 type_defs = gql("""
+
+scalar Upload
+
 
 type ProducerQuery{
     all_producers: [Producer]
@@ -17,9 +22,13 @@ type Producer {
     cin: String!
     cin_delivery: String!
     is_principal: Boolean!
-    properties: [Property]
+    properties: [Property] 
+    image: Upload
+    cin_pic_front: Upload
+    cin_pic_back: Upload
 
 }
+
 
 input ProducerInput {
     id: ID!

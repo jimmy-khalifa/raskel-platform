@@ -47,7 +47,7 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
                       "Pays:", "response1", "Gouvernorat:", "response2"),
                   RowInsideRow(
                       "Municipalité:", "response1", " Quartier:", "response2"),
-                  CustomRow("Compléments:", "response"),
+                  CustomRow("Compléments:", "response",),
                   RowInsideRow(
                       "Code postale:", "response1", " Principale:", "Oui"),
                       Spacing(20),
@@ -61,7 +61,7 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
                       Spacing(20),
                       BigTitle('Bac', 20),
                   RowInsideRow("Usage:", "response1", "Type:", "5"),
-                  CustomRow("Taille:", "response"),
+                  CustomRow("Taille:", "response",),
                  
                 ],
               ),

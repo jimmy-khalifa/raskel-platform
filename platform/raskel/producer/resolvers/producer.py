@@ -1,3 +1,4 @@
+from email.mime import image
 from ariadne import QueryType, MutationType
 from ariadne_jwt.decorators import login_required
 from ..models import Producer
@@ -25,6 +26,7 @@ def resolve_producer_by_user(_, info):
 
 prod_mutation = MutationType()
 
+
 @prod_mutation.field('modify_producer')
 def resolve_modify_producer(_,info, input):
 
@@ -38,3 +40,37 @@ def resolve_modify_producer(_,info, input):
     producer.save()
 
     return {'modified': True, 'producer': producer, 'err': None}
+
+upload_mutation = MutationType()
+
+
+@upload_mutation.field('uploadUserImage')
+def resolve_modify_producer(_, info, image):
+    producer_queryset = Producer.objects.filter(user=info.context.get('request').user)
+    prod = producer_queryset[0]
+    prod.image = image
+
+    prod.save()
+    return True
+
+"""upload_mutation_cin_front = MutationType()
+
+@upload_mutation_cin_front('uploadCinFront')
+def resolve_modify_producer(_, info, cin_pic_front):
+    producer_queryset = Producer.objects.filter(user=info.context.get('request').user)
+    prod = producer_queryset[0]
+    prod.cin_pic_front = cin_pic_front
+
+    prod.save()
+    return True
+
+upload_mutation_cin_back = MutationType()"""
+
+"""@upload_mutation_cin_back('uploadCinBack')
+def resolve_modify_producer(_, info, cin_pic_back):
+    producer_queryset = Producer.objects.filter(user=info.context.get('request').user)
+    prod = producer_queryset[0]
+    prod.cin_pic_back = cin_pic_back
+
+    prod.save()
+    return True"""

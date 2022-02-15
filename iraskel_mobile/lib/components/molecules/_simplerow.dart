@@ -12,9 +12,9 @@ class CustomRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-       CustomText(subtitle, FontWeight.w700),
+       CustomText(subtitle, FontWeight.w700,15),
        const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-       CustomText(response, FontWeight.w200)
+       CustomText(response, FontWeight.w200,15)
       ],
       
     );

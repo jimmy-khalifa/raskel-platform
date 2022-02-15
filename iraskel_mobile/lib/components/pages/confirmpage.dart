@@ -60,7 +60,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
     prefs.setBool('isConfirmed', true);
     //Pass to other page
     Navigator.push(
-     context, MaterialPageRoute(builder: (context) => const MainPage()));
+        context, MaterialPageRoute(builder: (context) => const MainPage()));
   }
 
   late Future<String?> phoneNumber;
@@ -71,6 +71,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
       return prefs.getString('phone_number');
     });
   }
+
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -90,61 +91,68 @@ class _ConfirmPageState extends State<ConfirmPage> {
                         'assets/getstarted/back_login.png',
                         BoxFit.contain,
                       ).baseBackgroundDecoration(),
-                      child: SingleChildScrollView(
-                      
-                          //reverse: true,
-                          child: Center(
-                            child:Form(
-                              key: formKey,
-                              child: Column(
-                                  //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .center, // <-- alignments
-                                  children: [
-                            Container(
-                              padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height / 4,
-                                  left: MediaQuery.of(context).size.width / 10,
-                                  right: MediaQuery.of(context).size.width / 10,
-                                  bottom:
-                                      MediaQuery.of(context).size.height / 4),
-                              child: BigTitle(
-                                  '${LocalizationHelper.of(context)!.t_confirmTitle}',
-                                  36.0),
-                            ),
-                            const Spacing(40),
-                            CustomInput(
-                              '${LocalizationHelper.of(context)!.t_code}',
-                              setCode,
-                            ),
-                            Container(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: GraphqlButton(
-                                  '${LocalizationHelper.of(context)!.t_confirmButton}',
-                                  false,
-                                  tokenCreate,
-                                  {
-                                    "phone_number": phone.data,
-                                    "password": code
-                                  },
-                                  oncompleted,
-                                  MediaQuery.of(context).size.width /30,MediaQuery.of(context).size.height / 80,formKey
-                                )
-                                /*   child: GraphqlButtonWith2mutation('confirmer', false, verifyNumber,  {
+                      child: Container(
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height / 4,
+                              left: MediaQuery.of(context).size.width / 10,
+                              right: MediaQuery.of(context).size.width / 10,
+                              bottom: MediaQuery.of(context).size.height / 4),
+                          child: SingleChildScrollView(
+
+                              //reverse: true,
+
+                              child: Form(
+                                  key: formKey,
+                                  child: Column(
+                                      //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .center, // <-- alignments
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                               bottom:
+                                      MediaQuery.of(context).size.height / 20),
+                                          child: BigTitle(
+                                              '${LocalizationHelper.of(context)!.t_confirmTitle}',
+                                              36.0),
+                                        ),
+                                        const Spacing(40),
+                                        CustomInput(
+                                          '${LocalizationHelper.of(context)!.t_code}',
+                                          setCode,
+                                        ),
+                                        Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 20),
+                                            child: GraphqlButton(
+                                                '${LocalizationHelper.of(context)!.t_confirmButton}',
+                                                false,
+                                                tokenCreate,
+                                                {
+                                                  "phone_number": phone.data,
+                                                  "password": code
+                                                },
+                                                oncompleted,
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    30,
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    80,
+                                                formKey)
+                                            /*   child: GraphqlButtonWith2mutation('confirmer', false, verifyNumber,  {
                                     "phone_number": phone.data,
                                     "password": code
                                   }, oncompleted, tokenCreate,  {
                                     "phone_number": phone.data,
                                     "password": code
                                   },),*/
-                                ),
-                           
-                            
-                          ]))))));
+                                            ),
+                                      ]))))));
             })
 
-        //ComfirmTemplate('assets/getstarted/back_login.png', BoxFit.contain, 'Confirmez', 'Confirmer', 40, 'Code')
         );
   }
 }

@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:iraskel_mobile/components/atoms/_floatingbutton.dart';
 import 'package:iraskel_mobile/components/molecules/_bottomnavigationbar.dart';
 import 'package:iraskel_mobile/components/pages/calendarpage.dart';
 import 'package:iraskel_mobile/components/pages/homepage.dart';
@@ -32,7 +31,6 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
      
-     const _isVisible = true;
 
    final screens = [ const HomePage(),  const NotificationPage(),  const CalendarPage(),  const MenuPage()];
            
@@ -43,10 +41,10 @@ class _MainPageState extends State<MainPage> {
         index: currentIndex,
         children: screens,
       ),
-      floatingActionButton: Visibility(
+     /* floatingActionButton: Visibility(
         visible:_isVisible,
         child:
-          CustomFloatingButton(0xFF65C88D, FeatherIcons.plus, onpressed),),
+          CustomFloatingButton(0xFF65C88D, FeatherIcons.plus, onpressed),),*/
       bottomNavigationBar: CustomNavBar(
           0xFF65C88D,
           0xFF78D0B4,

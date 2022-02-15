@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 import 'package:iraskel_mobile/components/atoms/_dotstepper.dart';
-import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/confirmationinfo.dart';
 import 'package:iraskel_mobile/components/templates/accountform.dart';
@@ -270,21 +270,23 @@ class _HomePageState extends State<HomePage> {
 
   /// Returns the next button widget.
   Widget nextButton() {
-    return Button(
-      'Suite',
-      onpressed,
-      MediaQuery.of(context).size.width / 20,
-      MediaQuery.of(context).size.height / 80,
-    );
+    
+    return IconButton(
+        onPressed: onpressed,
+        icon: const Icon(
+          FeatherIcons.chevronsRight,
+          color: Color(0xFF74c69d),
+        ));
   }
 
   /// Returns the previous button widget.
   Widget previousButton() {
-    return Button(
-      'Retour',
-      onBack,
-      MediaQuery.of(context).size.width / 20,
-      MediaQuery.of(context).size.height / 80,
-    );
+   
+    return IconButton(
+        onPressed: onBack,
+        icon: const Icon(
+          FeatherIcons.chevronsLeft,
+          color: Color(0xFF74c69d),
+        ));
   }
 }

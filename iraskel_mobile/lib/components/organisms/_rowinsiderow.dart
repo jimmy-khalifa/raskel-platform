@@ -14,9 +14,9 @@ class RowInsideRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CustomRow(subtitle1, response1),
+        CustomRow(subtitle1, response1,),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 50)),
-        CustomRow(subtitle2, response2),
+        CustomRow(subtitle2, response2, ),
         
 
       ],
