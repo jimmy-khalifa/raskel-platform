@@ -44,9 +44,9 @@ class Producer(models.Model):
 
     image= models.FileField("image", default= None, blank=True,null=True, max_length= 100000)
 
-    cin_pic_front = models.FileField("cin_pic_front",default= None, blank=True,null=True)
+    cin_pic_front = models.FileField("cin_pic_front",default= None, blank=True,null=True, max_length= 100000)
 
-    cin_pic_back = models.FileField("cin_pic_back", default= None, blank=True,null=True)
+    cin_pic_back = models.FileField("cin_pic_back", default= None, blank=True,null=True, max_length= 100000)
 
     objects = models.Manager()
 
