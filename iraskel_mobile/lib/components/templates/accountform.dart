@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:iraskel_mobile/components/atoms/_custominputwithddefaultvalue.dart';
@@ -139,6 +138,7 @@ class _AccountFormState extends State<AccountForm> {
     setState(() => {age = value});
   }
 
+  // ignore: prefer_typing_uninitialized_variables
   var _image;
   final imagePicker = ImagePicker();
   // ignore: duplicate_ignore
@@ -458,8 +458,8 @@ class _AccountFormState extends State<AccountForm> {
                                                             NumInput(
                                                                 hinttext: 'age',
                                                                 setter: setAge),
-                                                            /*            const Spacing(40),
-                                        tok.data != null ?  Query(
+                                                                      const Spacing(40),
+                                          Query(
                                               options: QueryOptions(
                                                   document: gql(producerByUser),
                                                   ),
@@ -479,7 +479,7 @@ class _AccountFormState extends State<AccountForm> {
                                                 final listItems8 = result.data?[
                                                     'producer_by_user'];
                                                 return Text(listItems8['id']);
-                                              }) : const Text ('rien'),*/
+                                              }) 
                                                           ],
                                                         ),
                                                       )))
