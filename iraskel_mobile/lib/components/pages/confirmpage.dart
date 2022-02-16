@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
 import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_custominput.dart';
+import 'package:iraskel_mobile/components/atoms/_graphqlbuttonwithoutkey.dart';
 import 'package:iraskel_mobile/components/atoms/_graphqloutlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/mainpage.dart';
@@ -53,16 +54,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
     setState(() => {code = value});
   }
 
-  oncompleted(data) async {
-    //Save the token
-    final SharedPreferences prefs = await _prefs;
-    prefs.setString('token', data["tokenAuth"]["token"]);
-    prefs.setBool('isConfirmed', true);
-    //Pass to other page
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const MainPage()));
-  }
-
+  
   late Future<String?> phoneNumber;
   @override
   void initState() {
@@ -110,8 +102,10 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                       children: [
                                         Container(
                                           padding: EdgeInsets.only(
-                                               bottom:
-                                      MediaQuery.of(context).size.height / 20),
+                                              bottom: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  20),
                                           child: BigTitle(
                                               '${LocalizationHelper.of(context)!.t_confirmTitle}',
                                               36.0),
@@ -127,12 +121,86 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                             child: GraphqlButton(
                                                 '${LocalizationHelper.of(context)!.t_confirmButton}',
                                                 false,
-                                                tokenCreate,
-                                                {
-                                                  "phone_number": phone.data,
-                                                  "password": code
-                                                },
-                                                oncompleted,
+                                                verifyNumber, {
+                                              "input": {
+                                                "phone_number": phone.data,
+                                                "code": code
+                                              }
+                                            }, (data) async {
+                                              //Save the token
+                                              final SharedPreferences prefs =
+                                                  await _prefs;
+                                              //  prefs.setString('token', data["tokenAuth"]["token"]);
+                                              prefs.setBool(
+                                                  'isConfirmed',
+                                                  data["verify_phone_number"]
+                                                      ["user"]["is_confirmed"]);
+                                             
+                                              return showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          AlertDialog(
+                                                            title: const Text(
+                                                                'Confirmation !'),
+                                                            content: const Text(
+                                                                'Voulez vous enregistrer ces informations ?'),
+                                                            actions: [
+                                                              /* GraphqlButton('Confirmer', false, updateProducer, {
+                     
+                   }, oncompleted)*/
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        context,
+                                                                        'Annuler'),
+                                                                child: const Text(
+                                                                    'Annuler',
+                                                                    style: TextStyle(
+                                                                        color: Color(
+                                                                            0xFF65C88D))),
+                                                              ),
+                                                              GraphqlButtonWithoutKey(
+                                                                'ok',
+                                                                false,
+                                                                tokenCreate,
+                                                                {
+                                                                  "phone_number":
+                                                                      phone
+                                                                          .data,
+                                                                  "password":
+                                                                      code
+                                                                },
+                                                                (data) async {
+                                                                  final SharedPreferences
+                                                                      prefs =
+                                                                      await _prefs;
+                                                                  prefs.setString(
+                                                                      'token',
+                                                                      data["tokenAuth"]
+                                                                          [
+                                                                          "token"]);
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              const MainPage()));
+                                                                },
+                                                                MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    30,
+                                                                MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height /
+                                                                    80,
+                                                              )
+                                                            ],
+                                                            // content: ,
+                                                          ));
+                                            },
                                                 MediaQuery.of(context)
                                                         .size
                                                         .width /
@@ -141,18 +209,8 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                                         .size
                                                         .height /
                                                     80,
-                                                formKey)
-                                            /*   child: GraphqlButtonWith2mutation('confirmer', false, verifyNumber,  {
-                                    "phone_number": phone.data,
-                                    "password": code
-                                  }, oncompleted, tokenCreate,  {
-                                    "phone_number": phone.data,
-                                    "password": code
-                                  },),*/
-                                            ),
+                                                formKey)),
                                       ]))))));
-            })
-
-        );
+            }));
   }
 }

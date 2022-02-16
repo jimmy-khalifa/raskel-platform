@@ -9,17 +9,20 @@ import 'components/pages/mainpage.dart';
 import 'localizations/app_localizations.dart';
 
 void main() {
-
-  
   final HttpLink httpLink = HttpLink("http://172.17.32.3:8000/graphql/");
- /* final AuthLink authLink = AuthLink(
-    getToken: () async => pref.getString('token'),
-    // OR
-    // getToken: () => 'Bearer <YOUR_PERSONAL_ACCESS_TOKEN>',
-  );*/
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  final AuthLink authLink = AuthLink(
+    getToken: () async => 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwaG9uZV9udW1iZXIiOiI5NTMzMzUwMCIsImV4cCI6MTY0MzgwNzI3Niwib3JpZ0lhdCI6MTY0MzgwNjk3Nn0.AzkXJ1KBylSRiVdsO3J5Sitb0GfBiNX0x9Piv-MPIyg'
+    //prefs.then((SharedPreferences prefs) {
+    //  return 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwaG9uZV9udW1iZXIiOiI5NTMzMzUwMCIsImV4cCI6MTY0MzgwNzI3Niwib3JpZ0lhdCI6MTY0MzgwNjk3Nn0.AzkXJ1KBylSRiVdsO3J5Sitb0GfBiNX0x9Piv-MPIyg';//prefs.getString('token')!;
+    //}),
+  );
+  final Link link = authLink.concat(httpLink);
+
   ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(
-      link: httpLink,
+      link: link,
       cache: GraphQLCache(store: InMemoryStore()),
     ),
   );
@@ -39,9 +42,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-   late Future<String?> token;
+  late Future<String?> token;
   @override
   void initState() {
     super.initState();
@@ -108,8 +110,10 @@ class _MyAppState extends State<MyApp> {
         home: FutureBuilder<String?>(
             future: token,
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-              return snapshot.data!=null ? const MainPage() :  const SelectLanguage();
-             // snapshot.data != null ? MainPage() : 
+              return snapshot.data != null
+                  ? const MainPage()
+                  : const SelectLanguage();
+              // snapshot.data != null ? MainPage() :
             }) //isAuthenticated as bool ?  MainPage({}) : const SelectLanguage());
         );
   }

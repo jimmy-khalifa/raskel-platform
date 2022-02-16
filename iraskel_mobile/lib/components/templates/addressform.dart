@@ -60,10 +60,17 @@ class _AddressFormState extends State<AddressForm> {
    
   
   var locationMessage = "";
+  late Position _position;
+
+  late Position currentPosition;
+  LatLng latLatPosition = LatLng(0, 0);
   void getCurrentLocation() async{
+    // ignore: unused_local_variable
+    LocationPermission permission = await Geolocator.requestPermission();
    Position position= await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-   // var lastPosition = await Geolocator.getLastKnownPosition();
-   // print(lastPosition);
+   //currentPosition = position;
+   //LatLng latLatPosition = LatLng(position.latitude, position.longitude);
+   
     setState(() {
       locationMessage = "$position.latitude , $position.longitude" ;
       
@@ -90,13 +97,7 @@ class _AddressFormState extends State<AddressForm> {
       codePostal = value;
     });
   }
- // late PermissionStatus _status;
- /* @override
-  void initState(){
-    super.initState();
-    
-  }*/
-// final LatLng? long= new LatLng(40.7, -40.4);
+
 
   @override
   Widget build(BuildContext context) {
@@ -207,8 +208,11 @@ class _AddressFormState extends State<AddressForm> {
                                     height: 400,
                                     width: 400,
                                     child: FlutterMap(
+
                                       
                                         options: MapOptions(
+                                          
+                                        
                                           
                                           
                                             enableScrollWheel: true,
@@ -218,13 +222,18 @@ class _AddressFormState extends State<AddressForm> {
                                             zoom: 10.0),
                                         layers: [
                                           TileLayerOptions(
+
                                             
                                               urlTemplate:
                                                   "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?source=${DateTime.now().millisecondsSinceEpoch}",
                                               subdomains: ['a', 'b', 'c']),
                                           MarkerLayerOptions(
+
                                             markers: [
+
                                               Marker(
+                                                
+
                                                 width: 80.0,
                                                 height: 80.0,
                                                 point: point,
