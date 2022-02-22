@@ -13,11 +13,16 @@ class DropdownLanguageSelect extends StatefulWidget {
 
 class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
   Language? _valueChoose; // Language(1,'fr', 'FR');
+
+  /*setValueChoose(value) {
+    setState(() {
+      _valueChoose = value;
+    });
+  }*/
+
   void _changeLanguage(Language language) {
-   /* setState(() {
-      _valueChoose = language;
-    });*/
     Locale _temp;
+    //setValueChoose(language);
     switch (language.languageCode) {
       case 'FR':
         _temp = Locale(language.languageCode, 'FR');
@@ -25,7 +30,7 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
       case 'AR':
         _temp = Locale(language.languageCode, 'AR');
         break;
-     
+
       default:
         _temp = Locale(language.languageCode, 'FR');
     }
@@ -35,8 +40,10 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width /3, vertical: MediaQuery.of(context).size.height / 15 ),
-      child:InputDecorator(
+        margin: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width / 10,
+            vertical: MediaQuery.of(context).size.height / 10),
+        child: InputDecorator(
             decoration: InputDecoration(
                 filled: true,
                 fillColor: const Color(0xFFFFFFFF),
@@ -55,7 +62,7 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
                 Icons.language,
                 color: Color(0xFF393E41),
               ),
-             // isExpanded: false,
+              // isExpanded: false,
               value: _valueChoose,
               onChanged: (language) {
                 _changeLanguage(language!);
@@ -72,7 +79,6 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
                     ),
                   )
                   .toList(),
-            )))
-            );
+            ))));
   }
 }

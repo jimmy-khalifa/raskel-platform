@@ -1,4 +1,4 @@
-from ariadne import gql,make_executable_schema, upload_scalar
+from ariadne import gql
 
 
 
@@ -15,18 +15,18 @@ type Producer {
     id: ID
     first_name: String!
     last_name: String!
-    date_of_birth: String!
-    age: Int!
+    date_of_birth: String
+    age: Int
     phone_number: String!
     email: String!
-    cin: String!
-    cin_delivery: String!
+    cin: String
+    cin_delivery: String
     is_principal: Boolean!
     properties: [Property] 
     image: Upload
     cin_pic_front: Upload
     cin_pic_back: Upload
-
+    user: User!
 }
 
 

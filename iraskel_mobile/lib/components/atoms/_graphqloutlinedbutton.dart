@@ -9,29 +9,29 @@ class GraphqlButton extends StatelessWidget {
   //final grahqlCode2;
   // ignore: prefer_typing_uninitialized_variables
   final oncompleted;
- // final onpressedData;
+  // final onpressedData;
   // final listItems;
   final Map<String, dynamic> variables;
   //final Map<String, dynamic> variables2;
 
   final String txt;
   // ignore: prefer_typing_uninitialized_variables
-  final vertical;
+  //final vertical;
   // ignore: prefer_typing_uninitialized_variables
-  final horizontal;
+  //final horizontal;
   // ignore: prefer_typing_uninitialized_variables
   final formKey;
 
   // ignore: use_key_in_widget_constructors
-  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables,this.oncompleted,this.horizontal,this.vertical,this.formKey);
+  const GraphqlButton(this.txt, this.isquery, this.grahqlCode, this.variables,
+      this.oncompleted, this.formKey);
 
-  
   @override
   Widget build(BuildContext context) {
     return isquery
         ? Query(
-            options: QueryOptions(
-                document: gql(grahqlCode), variables: variables),
+            options:
+                QueryOptions(document: gql(grahqlCode), variables: variables),
             builder: (QueryResult result, {fetchMore, refetch}) {
               if (result.hasException) {
                 return Text(result.exception.toString());
@@ -55,7 +55,6 @@ class GraphqlButton extends StatelessWidget {
                   onPressed: () {
                     // final listItems = result.data?[widget.listItems];
                   },
-                  
                   child: Text(
                     txt,
                     style: GoogleFonts.tajawal(
@@ -67,34 +66,31 @@ class GraphqlButton extends StatelessWidget {
                   ));
             })
         : Mutation(
-            options: MutationOptions(document: gql(grahqlCode),
-            onCompleted: (data) {
-              oncompleted(data);
-             //Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPage()));
-            },
-            
+            options: MutationOptions(
+              document: gql(grahqlCode),
+              onCompleted: (data) {
+                oncompleted(data);
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPage()));
+              },
             ),
             builder: (RunMutation? _runMutation, QueryResult? result) {
               // ignore: prefer_function_declarations_over_variables
               final runMutation = () => _runMutation!(variables);
               return OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                        vertical:vertical,
-                        horizontal: horizontal),
+                    minimumSize: const Size(100, 50),
+                    maximumSize: const Size(150, 150),
                     backgroundColor: Colors.white,
                     side: const BorderSide(color: Color(0xFF65C88D)),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
-                  onPressed: ()  async {
-                     if (formKey.currentState!
-                                                    .validate()) {
-                                                  runMutation();
-                                                }
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      runMutation();
+                    }
                     //widget.onpressedData();
-                   // addOtherMutation();
-
+                    // addOtherMutation();
                   },
                   child: Text(
                     txt,

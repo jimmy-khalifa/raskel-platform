@@ -61,10 +61,10 @@ class _SelectLanguageTemplateState extends State<SelectLanguageTemplate> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Center(
-                        child: BigTitle(widget.title,36.0),
+                        child: BigTitle(widget.title, 36.0),
                       ),
                       const DropdownLanguageSelect(),
-                      Button(widget.txt, onpressed,MediaQuery.of(context).size.height / 80,MediaQuery.of(context).size.width  / 80),
+                      Button(widget.txt, onpressed),
                     ]))
             : Container(
                 constraints: const BoxConstraints.expand(),
@@ -75,9 +75,10 @@ class _SelectLanguageTemplateState extends State<SelectLanguageTemplate> {
                     Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      BigTitle(widget.title,36.0),
+                      BigTitle(widget.title, 36.0),
                       const DropdownLanguageSelect(),
-                      Button(widget.txt, onpressed,MediaQuery.of(context).size.width /80,MediaQuery.of(context).size.height / 80),
+                      Button(widget.txt,
+                          onpressed), //,MediaQuery.of(context).size.width /80,MediaQuery.of(context).size.height / 80),
                     ])));
   }
 }

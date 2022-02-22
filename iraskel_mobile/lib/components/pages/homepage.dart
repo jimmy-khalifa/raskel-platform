@@ -8,7 +8,8 @@ import 'package:iraskel_mobile/components/templates/accountform.dart';
 import 'package:iraskel_mobile/components/templates/addressform.dart';
 import 'package:iraskel_mobile/components/templates/bacform.dart';
 import 'package:iraskel_mobile/components/templates/propertiesform.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 const updateProducer = """
 mutation(\$input: ProducerInput!){
@@ -61,7 +62,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  //final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   oncompleted() {
     // final SharedPreferences prefs = await _prefs;
@@ -200,18 +201,19 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  late Future<bool?> isConfirmed;
-  late Future<bool?> isVerified;
+  late bool isConfirmed = false;
+  late bool isVerified = false;
+
+  void initHiveState() async {
+    late final Box box = Hive.box('auth');
+    isConfirmed = box.get('isConfirmed');
+    isVerified = box.get('isVerified');
+  }
 
   @override
   void initState() {
     super.initState();
-    isConfirmed = _prefs.then((SharedPreferences prefs) {
-      return prefs.getBool('isConfirmed');
-    });
-    isVerified = _prefs.then((SharedPreferences prefs) {
-      return prefs.getBool('isVerified');
-    });
+    initHiveState();
   }
 
   /* List<FAStep> _stepper =[
@@ -219,7 +221,7 @@ class _HomePageState extends State<HomePage> {
   ];*/
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool?>(
+/*    return FutureBuilder<bool?>(
         future: isConfirmed,
         //initialData: false,
         builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
@@ -227,29 +229,25 @@ class _HomePageState extends State<HomePage> {
               future: isVerified,
               // initialData: false,
               builder: (BuildContext context1, AsyncSnapshot<bool?> snapshot1) {
-                return ((snapshot.hasData) && (snapshot.data as bool)) &&
-                        ((snapshot1.hasData) && !(snapshot1.data as bool))
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                            const Spacing(20),
-                            Expanded(
-                              child: IndexedStack(
-                                index: activestep,
-                                children: screens,
-                              ),
-                            ),
-                            // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
+*/
+    return (isConfirmed && !isVerified)
+        ? Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            const Spacing(20),
+            Expanded(
+              child: IndexedStack(
+                index: activestep,
+                children: screens,
+              ),
+            ),
+            // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
 
-                            StepDot(activestep, dotcount),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [previousButton(), nextButton()],
-                            ),
-                          ])
-                    : const Text("error");
-              });
-        });
+            StepDot(activestep, dotcount),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [previousButton(), nextButton()],
+            ),
+          ])
+        : const Text("error");
   }
 
   Row steps() {
@@ -270,7 +268,6 @@ class _HomePageState extends State<HomePage> {
 
   /// Returns the next button widget.
   Widget nextButton() {
-    
     return IconButton(
         onPressed: onpressed,
         icon: const Icon(
@@ -281,7 +278,6 @@ class _HomePageState extends State<HomePage> {
 
   /// Returns the previous button widget.
   Widget previousButton() {
-   
     return IconButton(
         onPressed: onBack,
         icon: const Icon(

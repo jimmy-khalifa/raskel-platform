@@ -12,7 +12,9 @@ import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/confirmpage.dart';
 import 'package:iraskel_mobile/components/pages/signin.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 const createUser = """
 mutation (\$input: UserInput!) {
@@ -78,7 +80,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  //final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   @override
   void initState() {
     super.initState();
@@ -125,25 +127,22 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   oncompleted(data) async {
-    final SharedPreferences prefs = await _prefs;
-
-    prefs.setString(
-        'phone_number', data["create_user"]["user"]["phone_number"]);
-    prefs.setString('username', data["create_user"]["user"]["username"]);
-    prefs.setString('email', data["create_user"]["user"]["email"]);
-    prefs.setString('firstname', data["create_user"]["user"]["first_name"]);
-    prefs.setString('lastname', data["create_user"]["user"]["last_name"]);
-    prefs.setBool('isActive', data["create_user"]["user"]["is_active"]);
-    prefs.setBool('isConfirmed', data["create_user"]["user"]["is_confirmed"]);
-    prefs.setBool('isVerified', data["create_user"]["user"]["is_verified"]);
-    prefs.setBool('isAuthenticated', true);
-    prefs.setString('municipalityId', municipalityId);
-    prefs.setString('companyId', companyId);
-    prefs.setString('stateId', stateId);
+    late final Box box = Hive.box('auth');
+    box.put('phoneNumber', data["create_user"]["user"]["phone_number"]);
+    box.put('username', data["create_user"]["user"]["username"]);
+    box.put('email', data["create_user"]["user"]["email"]);
+    box.put('firstname', data["create_user"]["user"]["first_name"]);
+    box.put('lastname', data["create_user"]["user"]["last_name"]);
+    box.put('isActive', data["create_user"]["user"]["is_active"]);
+    box.put('isConfirmed', data["create_user"]["user"]["is_confirmed"]);
+    box.put('isVerified', data["create_user"]["user"]["is_verified"]);
+    box.put('isAuthenticated', data["create_user"]["user"]["is_authenticated"]);
+    //box.put('municipalityId', data["create_user"]["user"]["municipalityId"]);
+    //box.put('companyId', data["create_user"]["user"]["companyId"]);
+    //box.put('stateId', data["create_user"]["user"]["stateId"]);
 
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const ConfirmPage()));
-        
   }
 
   final formKey = GlobalKey<FormState>();
@@ -152,12 +151,12 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Card(
-          margin: EdgeInsets.only(
-            left: MediaQuery.of(context).size.height / 80 ,
-            right:MediaQuery.of(context).size.height / 80  ,
-                      top: MediaQuery.of(context).size.height / 80,
-                      bottom: MediaQuery.of(context).size.height / 80),
-                  elevation: 0,
+            margin: EdgeInsets.only(
+                left: MediaQuery.of(context).size.height / 80,
+                right: MediaQuery.of(context).size.height / 80,
+                top: MediaQuery.of(context).size.height / 80,
+                bottom: MediaQuery.of(context).size.height / 80),
+            elevation: 0,
             child: Container(
               constraints: const BoxConstraints.expand(),
               decoration: CustomDecoration(
@@ -165,11 +164,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 BoxFit.contain,
               ).baseBackgroundDecoration(),
               child: Container(
-                 margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height / 9,
-                          left: MediaQuery.of(context).size.width / 10,
-                          right: MediaQuery.of(context).size.width / 10,
-                          bottom: MediaQuery.of(context).size.height / 10),
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 9,
+                    left: MediaQuery.of(context).size.width / 10,
+                    right: MediaQuery.of(context).size.width / 10,
+                    bottom: MediaQuery.of(context).size.height / 10),
                 child: SingleChildScrollView(
                   padding: EdgeInsets.zero,
                   primary: false,
@@ -177,7 +176,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Form(
                     key: formKey,
                     child: Column(
-                      
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
@@ -201,8 +199,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           setFirstName,
                         ),
                         const Spacing(40),
-
-                      
                         Query(
                             options: QueryOptions(
                                 document: gql(stateBYCountry),
@@ -230,7 +226,6 @@ class _SignUpPageState extends State<SignUpPage> {
                               ));
                             }),
                         const Spacing(40),
-                      
                         isMunicipality
                             ? Query(
                                 options: QueryOptions(
@@ -308,15 +303,13 @@ class _SignUpPageState extends State<SignUpPage> {
                               }
                             },
                             oncompleted,
-                            MediaQuery.of(context).size.width / 50,
-                            MediaQuery.of(context).size.height / 80,
                             formKey),
                         const Spacing(30),
                         Button(
                           '${LocalizationHelper.of(context)!.t_connect}',
                           onpressedSignin,
-                          MediaQuery.of(context).size.width / 50,
-                          MediaQuery.of(context).size.height / 80,
+                          // MediaQuery.of(context).size.width / 50,
+                          // MediaQuery.of(context).size.height / 80,
                         )
                       ],
                     ),

@@ -7,7 +7,8 @@ import 'package:iraskel_mobile/components/atoms/_graphqloutlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/mainpage.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 const verifyNumber = """
 mutation(\$input: CodeInput!) {
@@ -47,21 +48,27 @@ class ConfirmPage extends StatefulWidget {
 }
 
 class _ConfirmPageState extends State<ConfirmPage> {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  //final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   late String code = "";
   setCode(value) {
     setState(() => {code = value});
   }
 
-  
-  late Future<String?> phoneNumber;
+  String phoneNumber = "";
+  setPhoneNumber(value) {
+    setState(() => {phoneNumber = value});
+  }
+
+  void initHiveState() async {
+    late final Box box = Hive.box('auth');
+    setPhoneNumber(box.get('phoneNumber'));
+  }
+
   @override
   void initState() {
     super.initState();
-    phoneNumber = _prefs.then((SharedPreferences prefs) {
-      return prefs.getString('phone_number');
-    });
+    initHiveState();
   }
 
   final formKey = GlobalKey<FormState>();
@@ -69,148 +76,118 @@ class _ConfirmPageState extends State<ConfirmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder<String?>(
-            future: phoneNumber,
-            builder: (BuildContext context, AsyncSnapshot<String?> phone) {
-              return Card(
-                  margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height / 25,
-                      bottom: MediaQuery.of(context).size.height / 80),
-                  elevation: 0,
-                  child: Container(
-                      constraints: const BoxConstraints.expand(),
-                      decoration: CustomDecoration(
-                        'assets/getstarted/back_login.png',
-                        BoxFit.contain,
-                      ).baseBackgroundDecoration(),
-                      child: Container(
-                          margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height / 4,
-                              left: MediaQuery.of(context).size.width / 10,
-                              right: MediaQuery.of(context).size.width / 10,
-                              bottom: MediaQuery.of(context).size.height / 4),
-                          child: SingleChildScrollView(
+        body: Card(
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height / 25,
+                bottom: MediaQuery.of(context).size.height / 80),
+            elevation: 0,
+            child: Container(
+                constraints: const BoxConstraints.expand(),
+                decoration: CustomDecoration(
+                  'assets/getstarted/back_login.png',
+                  BoxFit.contain,
+                ).baseBackgroundDecoration(),
+                child: Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 4,
+                        left: MediaQuery.of(context).size.width / 10,
+                        right: MediaQuery.of(context).size.width / 10,
+                        bottom: MediaQuery.of(context).size.height / 4),
+                    child: SingleChildScrollView(
 
-                              //reverse: true,
+                        //reverse: true,
 
-                              child: Form(
-                                  key: formKey,
-                                  child: Column(
-                                      //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .center, // <-- alignments
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  20),
-                                          child: BigTitle(
-                                              '${LocalizationHelper.of(context)!.t_confirmTitle}',
-                                              36.0),
-                                        ),
-                                        const Spacing(40),
-                                        CustomInput(
-                                          '${LocalizationHelper.of(context)!.t_code}',
-                                          setCode,
-                                        ),
-                                        Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 20),
-                                            child: GraphqlButton(
-                                                '${LocalizationHelper.of(context)!.t_confirmButton}',
-                                                false,
-                                                verifyNumber, {
-                                              "input": {
-                                                "phone_number": phone.data,
-                                                "code": code
-                                              }
-                                            }, (data) async {
-                                              //Save the token
-                                              final SharedPreferences prefs =
-                                                  await _prefs;
-                                              //  prefs.setString('token', data["tokenAuth"]["token"]);
-                                              prefs.setBool(
-                                                  'isConfirmed',
-                                                  data["verify_phone_number"]
-                                                      ["user"]["is_confirmed"]);
-                                             
-                                              return showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) =>
-                                                          AlertDialog(
-                                                            title: const Text(
-                                                                'Confirmation !'),
-                                                            content: const Text(
-                                                                'Voulez vous enregistrer ces informations ?'),
-                                                            actions: [
-                                                              /* GraphqlButton('Confirmer', false, updateProducer, {
-                     
-                   }, oncompleted)*/
-                                                              TextButton(
-                                                                onPressed: () =>
-                                                                    Navigator.pop(
-                                                                        context,
-                                                                        'Annuler'),
-                                                                child: const Text(
-                                                                    'Annuler',
-                                                                    style: TextStyle(
-                                                                        color: Color(
-                                                                            0xFF65C88D))),
-                                                              ),
-                                                              GraphqlButtonWithoutKey(
-                                                                'ok',
-                                                                false,
-                                                                tokenCreate,
-                                                                {
-                                                                  "phone_number":
-                                                                      phone
-                                                                          .data,
-                                                                  "password":
-                                                                      code
-                                                                },
-                                                                (data) async {
-                                                                  final SharedPreferences
-                                                                      prefs =
-                                                                      await _prefs;
-                                                                  prefs.setString(
-                                                                      'token',
-                                                                      data["tokenAuth"]
-                                                                          [
-                                                                          "token"]);
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder: (context) =>
-                                                                              const MainPage()));
-                                                                },
-                                                                MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    30,
-                                                                MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height /
-                                                                    80,
-                                                              )
-                                                            ],
-                                                            // content: ,
-                                                          ));
-                                            },
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    30,
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    80,
-                                                formKey)),
-                                      ]))))));
-            }));
+                        child: Form(
+                            key: formKey,
+                            child: Column(
+                                //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center, // <-- alignments
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        bottom:
+                                            MediaQuery.of(context).size.height /
+                                                20),
+                                    child: BigTitle(
+                                        '${LocalizationHelper.of(context)!.t_confirmTitle}',
+                                        36.0),
+                                  ),
+                                  const Spacing(40),
+                                  CustomInput(
+                                    '${LocalizationHelper.of(context)!.t_code}',
+                                    setCode,
+                                  ),
+                                  Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: GraphqlButton(
+                                          '${LocalizationHelper.of(context)!.t_confirmButton}',
+                                          false,
+                                          verifyNumber, {
+                                        "input": {
+                                          "phone_number": phoneNumber,
+                                          "code": code
+                                        }
+                                      }, (data) async {
+                                        late final Box box = Hive.box('auth');
+                                        box.put('isConfirmed', true);
+
+                                        return showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                                  title: const Text(
+                                                      'Confirmation !'),
+                                                  content: const Text(
+                                                      'Voulez vous enregistrer ces informations ?'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(context,
+                                                              'Annuler'),
+                                                      child: const Text(
+                                                          'Annuler',
+                                                          style: TextStyle(
+                                                              color: Color(
+                                                                  0xFF65C88D))),
+                                                    ),
+                                                    GraphqlButtonWithoutKey(
+                                                      'ok',
+                                                      false,
+                                                      tokenCreate,
+                                                      {
+                                                        "phone_number":
+                                                            phoneNumber,
+                                                        "password": code
+                                                      },
+                                                      (data) async {
+                                                        late final Box box =
+                                                            Hive.box('auth');
+                                                        box.put(
+                                                            'token',
+                                                            data["tokenAuth"]
+                                                                ["token"]);
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const MainPage()));
+                                                      },
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          30,
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height /
+                                                          80,
+                                                    )
+                                                  ],
+                                                  // content: ,
+                                                ));
+                                      }, formKey)),
+                                ])))))));
   }
 }

@@ -87,9 +87,9 @@ WSGI_APPLICATION = 'raskel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'raskel',
-        'USER': 'raskel',
-        'PASSWORD': 'raskel',
+        'NAME': 'iraskel',
+        'USER': 'iraskel',
+        'PASSWORD': 'iraskel',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -142,9 +142,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'security.CustomUser'
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.AllowAllUsersModelBackend',
-    'django.contrib.auth.backends.ModelBackend',
     'ariadne_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
+    
 ]
 """GRAPHENE = {
     'SCHEMA': 'raskel.schema.schema', # this file doesn't exist yet

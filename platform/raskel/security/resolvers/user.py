@@ -46,15 +46,10 @@ def resolve_create_user(_,info, input):
             # we remove the dot (.) from the email
             email = str(input['first_name']).lower() + '' + str(input['last_name']).lower() + '@iraskel.com'
         
-        # we create a string of uppercases ascii letters and digits
-        alphanum = string.ascii_uppercase + string.digits
-        # we get a random list of 8 Upper characters digits
-        chars = random.choices(alphanum, weights=None, k=8)
-        # we change the list to a string and generate the code
-        pwd = "".join(chars)
+        pwd = generate_code()
         print('The Code Is : ' + pwd)
         # we create the user with the provided information
-        user = User.objects.create_user(username=username, email=email, password=pwd, first_name=input['first_name'], last_name=input['last_name'], phone_number=input['phone_number']) 
+        user = User.objects.create_user(username=username, email=email, password=pwd, first_name=input['first_name'], last_name=input['last_name'], phone_number=input['phone_number'], is_active=True) 
         # we save the user
         user.save() 
         # we change the created return value to true
@@ -88,6 +83,7 @@ def resolve_verify_phone_number(_,info, input):
         success = True
         # we change the user to active
         authenticated.is_confirmed = True
+        #authenticated.is_authenticated = True
         authenticated.save()
         
     else:
@@ -102,18 +98,15 @@ def resolve_user_phone(_,info,input):
     try:
         user = User.objects.get(phone_number = input['phone_number'])
         if user != None :
-            alphanum = string.ascii_uppercase + string.digits
-            # we get a random list of 8 Upper characters digits
-            chars = random.choices(alphanum, weights=None, k=8)
-            # we change the list to a string and generate the code
-            pwd = "".join(chars)
+            pwd = generate_code()
             print('The Code Is : ' + pwd)
             user.set_password(pwd)
+            
             user.save()
     except:
-        err = {'code' : 'ERR001', 'message': 'Phone number is not registred'}
+        err = {'code' : 'ERR001', 'message': 'Phone number ' + input['phone_number'] + ' is not registred'}       
 
-    return {'created': True, 'user': user, 'err': err}
+    return {'user': user, 'err': err}
 
 """
 Mutation resend_verification_code to resend a new verification 
@@ -139,3 +132,11 @@ def create_related_producer_info(user, municipality_id):
     user=user, address=new_address)
     new_producer.save()
     
+
+def generate_code():
+    # we create a string of uppercases ascii letters and digits
+    alphanum = string.ascii_uppercase + string.digits
+    # we get a random list of 8 Upper characters digits
+    chars = random.choices(alphanum, weights=None, k=8)
+    # we change the list to a string and generate the code
+    return "".join(chars)

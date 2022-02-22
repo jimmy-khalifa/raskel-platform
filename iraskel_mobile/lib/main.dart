@@ -1,32 +1,30 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:iraskel_mobile/auth_graphql_client.dart';
 import 'package:iraskel_mobile/components/pages/selectlanguage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/pages/mainpage.dart';
 import 'localizations/app_localizations.dart';
 
-void main() {
-  final HttpLink httpLink = HttpLink("http://172.17.32.3:8000/graphql/");
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
-  final AuthLink authLink = AuthLink(
-    getToken: () async => 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwaG9uZV9udW1iZXIiOiI5NTMzMzUwMCIsImV4cCI6MTY0MzgwNzI3Niwib3JpZ0lhdCI6MTY0MzgwNjk3Nn0.AzkXJ1KBylSRiVdsO3J5Sitb0GfBiNX0x9Piv-MPIyg'
-    //prefs.then((SharedPreferences prefs) {
-    //  return 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwaG9uZV9udW1iZXIiOiI5NTMzMzUwMCIsImV4cCI6MTY0MzgwNzI3Niwib3JpZ0lhdCI6MTY0MzgwNjk3Nn0.AzkXJ1KBylSRiVdsO3J5Sitb0GfBiNX0x9Piv-MPIyg';//prefs.getString('token')!;
-    //}),
-  );
-  final Link link = authLink.concat(httpLink);
+void main() async {
+  //initializing the hive store
+  await Hive.initFlutter();
+  var box = await Hive.openBox('auth');
+  Directory directory = await path_provider.getApplicationDocumentsDirectory();
+  final store = await HiveStore.open(path: directory.path);
 
-  ValueNotifier<GraphQLClient> client = ValueNotifier(
-    GraphQLClient(
-      link: link,
-      cache: GraphQLCache(store: InMemoryStore()),
-    ),
-  );
-  var app = GraphQLProvider(client: client, child: const MyApp());
+  var client = AuthGraphQLClient.getClient(store);
+  ValueNotifier<GraphQLClient> valueNotifier = ValueNotifier(client);
+  var app = GraphQLProvider(client: valueNotifier, child: const MyApp());
+
   runApp(app);
 }
 
@@ -42,14 +40,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<String?> token;
+
+  Future<String> initHiveState() async {
+    late final Box box = Hive.box('auth');
+    return box.get('token');
+  }
+
   @override
   void initState() {
     super.initState();
-    token = _prefs.then((SharedPreferences prefs) {
-      return prefs.getString('token');
-    });
+    token = initHiveState();
   }
 
   late Locale _locale = const Locale('fr', 'FR');
