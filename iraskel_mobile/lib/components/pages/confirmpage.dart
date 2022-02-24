@@ -137,23 +137,23 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                             context: context,
                                             builder: (BuildContext context) =>
                                                 AlertDialog(
-                                                  title: const Text(
-                                                      'Confirmation !'),
-                                                  content: const Text(
-                                                      'Voulez vous enregistrer ces informations ?'),
+                                                  title:  Text(
+                                                      '${LocalizationHelper.of(context)!.t_confirmation}'),
+                                                  content:  Text(
+                                                    '${LocalizationHelper.of(context)!.t_registration}'),
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () =>
                                                           Navigator.pop(context,
                                                               'Annuler'),
-                                                      child: const Text(
-                                                          'Annuler',
-                                                          style: TextStyle(
+                                                      child:  Text(
+                                                        '${LocalizationHelper.of(context)!.t_cancel}',
+                                                          style:const TextStyle(
                                                               color: Color(
                                                                   0xFF65C88D))),
                                                     ),
                                                     GraphqlButtonWithoutKey(
-                                                      'ok',
+                                                      '${LocalizationHelper.of(context)!.t_ok}',
                                                       false,
                                                       tokenCreate,
                                                       {
