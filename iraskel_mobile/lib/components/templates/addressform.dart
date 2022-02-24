@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -9,12 +10,9 @@ import 'package:iraskel_mobile/components/atoms/multilineinput.dart';
 import 'package:iraskel_mobile/components/atoms/numinput.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 //import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
-
-
 
 //import 'package:permission_handler/permission_handler.dart';
 
@@ -47,7 +45,7 @@ class AddressForm extends StatefulWidget {
   _AddressFormState createState() => _AddressFormState();
 }
 
-class _AddressFormState extends State<AddressForm> {
+class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin {
   late String pays = "";
   late String stateId = "";
   late String municipalityId = "";
@@ -57,19 +55,19 @@ class _AddressFormState extends State<AddressForm> {
   LatLng point = LatLng(33.984250, 8.216120);
 
   var locationMessage = "";
-  List<Placemark> placemarks = [] ;
+  List<Placemark> placemarks = [];
 
   void getCurrentLocation() async {
     // ignore: unused_local_variable
     LocationPermission permission = await Geolocator.requestPermission();
-    
-    Position position = await Geolocator.getCurrentPosition(forceAndroidLocationManager: true,
+
+    Position position = await Geolocator.getCurrentPosition(
+        forceAndroidLocationManager: true,
         desiredAccuracy: LocationAccuracy.high);
 
     setState(() {
       locationMessage = "$position.latitude , $position.longitude";
     });
-    
   }
 
   setPays(value) {
@@ -92,6 +90,26 @@ class _AddressFormState extends State<AddressForm> {
     });
   }
 
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+     
+      duration: const Duration(seconds: 20), vsync: this,
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.repeat(reverse: true);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,7 +126,9 @@ class _AddressFormState extends State<AddressForm> {
                 margin: const EdgeInsets.only(
                     top: 25, left: 20, right: 20, bottom: 10),
                 child: Column(children: [
-                  const FormHeader(headerText: 'Adresse'),
+                  FormHeader(
+                      headerText:
+                          '${LocalizationHelper.of(context)!.t_address}'),
                   Expanded(
                       child: SingleChildScrollView(
                           primary: false,
@@ -121,7 +141,7 @@ class _AddressFormState extends State<AddressForm> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     CustomInput(
-                                      'Pays',
+                                      '${LocalizationHelper.of(context)!.t_country}',
                                       setPays,
                                     ),
                                     const Spacing(40),
@@ -135,10 +155,14 @@ class _AddressFormState extends State<AddressForm> {
                                             return Text(
                                                 result.exception.toString());
                                           }
+                                          
                                           if (result.isLoading) {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
+                                            return  Center(
+                                              child: CircularProgressIndicator(
+                                                value: controller.value,
+                                                semanticsLabel:
+                                                    'Linear progress indicator',
+                                              ),
                                             );
                                           }
 
@@ -163,9 +187,11 @@ class _AddressFormState extends State<AddressForm> {
                                                 result.exception.toString());
                                           }
                                           if (result.isLoading) {
-                                            return const Center(
+                                            return  Center(
                                               child:
-                                                  CircularProgressIndicator(),
+                                                  CircularProgressIndicator( value: controller.value,
+                                                semanticsLabel:
+                                                    'Linear progress indicator',),
                                             );
                                           }
 
@@ -179,11 +205,13 @@ class _AddressFormState extends State<AddressForm> {
                                               setMunicipalityId));
                                         }),
                                     const Spacing(40),
-                                    const MultiLineInput(
-                                        hinttext: 'Complément d\'adresse'),
+                                    MultiLineInput(
+                                        hinttext:
+                                            '${LocalizationHelper.of(context)!.t_complementeryadrress}'),
                                     const Spacing(40),
                                     NumInput(
-                                        hinttext: 'Code Postale',
+                                        hinttext:
+                                            '${LocalizationHelper.of(context)!.t_postal_code}',
                                         setter: setCodePostal),
                                     CheckboxListTile(
                                         activeColor: const Color(0xFF65C88D),
@@ -193,7 +221,8 @@ class _AddressFormState extends State<AddressForm> {
                                             isChecked = value!;
                                           });
                                         },
-                                        title: Text(" Rester connecter",
+                                        title: Text(
+                                            '${LocalizationHelper.of(context)!.t_restconnected}',
                                             style: GoogleFonts.tajawal(
                                                 textStyle: const TextStyle(
                                                     fontWeight: FontWeight.w300,
@@ -201,24 +230,23 @@ class _AddressFormState extends State<AddressForm> {
                                         controlAffinity:
                                             ListTileControlAffinity.leading),
                                     const Spacing(20),
-                                    SizedBox(
+
+                                   SizedBox(
                                       height: 400,
                                       width: 400,
                                       child: Stack(
                                         children: [
                                           FlutterMap(
                                               options: MapOptions(
-                                                onTap: (_,p)async{
-                                                
-                                                placemarks= await placemarkFromCoordinates(p.latitude, p.longitude);
-                                                  setState(() {
-                                                    point = p;
-                                                    
-                                                  });
-                                                
-                                                 
-
-                                                },
+                                                  onTap: (_, p) async {
+                                                    placemarks =
+                                                        await placemarkFromCoordinates(
+                                                            p.latitude,
+                                                            p.longitude);
+                                                    setState(() {
+                                                      point = p;
+                                                    });
+                                                  },
                                                   enableScrollWheel: true,
                                                   enableMultiFingerGestureRace:
                                                       true,
@@ -243,54 +271,53 @@ class _AddressFormState extends State<AddressForm> {
                                                       point: point,
                                                       builder: (ctx) =>
                                                           const Icon(
-                                                        Icons.location_on,
-                                                        color: Colors.red,
-                                                        size: 40.0
-                                                      ),
+                                                              Icons.location_on,
+                                                              color: Colors.red,
+                                                              size: 40.0),
                                                     )
                                                   ],
                                                 ),
                                               ]),
-                                              Positioned(
-                                               bottom: 20,
-                                                right: 10,
-                                                
-                                                child:  ClipOval(
-                                            
-                                            child: Material(
-                                              
-                                              color: Colors.transparent,
-                                              child: InkWell(
-                                                splashColor:
-                                              const    Color(0xFF65C88D), // Splash color
-                                                onTap: () {
-                                                  getCurrentLocation();
-                                                },
-                                                child:const SizedBox(
-                                                    width: 56,
-                                                    height: 56,
-                                                    child: Icon(
-                                                       Icons.my_location,color: Colors.black,size:30.0)),
+                                          Positioned(
+                                            bottom: 20,
+                                            right: 10,
+                                            child: ClipOval(
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  splashColor: const Color(
+                                                      0xFF65C88D), // Splash color
+                                                  onTap: () {
+                                                    getCurrentLocation();
+                                                  },
+                                                  child: const SizedBox(
+                                                      width: 56,
+                                                      height: 56,
+                                                      child: Icon(
+                                                          Icons.my_location,
+                                                          color: Colors.black,
+                                                          size: 30.0)),
+                                                ),
                                               ),
                                             ),
-                                          ),),
+                                          ),
                                           Positioned(
-                                            bottom: 10.0,
-                                            child: 
-                                          Card(
-                                            child: Padding(padding:const EdgeInsets.all(16.0),
-                                            child: Text(placemarks.isEmpty ? " " : "${placemarks.first.country},${placemarks.first.locality},${placemarks.first.name},${placemarks.first.postalCode}"),)
-                                            
-                                            ,))
-                                          
-                                          
-
-                                         
-                                         
+                                              bottom: 10.0,
+                                              left: 10.0,
+                                              child: Card(
+                                                color: placemarks.isEmpty ? Color.fromARGB(100, 22, 44, 33) : Colors.white,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Text(placemarks.isEmpty
+                                                      ? " "
+                                                      : "${placemarks.first.country},${placemarks.first.locality},${placemarks.first.name},${placemarks.first.postalCode}"),
+                                                ),
+                                              ))
                                         ],
                                       ),
                                     ),
-                                   //  Text('Position: $locationMessage'),
+                                    //  Text('Position: $locationMessage'),
                                   ])))),
                 ]))));
   }

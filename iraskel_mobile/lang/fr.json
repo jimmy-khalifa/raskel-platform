@@ -42,6 +42,24 @@
     "bac":"Bac",
     "usage":"Usage",
     "size":"Taille",
-    "confirmation": "Confirmation"
+    "confirmation": "Confirmation",
+    "account": "Compte",
+    "update":"Modifier",
+    "upload" : "Charger",
+    "identityCard": "Carte d'identité",
+    "deliveryDate": "Date de délivrance",
+    "birth": "Date de naissance",
+    "age": "Age",
+    "registration":"Voulez vous enregistrer ces informations?",
+    "cancel": "Annuler",
+    "ok": "Oui",
+    "congrats": "Félicitation !",
+    "complementeryadrress" : "Complément d'adresse",
+    "postalCode" :"Code postal",
+    "restConnected" :"Rester connecter",
+    "personalInformation" : "Informations personnelles",
+    "invoice": "Factures",
+    "settings": "Paramètres",
+    "logout": "Se déconnecter"
 
   }

@@ -40,6 +40,13 @@ class _PropertiesState extends State<PropertiesForm> {
     'Résidence principale': false,
     'Adresse Principale': false,
   };
+ /* Map<String, bool?> HouseElements = {
+    '${LocalizationHelper.of(context)!.t_garden}': false,
+    '${LocalizationHelper.of(context)!.t_garage}': false,
+    '${LocalizationHelper.of(context)!.t_sheepfold}': false,
+    '${LocalizationHelper.of(context)!.t_residence}': false,
+    '${LocalizationHelper.of(context)!.t_address}': false,
+  };*/
   var holderList = [];
   getChecked() {
     HouseElements.forEach((key, value) {

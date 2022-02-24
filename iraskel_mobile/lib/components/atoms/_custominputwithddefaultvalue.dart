@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
 
-class CustomInputWithDefaultValue extends  StatelessWidget {
+class CustomInputWithDefaultValue extends  StatefulWidget {
  
   final String? initialvalue;
   final String hinttext;
   final Function setter;
+  final bool enabled;
+  final bool read;
+  final bool enable;
   // ignore: use_key_in_widget_constructors
-  const CustomInputWithDefaultValue(this.hinttext, this.setter,this.initialvalue);
+  const CustomInputWithDefaultValue(this.hinttext, this.setter,this.initialvalue, this.enabled, this.read, this.enable);
 
- 
   @override
+  State<CustomInputWithDefaultValue> createState() => _CustomInputWithDefaultValueState();
+}
+
+class _CustomInputWithDefaultValueState extends State<CustomInputWithDefaultValue> {
+   
+
+  @override
+  
   Widget build(BuildContext context) {
-    return TextFormField(
-      key: Key(initialvalue!),
-      initialValue: initialvalue,
+    
+    return  TextFormField(
+      readOnly: widget.read,
+      enabled: widget.enable,
+    
+      key: Key(widget.initialvalue!),
+      initialValue: widget.initialvalue,
       //controller: TextEditingController(text: initialvalue),
       onChanged: (text) {
-        setter(text);
+        widget.setter(text);
       },
       
       cursorColor: const Color(0xFFDFF4EC),
@@ -27,9 +41,9 @@ class CustomInputWithDefaultValue extends  StatelessWidget {
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFFDFF4EC)),
         ),
-        hintText: hinttext,
+        hintText: widget.hinttext,
         filled: true,
-        fillColor: Colors.white,
+       fillColor: widget.enabled ? Colors.white : Colors.grey.shade200,
       ),
     );
   }

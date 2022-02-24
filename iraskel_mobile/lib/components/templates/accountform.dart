@@ -1,15 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:iraskel_mobile/auth_graphql_client.dart';
+import 'package:iraskel_mobile/components/atoms/_customcircularprogress.dart';
 import 'package:iraskel_mobile/components/atoms/_custominputwithddefaultvalue.dart';
-import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
 import 'package:iraskel_mobile/components/atoms/_graphbuttonforimage.dart';
 import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
-import 'package:iraskel_mobile/components/atoms/_phonefield.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
+import 'package:iraskel_mobile/components/atoms/_text.dart';
 import 'package:iraskel_mobile/components/atoms/datefield.dart';
 import 'package:iraskel_mobile/components/atoms/numinput.dart';
 import 'package:iraskel_mobile/components/molecules/_profilewidget.dart';
@@ -18,8 +19,7 @@ import 'package:iraskel_mobile/localizations/app_localizations.dart';
 //import 'package:http/http.dart' as http;
 //import 'package:http_parser/http_parser.dart';
 
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path/path.dart';
 
 const stateBYCountry = """
 query(\$countryId: ID!){
@@ -71,7 +71,12 @@ mutation (\$image: Upload!){
 """;
 
 class AccountForm extends StatefulWidget {
-  const AccountForm({Key? key}) : super(key: key);
+  final bool enabled;
+  final bool readonly;
+  final bool enable;
+
+  // ignore: use_key_in_widget_constructors
+  const AccountForm(this.enabled,this.readonly,this.enable);
 
   @override
   _AccountFormState createState() => _AccountFormState();
@@ -93,6 +98,7 @@ class _AccountFormState extends State<AccountForm> {
   late String phone;
   late String lastname;
   late String firstname;
+  late String id;
 
   void initQuery() async {
     final QueryOptions options = QueryOptions(
@@ -106,6 +112,7 @@ class _AccountFormState extends State<AccountForm> {
     setLoading(false);
 
     if (result.hasException) {
+      // ignore: avoid_print
       print(result.exception.toString());
     } else {
       final prod = result.data?['producer_by_user'];
@@ -113,6 +120,7 @@ class _AccountFormState extends State<AccountForm> {
       setLastName(prod['last_name']);
       setFirstName(prod['first_name']);
       setUserName(prod['user']['username']);
+      setProdId(prod['id']);
     }
   }
 
@@ -145,6 +153,12 @@ class _AccountFormState extends State<AccountForm> {
     setState(() => {lastName = value});
   }
 
+  setProdId(value) {
+    setState(() {
+      id = value;
+    });
+  }
+
   setPhoneNumber(value) {
     setState(() => {phoneNumber = value});
   }
@@ -170,8 +184,49 @@ class _AccountFormState extends State<AccountForm> {
   Future getImage() async {
     // ignore: deprecated_member_use
     final image = await imagePicker.getImage(source: ImageSource.camera);
+
     setState(() {
       _image = File(image!.path);
+    });
+  }
+
+  // ignore: prefer_typing_uninitialized_variables
+ 
+  String fileName = "";
+
+
+  final ImagePicker cinsImage = ImagePicker();
+  List<XFile> cinList = [];
+  List<String> fileNames =[];
+  // ignore: prefer_typing_uninitialized_variables, unused_field
+  var _images;
+  // ignore: prefer_typing_uninitialized_variables
+  var  index;
+  void selectcinImage() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages!.isNotEmpty) {
+      cinList.addAll(selectedImages);
+    }
+    _uploadFile(selectedImages);
+    // print("Image List Length:" + cinList.length.toString());
+
+    setState(() {
+       _images= File(cinList[index].path);
+    });
+  }
+
+  void _uploadFile(filePath) async {
+    //String fileName = basename(filePath.path);
+    //return Text('$fileName');
+    setState(() {
+     for (var element in cinList) {
+       fileName = basename(element.path);
+       fileNames.add(fileName);
+       
+       
+     }
+
+      
     });
   }
 
@@ -186,6 +241,7 @@ class _AccountFormState extends State<AccountForm> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Card(
+            color: loading ? Colors.grey.shade100 : Colors.white,
             margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height / 20,
                 left: MediaQuery.of(context).size.width / 25,
@@ -195,7 +251,7 @@ class _AccountFormState extends State<AccountForm> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: loading
-                ? LinearProgressIndicator()
+                ? const Center(child: CustomCircularProgressIndicator())
                 : Container(
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height / 50,
@@ -203,7 +259,9 @@ class _AccountFormState extends State<AccountForm> {
                         right: MediaQuery.of(context).size.width / 25,
                         bottom: MediaQuery.of(context).size.height / 45),
                     child: Column(children: [
-                      const FormHeader(headerText: 'Compte'),
+                      FormHeader(
+                          headerText:
+                              '${LocalizationHelper.of(context)!.t_account}'),
                       Expanded(
                           child: SingleChildScrollView(
                               primary: false,
@@ -220,7 +278,9 @@ class _AccountFormState extends State<AccountForm> {
                                             'assets/images/profile.png',
                                             username,
                                             30.0)
-                                        : ClipRRect(
+                                        : Column(children: [
+
+                                        ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(100.0),
                                             child: Image.file(
@@ -235,14 +295,16 @@ class _AccountFormState extends State<AccountForm> {
                                                   4,
                                             ),
                                           ),
+                                          Center(child:CustomText(username, FontWeight.w300, 30.0))
+                                        ]),
 
                                     modified
                                         ? Button(
-                                            'modifier',
+                                            '${LocalizationHelper.of(context)!.t_update}',
                                             onpressed,
                                           )
                                         : GraphqlButtonforImage(
-                                            'upload',
+                                            '${LocalizationHelper.of(context)!.t_upload}',
                                             false,
                                             imageProfile,
                                             {"image": _image},
@@ -251,117 +313,107 @@ class _AccountFormState extends State<AccountForm> {
                                             MediaQuery.of(context).size.height /
                                                 80,
                                           ),
+                                        const  Spacing(40),
 
                                     //  CustomInput('@ffoulen', setUserName,),
                                     CustomInputWithDefaultValue(
-                                        '@ffoulen', setUserName, username),
+                                      '@ffoulen',
+                                      setUserName,
+                                      username,
+                                      widget.enabled, widget.readonly, widget.enable
+                                    ),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
-                                        'Fouleni', setFirstName, firstName),
+                                        'Fouleni',
+                                        setFirstName,
+                                        firstName,
+                                     widget.enabled, widget.readonly, widget.enable),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
-                                        'Foulen', setLastName, lastName),
+                                        'Foulen',
+                                        setLastName,
+                                        lastName,
+                                       widget.enabled, widget.readonly, widget.enable),
                                     const Spacing(40),
-                                    PhoneField(setPhoneNumber),
-                                    //phonenumb.data ?? '' ),
-                                    const Spacing(40),
-
-                                    /* QueryDropDownGraphQl(widget.grahqlCode1, widget.dropdowntextinput1,
-                widget.listItems1, widget.text1),*/
-                                    Query(
-                                        options: QueryOptions(
-                                            document: gql(stateBYCountry),
-                                            variables: {"countryId": "1"}),
-                                        builder: (QueryResult result,
-                                            {fetchMore, refetch}) {
-                                          if (result.hasException) {
-                                            return Text(
-                                                result.exception.toString());
-                                          }
-                                          if (result.isLoading) {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          }
-
-                                          final listItems1 =
-                                              result.data?['states_by_country'];
-                                          return (DropdownInput(
-                                              '${LocalizationHelper.of(context)!.t_state}',
-                                              listItems1,
-                                              'name',
-                                              'id',
-                                              setStateId));
-                                        }),
-                                    /*QueryDropDownGraphQl(widget.grahqlCode2,
-                    widget.dropdowntextinput2, widget.listItems2, widget.text2),*/
-
-                                    const Spacing(40),
-                                    Query(
-                                        options: QueryOptions(
-                                            document: gql(municipalities),
-                                            variables: {"stateId": stateId}),
-                                        builder: (QueryResult result,
-                                            {fetchMore, refetch}) {
-                                          if (result.hasException) {
-                                            return Text(
-                                                result.exception.toString());
-                                          }
-                                          if (result.isLoading) {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          }
-
-                                          final listItems2 = result
-                                              .data?['municipality_by_state'];
-                                          return (DropdownInput(
-                                              '${LocalizationHelper.of(context)!.t_municipality}',
-                                              listItems2,
-                                              'name',
-                                              'id',
-                                              setMunicipalityId));
-                                        }),
+                                    CustomInputWithDefaultValue('Phone', setPhoneNumber,phoneNumber,widget.enabled, widget.readonly, widget.enable),
+                                   // PhoneField(setPhoneNumber),
+                                    
+                                   
                                     const Spacing(40),
                                     NumInput(
-                                        hinttext: 'N° Carte identité',
+                                        hinttext:
+                                            '${LocalizationHelper.of(context)!.t_identity_card}',
                                         setter: setNumCIN),
                                     const Spacing(40),
                                     DateField(
                                       dateinput: cindateinput,
-                                      hinttext: 'Date Délivré',
+                                      hinttext:
+                                          '${LocalizationHelper.of(context)!.t_delivery_date}',
                                     ),
                                     const Spacing(40),
+                                    IconButton(
+                                      onPressed: () {
+                                        //getCinImage();
+                                        selectcinImage();
+                                      },
+                                      icon: const Icon(
+                                        FeatherIcons.uploadCloud,
+                                        size: 30,
+                                      ),
+                                    ),
+                                    /* _file!=null ? Column(children: [
+                                    Image.file(
+                                              _file,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  8,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /8
+                                            ),
+                                            // ignore: unnecessary_string_interpolations
+                                            Text('$fileName')
+
+                              
+                                  ],) : const Text('Pas d"image sélectionnée'),*/
+                                    cinList.isEmpty
+                                        ?const Text('pas d"image')
+                                        : Column(children: [
+                                           /* SizedBox(
+                                                height: 100.0,
+                                                width: 100.0,
+                                                child: GridView.builder(
+                                                    itemCount: 2,
+                                                    gridDelegate:
+                                                    const    SliverGridDelegateWithFixedCrossAxisCount(
+                                                            crossAxisCount: 3),
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return Image.file(File(
+                                                          cinList[index].path));
+                                                    })),*/
+                                            // ignore: unnecessary_string_interpolations
+                                            Text('${fileNames[0]}'),
+                                            // ignore: unnecessary_string_interpolations
+                                            Text('${fileNames[1]}')
+                                          ]),
+                                           const Spacing(40),
+
+
                                     DateField(
                                       dateinput: birthDate,
-                                      hinttext: 'Date De Naissance',
+                                      hinttext:
+                                          '${LocalizationHelper.of(context)!.t_birth}',
                                     ),
                                     const Spacing(40),
-                                    NumInput(hinttext: 'age', setter: setAge),
-                                    const Spacing(40),
-                                    Query(
-                                        options: QueryOptions(
-                                          document: gql(producerByUser),
-                                        ),
-                                        builder: (QueryResult result,
-                                            {fetchMore, refetch}) {
-                                          if (result.hasException) {
-                                            return Text(
-                                                result.exception.toString());
-                                          }
-                                          if (result.isLoading) {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          }
 
-                                          final listItems8 =
-                                              result.data?['producer_by_user'];
-                                          return Text(listItems8['id']);
-                                        })
+                                    NumInput(
+                                        hinttext:
+                                            '${LocalizationHelper.of(context)!.t_age}',
+                                        setter: setAge),
+                                    const Spacing(40),
                                   ],
                                 ),
                               )))

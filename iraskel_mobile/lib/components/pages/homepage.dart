@@ -10,6 +10,7 @@ import 'package:iraskel_mobile/components/templates/bacform.dart';
 import 'package:iraskel_mobile/components/templates/propertiesform.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
 const updateProducer = """
 mutation(\$input: ProducerInput!){
@@ -77,7 +78,7 @@ class _HomePageState extends State<HomePage> {
   int activestep = 0;
   int dotcount = 5;
   final screens = [
-    const AccountForm(),
+   const   AccountForm(false,true,false),
     const AddressForm(),
     const PropertiesForm(),
     const BacForm(),
@@ -92,23 +93,22 @@ class _HomePageState extends State<HomePage> {
       return showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: const Text('Confirmation !'),
+               title:  Text('${LocalizationHelper.of(context)!.t_confirmation}'),
                 content:
-                    const Text('Voulez vous enregistrer ces informations ?'),
+                     Text('${LocalizationHelper.of(context)!.t_registration}'),
                 actions: [
                   /* GraphqlButton('Confirmer', false, updateProducer, {
                      
                    }, oncompleted)*/
                   TextButton(
                     onPressed: () => Navigator.pop(context, 'Annuler'),
-                    child: const Text('Annuler',
-                        style: TextStyle(color: Color(0xFF65C88D))),
+                    child:  Text('${LocalizationHelper.of(context)!.t_cancel}',
+                        style: const TextStyle(color: Color(0xFF65C88D))),
                   ),
                   TextButton(
                       onPressed: oncompleted,
-                      child: const Text(
-                        'Ok',
-                        style: TextStyle(color: Color(0xFF65C88D)),
+                      child:  Text('${LocalizationHelper.of(context)!.t_ok}',
+                        style: const TextStyle(color: Color(0xFF65C88D)),
                       ))
                 ],
                 // content: ,
@@ -117,22 +117,22 @@ class _HomePageState extends State<HomePage> {
       return showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: const Text('Confirmation !'),
+               title:  Text('${LocalizationHelper.of(context)!.t_confirmation}'),
                 content:
-                    const Text('Voulez vous enregistrer ces informations ?'),
+                     Text('${LocalizationHelper.of(context)!.t_registration}'),
                 actions: [
                   /* GraphqlButton('Confirmer', false, updateProducer, {
                      
                    }, oncompleted)*/
                   TextButton(
                     onPressed: () => Navigator.pop(context, 'Annuler'),
-                    child: const Text('Annuler',
-                        style: TextStyle(color: Color(0xFF65C88D))),
+                    child:  Text('${LocalizationHelper.of(context)!.t_cancel}',
+                        style: const TextStyle(color: Color(0xFF65C88D))),
                   ),
                   TextButton(
                       onPressed: oncompleted,
-                      child: const Text('Ok',
-                          style: TextStyle(color: Color(0xFF65C88D))))
+                      child:  Text('${LocalizationHelper.of(context)!.t_ok}',
+                          style: const TextStyle(color: Color(0xFF65C88D))))
                 ],
                 // content: ,
               ));
@@ -140,23 +140,22 @@ class _HomePageState extends State<HomePage> {
       return showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: const Text('Confirmation !'),
+               title:  Text('${LocalizationHelper.of(context)!.t_confirmation}'),
                 content:
-                    const Text('Voulez vous enregistrer ces informations ?'),
+                     Text('${LocalizationHelper.of(context)!.t_registration}'),
                 actions: [
-                  /* GraphqlBu
-                  tton('Confirmer', false, updateProducer, {
+                  /* GraphqlButton('Confirmer', false, updateProducer, {
                      
                    }, oncompleted)*/
                   TextButton(
                     onPressed: () => Navigator.pop(context, 'Annuler'),
-                    child: const Text('Annuler',
-                        style: TextStyle(color: Color(0xFF65C88D))),
+                    child:  Text('${LocalizationHelper.of(context)!.t_cancel}',
+                        style: const TextStyle(color: Color(0xFF65C88D))),
                   ),
                   TextButton(
                       onPressed: oncompleted,
-                      child: const Text('Ok',
-                          style: TextStyle(color: Color(0xFF65C88D))))
+                      child:  Text('${LocalizationHelper.of(context)!.t_ok}',
+                          style: const TextStyle(color: Color(0xFF65C88D))))
                 ],
                 // content: ,
               ));
@@ -164,30 +163,30 @@ class _HomePageState extends State<HomePage> {
       return showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: const Text('Confirmation !'),
+                title:  Text('${LocalizationHelper.of(context)!.t_confirmation}'),
                 content:
-                    const Text('Voulez vous enregistrer ces informations ?'),
+                     Text('${LocalizationHelper.of(context)!.t_registration}'),
                 actions: [
                   /* GraphqlButton('Confirmer', false, updateProducer, {
                      
                    }, oncompleted)*/
                   TextButton(
                     onPressed: () => Navigator.pop(context, 'Annuler'),
-                    child: const Text('Annuler',
-                        style: TextStyle(color: Color(0xFF65C88D))),
+                    child:  Text('${LocalizationHelper.of(context)!.t_cancel}',
+                        style: const TextStyle(color: Color(0xFF65C88D))),
                   ),
                   TextButton(
                       onPressed: oncompleted,
-                      child: const Text('Ok',
-                          style: TextStyle(color: Color(0xFF65C88D))))
+                      child:  Text('${LocalizationHelper.of(context)!.t_ok}',
+                          style: const TextStyle(color: Color(0xFF65C88D))))
                 ],
                 // content: ,
               ));
     } else if (activestep + 1 == dotcount) {
       return showDialog(
           context: context,
-          builder: (BuildContext context) => const AlertDialog(
-                title: Text('Félicitation'),
+          builder: (BuildContext context) =>  AlertDialog(
+                title: Text('${LocalizationHelper.of(context)!.t_congrats}'),
                 // content: ,
               ));
     }
@@ -221,15 +220,8 @@ class _HomePageState extends State<HomePage> {
   ];*/
   @override
   Widget build(BuildContext context) {
-/*    return FutureBuilder<bool?>(
-        future: isConfirmed,
-        //initialData: false,
-        builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
-          return FutureBuilder<bool?>(
-              future: isVerified,
-              // initialData: false,
-              builder: (BuildContext context1, AsyncSnapshot<bool?> snapshot1) {
-*/
+
+
     return (isConfirmed && !isVerified)
         ? Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             const Spacing(20),
@@ -242,33 +234,26 @@ class _HomePageState extends State<HomePage> {
             // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
 
             StepDot(activestep, dotcount),
+            Directionality(textDirection: TextDirection.ltr, child: 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [previousButton(), nextButton()],
-            ),
+              children: [
+               
+                 
+                previousButton(), 
+                nextButton()],
+            )),
           ])
         : const Text("error");
   }
 
-  Row steps() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(dotcount, (index) {
-        return ElevatedButton(
-          child: Text('${index + 1}'),
-          onPressed: () {
-            setState(() {
-              activestep = index;
-            });
-          },
-        );
-      }),
-    );
-  }
+  
 
   /// Returns the next button widget.
   Widget nextButton() {
-    return IconButton(
+    return
+   
+      IconButton(
         onPressed: onpressed,
         icon: const Icon(
           FeatherIcons.chevronsRight,
@@ -278,10 +263,15 @@ class _HomePageState extends State<HomePage> {
 
   /// Returns the previous button widget.
   Widget previousButton() {
-    return IconButton(
+    return
+   
+     
+    IconButton(
         onPressed: onBack,
         icon: const Icon(
+          
           FeatherIcons.chevronsLeft,
+          
           color: Color(0xFF74c69d),
         ));
   }

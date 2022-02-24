@@ -143,6 +143,47 @@ class LocalizationHelper {
   String? get t_size => _translate("size");
   // ignore: non_constant_identifier_names
   String? get t_confirmation => _translate("confirmation");
+  // ignore: non_constant_identifier_names
+  String? get t_account => _translate("account");
+  // ignore: non_constant_identifier_names
+  String? get t_update => _translate("update");
+  // ignore: non_constant_identifier_names
+  String? get t_upload => _translate("upload");
+  // ignore: non_constant_identifier_names
+  String? get t_identity_card => _translate("identityCard");
+  // ignore: non_constant_identifier_names
+  String? get t_delivery_date => _translate("deliveryDate");
+  // ignore: non_constant_identifier_names
+  String? get t_birth => _translate("birth");
+  // ignore: non_constant_identifier_names
+  String? get t_age => _translate("age");
+  // ignore: non_constant_identifier_names
+  String? get t_registration => _translate("registration");
+  // ignore: non_constant_identifier_names
+  String? get t_cancel => _translate("cancel");
+  // ignore: non_constant_identifier_names
+  String? get t_ok => _translate("ok");
+  // ignore: non_constant_identifier_names
+  String? get t_congrats => _translate("congrats");
+  // ignore: non_constant_identifier_names
+  String? get t_complementeryadrress => _translate("complementeryadrress");
+  // ignore: non_constant_identifier_names
+  String? get t_postal_code => _translate("postalCode");
+  // ignore: non_constant_identifier_names
+  String? get t_restconnected => _translate("restConnected");
+  // ignore: non_constant_identifier_names
+  String? get t_personal_information => _translate("personalInformation");
+  // ignore: non_constant_identifier_names
+  String? get t_invoice => _translate("invoice");
+  // ignore: non_constant_identifier_names
+  String? get t_settings => _translate("settings");
+  // ignore: non_constant_identifier_names
+  String? get t_logout => _translate("logout");
+
+  
+
+
+
 
 
 }

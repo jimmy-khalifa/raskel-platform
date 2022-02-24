@@ -10,7 +10,9 @@ class StepDot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DotStepper(
+    return Directionality(textDirection: TextDirection.ltr,
+    child:
+    DotStepper(
       
                   direction: Axis.horizontal,
                   activeStep: activestep,
@@ -33,7 +35,8 @@ class StepDot extends StatelessWidget {
                           activestep = activestep;
                         });
                       },*/
+                      
 
-                );
+     ) );
   }
 }
