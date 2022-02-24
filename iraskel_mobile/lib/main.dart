@@ -10,13 +10,13 @@ import 'package:iraskel_mobile/components/pages/selectlanguage.dart';
 import 'components/pages/mainpage.dart';
 import 'localizations/app_localizations.dart';
 
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 void main() async {
   //initializing the hive store
   await Hive.initFlutter();
+  // ignore: unused_local_variable
   var box = await Hive.openBox('auth');
   Directory directory = await path_provider.getApplicationDocumentsDirectory();
   final store = await HiveStore.open(path: directory.path);
@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
     token = initHiveState();
   }
 
-  late Locale _locale = const Locale('fr', 'FR');
+  late Locale _locale = const Locale('ar', 'AR');
 
   void setLocale(Locale locale) {
     setState(() {

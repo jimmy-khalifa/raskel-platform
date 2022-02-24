@@ -36,7 +36,7 @@ class _MainPageState extends State<MainPage> {
            
         
    
-    return Scaffold(
+    return   Scaffold(
       body: IndexedStack(
         index: currentIndex,
         children: screens,
@@ -45,7 +45,7 @@ class _MainPageState extends State<MainPage> {
         visible:_isVisible,
         child:
           CustomFloatingButton(0xFF65C88D, FeatherIcons.plus, onpressed),),*/
-      bottomNavigationBar: CustomNavBar(
+      bottomNavigationBar:Directionality(textDirection: TextDirection.ltr, child: CustomNavBar(
           0xFF65C88D,
           0xFF78D0B4,
           FeatherIcons.home,
@@ -59,7 +59,7 @@ class _MainPageState extends State<MainPage> {
           '${LocalizationHelper.of(context)!.t_menu}',
           
           currentIndex,
-          ontap),
+          ontap)),
     );
   }
 }

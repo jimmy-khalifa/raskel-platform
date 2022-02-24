@@ -10,6 +10,7 @@ import 'package:iraskel_mobile/components/templates/bacform.dart';
 import 'package:iraskel_mobile/components/templates/propertiesform.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -51,43 +52,43 @@ class _MenuPageState extends State<MenuPage> {
         ]),
         const Divider(color: Color(0xFFDFF4EC)),
         buildMenuItem(
-          text: "Compte",
+          text: '${LocalizationHelper.of(context)!.t_account}',
           icon: FeatherIcons.user,
           onClicked: () => selectedItem(context, 0),
         ),
         const Divider(color: Color(0xFFDFF4EC)),
         buildMenuItem(
-          text: 'Adresse',
+          text: '${LocalizationHelper.of(context)!.t_address}',
           icon: FeatherIcons.map,
           onClicked: () => selectedItem(context, 1),
         ),
         const Divider(color: Color(0xFFDFF4EC)),
         buildMenuItem(
-          text: 'Proprietés',
+          text: '${LocalizationHelper.of(context)!.t_property}',
           icon: FeatherIcons.home,
           onClicked: () => selectedItem(context, 2),
         ),
         const Divider(color: Color(0xFFDFF4EC)),
         buildMenuItem(
-          text: 'Bac',
+          text: '${LocalizationHelper.of(context)!.t_bac}',
           icon: FeatherIcons.trash,
           onClicked: () => selectedItem(context, 3),
         ),
         const Divider(color: Color(0xFFDFF4EC)),
         buildMenuItem(
-          text: 'Factures',
+          text: '${LocalizationHelper.of(context)!.t_invoice}',
           icon: FeatherIcons.dollarSign,
           onClicked: () {},
         ),
         const Divider(color: Color(0xFFDFF4EC)),
         buildMenuItem(
-          text: 'Paramètres',
+          text: '${LocalizationHelper.of(context)!.t_settings}',
           icon: FeatherIcons.settings,
           onClicked: () {},
         ),
         const Divider(color: Color(0xFFDFF4EC)),
         buildMenuItem(
-          text: 'Déconnexion',
+          text: '${LocalizationHelper.of(context)!.t_logout}',
           icon: FeatherIcons.logOut,
           onClicked: () => selectedItem(context, 4),
         ),
@@ -126,7 +127,7 @@ class _MenuPageState extends State<MenuPage> {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const AccountForm(),
+          builder: (context) =>  const AccountForm(false,true,false),
         ));
         break;
       case 1:
@@ -145,19 +146,13 @@ class _MenuPageState extends State<MenuPage> {
         ));
         break;
       case 4:
-        //SharedPreferences prefs = await SharedPreferences.getInstance();
-        //prefs.remove('token');
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (BuildContext ctx) => const SignIn()));
+        
+        late final Box box = Hive.box('auth');
+        box.delete('token');
+        
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext ctx)=>const SignIn()), (route) => false);
+           
     }
   }
 }
-  /* RaisedButton(
-          onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.remove('token');
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (BuildContext ctx) => const SignIn()));
-          },
-          child: const Text('Logout'),
-        );*/
+ 

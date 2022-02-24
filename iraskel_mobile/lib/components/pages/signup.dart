@@ -79,13 +79,9 @@ class SignUpPage extends StatefulWidget {
   _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
   //final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  @override
-  void initState() {
-    super.initState();
-  }
-
+ 
   late String stateId = "";
   late String municipalityId = "";
   late String companyId = "";
@@ -145,7 +141,28 @@ class _SignUpPageState extends State<SignUpPage> {
         context, MaterialPageRoute(builder: (context) => const ConfirmPage()));
   }
 
+ late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+     
+      duration: const Duration(seconds: 20), vsync: this,
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.repeat(reverse: true);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
   final formKey = GlobalKey<FormState>();
+   
+
 
   @override
   Widget build(BuildContext context) {
@@ -208,9 +225,11 @@ class _SignUpPageState extends State<SignUpPage> {
                               if (result.hasException) {
                                 return Text(result.exception.toString());
                               }
+                            
                               if (result.isLoading) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
+                                return  Center(
+                                  child: CircularProgressIndicator(value: controller.value,
+                                               ),
                                 );
                               }
                               isMunicipality = true;
