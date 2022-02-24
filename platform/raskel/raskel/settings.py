@@ -182,3 +182,12 @@ GRAPHQL_AUTH = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+
+# Port for sending e-mail.
+EMAIL_PORT = 587
+
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = 'rim.horchani@supcom.tn'
+EMAIL_HOST_PASSWORD = 'Ramrouma**0000'
+EMAIL_USE_TLS = True
