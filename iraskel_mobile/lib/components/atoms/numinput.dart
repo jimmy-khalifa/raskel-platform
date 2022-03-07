@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 class NumInput extends StatefulWidget {
   final String hinttext;
   final Function setter;
-  const NumInput({Key? key, required this.hinttext, required this.setter})
-      : super(key: key);
+  final String? initialvalue;
+  // ignore: use_key_in_widget_constructors
+  const NumInput(  this.hinttext, this.initialvalue, this.setter);
+     
 
   @override
   _NumInputState createState() => _NumInputState();
@@ -14,8 +16,12 @@ class NumInput extends StatefulWidget {
 class _NumInputState extends State<NumInput> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       //controller: myController,
+      key: Key(widget.initialvalue!),
+      initialValue: widget.initialvalue,
+      
+
       keyboardType: TextInputType.number,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,

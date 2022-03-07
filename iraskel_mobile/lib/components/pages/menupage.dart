@@ -20,9 +20,9 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  late String username;
-  late String lastname;
-  late String firstname;
+  late String username ="";
+  late String lastname ="";
+  late String firstname="";
 
   void initHiveState() async {
     late final Box box = Hive.box('auth');

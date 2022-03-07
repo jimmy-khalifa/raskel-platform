@@ -83,6 +83,7 @@ class _MyAppState extends State<MyApp> {
           LocalizationHelper.delegate
         ],
         //returns a locale which will be used by the app
+        // ignore: body_might_complete_normally_nullable
         localeResolutionCallback: (locale, supportedLocales) {
           //check if the current device locale is supported
           for (var supportedLocale in supportedLocales) {

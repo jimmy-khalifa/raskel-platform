@@ -21,7 +21,7 @@ class Producer(models.Model):
     date_of_birth = models.DateField("Date Of Birth", blank=True, null=True)
 
     # producer’s age
-    age = models.IntegerField("Age", blank=True, null=True)
+    age = models.CharField("Age", blank=True, null=True,max_length=2,)
 
     # producer’s personal phone number
     phone_number = models.CharField("Phone Number", unique=True, max_length=100, blank=False, null=False)

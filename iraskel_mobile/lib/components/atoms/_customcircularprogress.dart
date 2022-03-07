@@ -39,7 +39,7 @@ class _CustomCircularProgressIndicatorState
         height: 200.0,
         width: 200.0,
         child: CircularProgressIndicator(
-          backgroundColor: Color.fromARGB(100, 22, 44, 33),
+          backgroundColor: const Color.fromARGB(100, 22, 44, 33),
           color: const Color(0xFF65C88D),
           strokeWidth: 10,
           value: controller.value,

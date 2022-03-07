@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:iraskel_mobile/components/atoms/_customcheckbox.dart';
+import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/atoms/numinput.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
@@ -6,6 +10,14 @@ import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
 // ignore: constant_identifier_names
 const TypeGraphql = """
+query {
+  all_property_types{
+    id
+    code
+    name
+  }
+}
+
 
 """;
 
@@ -17,49 +29,76 @@ class PropertiesForm extends StatefulWidget {
 }
 
 class _PropertiesState extends State<PropertiesForm> {
-  late String nbPerson = "";
-  late String surface = "";
+  late String? nbPerson ="";
+  late String? surface = "";
+  late String typeId = "";
+  late final Box box = Hive.box('auth');
 
-  setTypeId() {}
+
+
+  setTypeId(value) {
+    setState(() {
+      typeId = value;
+    });
+      box.put('typeId', value);
+
+  }
 
   setNbPerson(value) {
     setState(() => {nbPerson = value});
+    box.put('individuals', value);
+
   }
 
   setSurface(value) {
     setState(() {
       surface = value;
     });
+    box.put('area', value);
   }
-
   // ignore: non_constant_identifier_names
-  Map<String, bool?> HouseElements = {
-    'Jardin': false,
-    'Garage': false,
-    'Bergerie': false,
-    'Résidence principale': false,
-    'Adresse Principale': false,
-  };
- /* Map<String, bool?> HouseElements = {
-    '${LocalizationHelper.of(context)!.t_garden}': false,
-    '${LocalizationHelper.of(context)!.t_garage}': false,
-    '${LocalizationHelper.of(context)!.t_sheepfold}': false,
-    '${LocalizationHelper.of(context)!.t_residence}': false,
-    '${LocalizationHelper.of(context)!.t_address}': false,
-  };*/
-  var holderList = [];
-  getChecked() {
-    HouseElements.forEach((key, value) {
-      if (value == true) {
-        holderList.add(key);
-      }
-    });
-    //printing all checked items
-    
+  late bool has_garden = false;
+  // ignore: non_constant_identifier_names
+  late bool has_garage = false;
+  // ignore: non_constant_identifier_names
+  late bool has_sheepfold = false;
+  // ignore: non_constant_identifier_names
+  late bool has_residence = false;
+  // ignore: non_constant_identifier_names
+  late bool has_adress_principal = false;
 
-    // remove the array after use
-    holderList.clear();
+  setHasGarden(value){
+    setState(() {
+      has_garden= value;
+    });
+    box.put('has_garden', value);
   }
+  setHasGarage (value){
+    setState(() {
+      has_garage = value;
+    });
+    box.put('has_garage', value);
+  }
+  setHasSheepfold(value){
+    setState(() {
+      has_sheepfold = value;
+    });
+    box.put('has_sheepfold', value);
+  }
+  setHasResidence(value){
+    setState(() {
+      has_residence = value;
+    });
+    box.put('has_residence', value);
+  }
+  setHasAdress(value){
+    setState(() {
+      has_adress_principal= value;
+    });
+    box.put('has_adress', value);
+  }
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -90,10 +129,12 @@ class _PropertiesState extends State<PropertiesForm> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                /*    Query(
+                                   Query(
                                         options: QueryOptions(
                                             document: gql(TypeGraphql),
-                                            variables: {}),
+
+                                            ),
+                                            
                                         builder: (QueryResult result,
                                             {fetchMore, refetch}) {
                                           if (result.hasException) {
@@ -107,46 +148,42 @@ class _PropertiesState extends State<PropertiesForm> {
                                             );
                                           }
 
-                                          final listItems3 = result.data?[' '];
+                                          final listItems3 = result.data?['all_property_types'];
+                                         // setTypeId(listItems3['id']);
+
 
                                           return (DropdownInput(
                                               '${LocalizationHelper.of(context)!.t_type}',
                                               listItems3,
-                                              ' ',
+                                              'name',
                                               'id',
                                               setTypeId));
-                                        }),*/
+                                        }),
                                     const Spacing(40),
                                     NumInput(
-                                        hinttext:
-                                            '${LocalizationHelper.of(context)!.t_personNumber}',
-                                        setter: setNbPerson),
+                                        
+                                            '${LocalizationHelper.of(context)!.t_personNumber}', box.get('individuals'),
+                                         setNbPerson),
                                     const Spacing(40),
                                     NumInput(
-                                        hinttext:
-                                            '${LocalizationHelper.of(context)!.t_area}',
-                                        setter: setSurface),
+                                        
+                                            '${LocalizationHelper.of(context)!.t_area}', box.get('area') ,
+                                         setSurface),
                                     const Spacing(40),
                                     Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 20),
                                         child: ListView(
                                           shrinkWrap: true,
-                                          children: HouseElements.keys
-                                              .map((String key) {
-                                            return CheckboxListTile(
-                                                activeColor:
-                                                    const Color(0xFF65C88D),
-                                                checkColor:
-                                                    const Color(0xFF65C88D),
-                                                title: Text(key),
-                                                value: HouseElements[key],
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    HouseElements[key] = value;
-                                                  });
-                                                });
-                                          }).toList(),
+                                        
+                                          children: [
+                                            CustomCheckbox('${LocalizationHelper.of(context)!.t_garden}', box.get('has_garden') ??false, setHasGarden),
+                                            CustomCheckbox('${LocalizationHelper.of(context)!.t_garage}', box.get('has_garage')??false, setHasGarage),
+                                            CustomCheckbox('${LocalizationHelper.of(context)!.t_sheepfold}', box.get('has_sheepfold')??false, setHasSheepfold),
+                                            CustomCheckbox('${LocalizationHelper.of(context)!.t_residence}', box.get('has_residence')??false, setHasResidence),
+                                            CustomCheckbox('${LocalizationHelper.of(context)!.t_address}', box.get('has_adress')?? false, setHasAdress),
+
+                                          ],
                                         ))
                                   ]))))
                 ]))));

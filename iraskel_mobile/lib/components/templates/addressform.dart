@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:iraskel_mobile/components/atoms/_customcircularprogress.dart';
 import 'package:iraskel_mobile/components/atoms/_custominput.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
@@ -45,7 +47,7 @@ class AddressForm extends StatefulWidget {
   _AddressFormState createState() => _AddressFormState();
 }
 
-class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin {
+class _AddressFormState extends State<AddressForm> {
   late String pays = "";
   late String stateId = "";
   late String municipalityId = "";
@@ -54,21 +56,34 @@ class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin
   bool isChecked = false;
   LatLng point = LatLng(33.984250, 8.216120);
 
-  var locationMessage = "";
+  //var locationMessage = "";
   List<Placemark> placemarks = [];
+  //late Position _currentPosition;
+  // String _currentAddress = "";
+  late LatLng currentPostion;
+  @override
+  void initState() {
+    getCurrentLocation();
+    super.initState();
+  }
 
   void getCurrentLocation() async {
+    //  try {
     // ignore: unused_local_variable
     LocationPermission permission = await Geolocator.requestPermission();
 
-    Position position = await Geolocator.getCurrentPosition(
-        forceAndroidLocationManager: true,
+    var position = await Geolocator.getCurrentPosition(
+        //  forceAndroidLocationManager: true,
         desiredAccuracy: LocationAccuracy.high);
-
     setState(() {
-      locationMessage = "$position.latitude , $position.longitude";
+      currentPostion = LatLng(position.latitude, position.longitude);
+      point = currentPostion;
+     // print("currentposition $currentPostion");
     });
+    
   }
+
+
 
   setPays(value) {
     setState(() => {pays = value});
@@ -90,26 +105,8 @@ class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin
     });
   }
 
-  late AnimationController controller;
+  var infoWindowVisible = false;
 
-  @override
-  void initState() {
-    controller = AnimationController(
-     
-      duration: const Duration(seconds: 20), vsync: this,
-    )..addListener(() {
-        setState(() {});
-      });
-    controller.repeat(reverse: true);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
- 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,15 +152,11 @@ class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin
                                             return Text(
                                                 result.exception.toString());
                                           }
-                                          
+
                                           if (result.isLoading) {
-                                            return  Center(
-                                              child: CircularProgressIndicator(
-                                                value: controller.value,
-                                                semanticsLabel:
-                                                    'Linear progress indicator',
-                                              ),
-                                            );
+                                            return const Center(
+                                                child:
+                                                    CustomCircularProgressIndicator());
                                           }
 
                                           final listItems1 =
@@ -187,12 +180,9 @@ class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin
                                                 result.exception.toString());
                                           }
                                           if (result.isLoading) {
-                                            return  Center(
-                                              child:
-                                                  CircularProgressIndicator( value: controller.value,
-                                                semanticsLabel:
-                                                    'Linear progress indicator',),
-                                            );
+                                            return const Center(
+                                                child:
+                                                    CustomCircularProgressIndicator());
                                           }
 
                                           final listItems2 = result
@@ -210,9 +200,9 @@ class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin
                                             '${LocalizationHelper.of(context)!.t_complementeryadrress}'),
                                     const Spacing(40),
                                     NumInput(
-                                        hinttext:
-                                            '${LocalizationHelper.of(context)!.t_postal_code}',
-                                        setter: setCodePostal),
+                                       
+                                            '${LocalizationHelper.of(context)!.t_postal_code}',codePostal,
+                                         setCodePostal),
                                     CheckboxListTile(
                                         activeColor: const Color(0xFF65C88D),
                                         value: isChecked,
@@ -231,13 +221,16 @@ class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin
                                             ListTileControlAffinity.leading),
                                     const Spacing(20),
 
-                                   SizedBox(
+                                    SizedBox(
                                       height: 400,
                                       width: 400,
                                       child: Stack(
                                         children: [
                                           FlutterMap(
                                               options: MapOptions(
+                                                  plugins: [
+                                                    MarkerClusterPlugin()
+                                                  ],
                                                   onTap: (_, p) async {
                                                     placemarks =
                                                         await placemarkFromCoordinates(
@@ -256,27 +249,65 @@ class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin
                                                   zoom: 10.0),
                                               layers: [
                                                 TileLayerOptions(
-                                                    urlTemplate:
-                                                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?source=${DateTime.now().millisecondsSinceEpoch}",
-                                                    subdomains: [
-                                                      'a',
-                                                      'b',
-                                                      'c'
-                                                    ]),
-                                                MarkerLayerOptions(
+                                                  urlTemplate:
+                                                      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                                                  // ?source=${DateTime.now().millisecondsSinceEpoch}
+                                                  subdomains: ['a', 'b', 'c'],
+                                                ),
+                                                MarkerClusterLayerOptions(
+                                                    markers: [
+                                                      Marker(
+                                                        width: 80.0,
+                                                        height: 80.0,
+                                                        point: point,
+                                                        builder: (ctx) =>const Icon(
+                                                            Icons.location_on,
+                                                            color: Colors.red,
+                                                            size: 40.0),
+                                                      )
+                                                    ],
+                                                    builder:
+                                                        (context, markers) {
+                                                      return Container();
+                                                    },
+                                                  
+                                                    popupOptions: PopupOptions(
+                                                        popupBuilder:
+                                                            (_, markers) =>
+                                                                Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  height: 100,
+                                                                  width: 150,
+                                                                  decoration:const BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      shape: BoxShape
+                                                                          .rectangle),
+                                                                          child:Text(placemarks.isEmpty
+                                                      ? " "
+                                                      : "${placemarks.first.country},${placemarks.first.locality},${placemarks.first.name},${placemarks.first.postalCode}",textDirection: TextDirection.ltr,),
+                                                ) ,
+                                                                )),
+
+                                                /*  MarkerLayerOptions(
                                                   markers: [
                                                     Marker(
-                                                      width: 80.0,
-                                                      height: 80.0,
-                                                      point: point,
-                                                      builder: (ctx) =>
-                                                          const Icon(
-                                                              Icons.location_on,
-                                                              color: Colors.red,
-                                                              size: 40.0),
-                                                    )
+                                                        width: 80.0,
+                                                        height: 80.0,
+                                                        point: point,
+                                                        builder: (ctx) => 
+                                                                Icon(
+                                                                    Icons
+                                                                        .location_on,
+                                                                    color: Colors
+                                                                        .red,
+                                                                    size: 40.0),
+                                                             
+                                                            )
                                                   ],
-                                                ),
+                                                ),*/
                                               ]),
                                           Positioned(
                                             bottom: 20,
@@ -289,7 +320,9 @@ class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin
                                                       0xFF65C88D), // Splash color
                                                   onTap: () {
                                                     getCurrentLocation();
+                                                    
                                                   },
+                                                  
                                                   child: const SizedBox(
                                                       width: 56,
                                                       height: 56,
@@ -301,11 +334,15 @@ class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin
                                               ),
                                             ),
                                           ),
-                                          Positioned(
+
+                                          /*   Positioned(
                                               bottom: 10.0,
                                               left: 10.0,
                                               child: Card(
-                                                color: placemarks.isEmpty ? Color.fromARGB(100, 22, 44, 33) : Colors.white,
+                                                color: placemarks.isEmpty
+                                                    ? Color.fromARGB(
+                                                        100, 22, 44, 33)
+                                                    : Colors.white,
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
                                                       16.0),
@@ -313,7 +350,7 @@ class _AddressFormState extends State<AddressForm> with TickerProviderStateMixin
                                                       ? " "
                                                       : "${placemarks.first.country},${placemarks.first.locality},${placemarks.first.name},${placemarks.first.postalCode}"),
                                                 ),
-                                              ))
+                                              ))*/
                                         ],
                                       ),
                                     ),

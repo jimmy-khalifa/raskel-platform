@@ -120,7 +120,7 @@ class LocalizationHelper {
   // ignore: non_constant_identifier_names
   String? get t_garden=> _translate("garden");
   // ignore: non_constant_identifier_names
-  String? get t_garage=>_translate("garade");
+  String? get t_garage=>_translate("garage");
   // ignore: non_constant_identifier_names
   String? get t_address=> _translate("address");
   // ignore: non_constant_identifier_names
