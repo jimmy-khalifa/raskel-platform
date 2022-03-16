@@ -5,8 +5,8 @@ from security.schema import user_type_defs
 from security.resolvers import user_query, user_mutation
 from geo.schema import country_type_defs, municipality_type_defs, district_type_defs, state_type_defs, address_type_defs
 from geo.resolvers import country_query, state_query, district_query, municipality_query, address_query, address_mutation
-from producer.schema import prod_type_defs, property_type_defs
-from producer.resolvers import prod_query, prod_mutation, property_query, property_mutation, upload_mutation, upload_mutation_cin_front,upload_mutation_cin_back
+from producer.schema import prod_type_defs, property_type_defs ,bin_type_defs
+from producer.resolvers import prod_query, prod_mutation, property_query, property_mutation, upload_mutation, upload_mutation_cin_front,upload_mutation_cin_back,bin_mutation,bin_query
 from company.schema import company_type_defs
 from company.resolvers import company_mutation, company_query
 from ariadne import gql
@@ -27,7 +27,11 @@ type Query{
     producer_by_user: Producer!
     properties_by_producer(producerId: ID!): [Property]
     property(propertyId: ID!): Property
+    bins_by_producer(producerId: ID!):[Bin]
+    bin(binId:ID!) : Bin
     all_property_types: [PropertyType]
+    all_bin_types: [BinType]
+    all_bin_brands: [BinBrand]
     company_by_id(companyId: ID!): Company
     companies_by_municipality(municipalityId: ID!): [Company]
     me: User
@@ -46,6 +50,9 @@ type Mutation{
     modify_address(input: AddressInput!): AddressResults
     modify_producer(input: ProducerInput!): ProducerResults
     create_property(input: PropertyInput!): PropertyResults
+    create_bin(input: BinInput!):BinResults
+    create_bintype(input:BinTypeInput!):BinTypeResult
+    create_binbrand(input:BinBrandInput! ):BinBrandResult
     create_property_type(input: PropertyTypeInput): PropertyTypeResults
     create_company(input: CompanyInput): CompanyResults
     modify_company(input: CompanyUpdateInput): CompanyUpdateResult
@@ -60,7 +67,7 @@ jwt_mutation.set_field('refreshToken', resolve_refresh)
 jwt_mutation.set_field('tokenAuth', resolve_token_auth)
 
 schema = make_executable_schema([user_type_defs, jwt_schema, country_type_defs, state_type_defs, 
-municipality_type_defs, district_type_defs, address_type_defs, prod_type_defs, property_type_defs, company_type_defs, type_defs], 
+municipality_type_defs, district_type_defs, address_type_defs, prod_type_defs, property_type_defs,bin_type_defs, company_type_defs, type_defs], 
 [user_query, user_mutation, jwt_mutation, country_query, state_query, municipality_query, company_query, company_mutation,
-district_query, address_query, address_mutation, prod_query, prod_mutation, property_query, property_mutation,upload_mutation,upload_mutation_cin_front,upload_mutation_cin_back], 
+district_query, address_query, address_mutation, prod_query, prod_mutation, property_query, property_mutation,bin_query,bin_mutation,upload_mutation,upload_mutation_cin_front,upload_mutation_cin_back], 
 [GenericScalar,upload_scalar])

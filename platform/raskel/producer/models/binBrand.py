@@ -13,7 +13,7 @@ class BinBrand(models.Model):
     company=models.CharField(max_length=50, blank=False)
 
     #address of the brand’s company
-    address=models.ForeignKey(Address, on_delete=models.PROTECT, blank=True)
+    #address=models.ForeignKey(Address, on_delete=models.PROTECT, blank=True,null=True)
 
     #first phone number of the brand’s company
     phone_one = models.CharField(max_length=100)

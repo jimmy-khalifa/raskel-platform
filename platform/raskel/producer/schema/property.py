@@ -3,7 +3,7 @@ from ariadne import gql
 type_defs = gql("""
 
 type PropertyQuery{
-    properties_by_producer: [Property]
+    properties_by_producer: [Property] 
     property(propertyId: ID!): Property
     all_property_types: [PropertyType]
 }

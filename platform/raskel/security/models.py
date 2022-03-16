@@ -31,4 +31,4 @@ class CustomUser(AbstractUser):
     )
     
     USERNAME_FIELD = "phone_number"
-    REQUIRED_FIELDS = ['']
+    #REQUIRED_FIELDS = ['phone_number']

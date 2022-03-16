@@ -8,3 +8,6 @@ from .producer import Producer
 from .producer import Producer
 from .property import Property
 from .propertytype import PropertyType
+from .bin import Bin
+from .binBrand import BinBrand
+from .binType import BinType
