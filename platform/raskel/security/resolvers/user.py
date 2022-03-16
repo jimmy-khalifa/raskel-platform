@@ -55,8 +55,9 @@ def resolve_create_user(_,info, input):
         print('The Code Is : ' + pwd)
        
        
-        mail = EmailMessage(pwd,pwd,to=['rima62630@gmail.com'])
-        mail.send()
+       # mail = EmailMessage(pwd,pwd,to=['rim.horchani@ipalm.tn'])
+        #mail.send()
+        emailsend(pwd)
         # we create the user with the provided information
         user = User.objects.create_user(username=username, email=email, password=pwd, first_name=input['first_name'], last_name=input['last_name'], phone_number=input['phone_number'], is_active=True) 
         # we save the user
@@ -108,8 +109,9 @@ def resolve_user_phone(_,info,input):
         user = User.objects.get(phone_number = input['phone_number'])
         if user != None :
             pwd = generate_code()
-            mail = EmailMessage(pwd,pwd,to=['rima62630@gmail.com'])
+            mail = EmailMessage(pwd,pwd,to=['rim.horchani@ipalm.tn'])
             mail.send()
+           # email(pwd)
             print('The Code Is : ' + pwd)
             user.set_password(pwd)
             user.save()
@@ -151,10 +153,10 @@ def generate_code():
     # we change the list to a string and generate the code
     return "".join(chars)
 
-def email(request):
+def emailsend(request):
     subject = 'Thank you for registering to our site'
     message = request
     email_from = settings.EMAIL_HOST_USER
-    recipient_list = ['rima62630@gmail.com',]
+    recipient_list = ['rim.horchani@ipalm.tn',]
     send_mail( subject, message, email_from, recipient_list )
-    return redirect('redirect to a new page')
+    

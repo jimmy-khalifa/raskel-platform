@@ -12,11 +12,11 @@ type ProducerQuery{
 }
 
 type Producer {
-    id: ID
+    id: String
     first_name: String!
     last_name: String!
     date_of_birth: String
-    age: Int
+    age: String
     phone_number: String!
     email: String!
     cin: String
@@ -31,9 +31,9 @@ type Producer {
 
 
 input ProducerInput {
-    id: ID!
+    id: String!
     date_of_birth: String
-    age: Int
+    age: String
     cin: String
     cin_delivery: String
 }

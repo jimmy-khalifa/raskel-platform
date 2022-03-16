@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:iraskel_mobile/auth_graphql_client.dart';
 
 import 'package:iraskel_mobile/components/atoms/_dotstepper.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
@@ -14,8 +16,9 @@ import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
 const updateProducer = """
 mutation(\$input: ProducerInput!){
-  modify_producer(input: \$input){
+ modify_producer(input: \$input){
     modified
+		
     producer {
       id
       first_name
@@ -25,6 +28,12 @@ mutation(\$input: ProducerInput!){
 			phone_number
 			cin
 			cin_delivery
+			properties{
+				type{
+					code
+				}
+				
+			}
 			
 			
 			
@@ -50,6 +59,17 @@ query{
   }
 }
 """;
+const createProperty = """
+mutation (\$input: PropertyInput!){
+  create_property(input: \$input){
+    created
+    property{
+      id
+      individuals
+    }
+  }
+}
+""";
 
 class HomePage extends StatefulWidget {
 //  final Map<String, dynamic> user;
@@ -72,124 +92,115 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       activestep++;
     });
-    Navigator.of(context, rootNavigator: true).pop('dialog');
+  //  Navigator.of(context, rootNavigator: true).pop('dialog');
+  }
+
+  late bool isConfirmed = false;
+  late bool isVerified = false;
+  late String cin = "";
+  late String age = "";
+  late String birthdate = "";
+  late String cinDate = "";
+  late String prodId = "";
+
+  late final Box box = Hive.box('auth');
+  void initHiveState() async {
+    isConfirmed = box.get('isConfirmed');
+    isVerified = box.get('isVerified');
+    cin = box.get('Cin');
+    age = box.get('Age');
+    birthdate = box.get('BirthdayDate');
+    prodId = box.get('ProducerId');
+    cinDate = box.get('DeliveryCinDate');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initHiveState();
   }
 
   int activestep = 0;
   int dotcount = 5;
   final screens = [
-   const   AccountForm(false,true,false),
+    const AccountForm(false, true, false),
     const AddressForm(),
     const PropertiesForm(),
     const BacForm(),
     const ConfirmationInfo()
   ];
-  onpressed() {
+  onpressed() async {
     /* if (activestep < dotcount - 1) {
       setState(() {
         activestep++;
       });*/
     if (activestep == 0) {
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-               title:  Text('${LocalizationHelper.of(context)!.t_confirmation}'),
-                content:
-                     Text('${LocalizationHelper.of(context)!.t_registration}'),
-                actions: [
-                  /* GraphqlButton('Confirmer', false, updateProducer, {
-                     
-                   }, oncompleted)*/
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'Annuler'),
-                    child:  Text('${LocalizationHelper.of(context)!.t_cancel}',
-                        style: const TextStyle(color: Color(0xFF65C88D))),
-                  ),
-                  TextButton(
-                      onPressed: oncompleted,
-                      child:  Text('${LocalizationHelper.of(context)!.t_ok}',
-                        style: const TextStyle(color: Color(0xFF65C88D)),
-                      ))
-                ],
-                // content: ,
-              ));
+      final MutationOptions options = MutationOptions(
+        document: gql(updateProducer),
+        variables: {
+          "input": {
+            "id": box.get('ProducerId'),
+            "cin": box.get('Cin'),
+            "cin_delivery": "2012-05-25",
+            "date_of_birth": "1999-06-19",
+            "age": box.get('Age')
+          }
+        },
+      );
+      final QueryResult result =
+          await AuthGraphQLClient.getClient(null).mutate(options);
+      if (result.hasException) {
+      //  print("erreur");
+      } else {
+        // ignore: non_constant_identifier_names, unused_local_variable
+        final modified_prod = result.data?["modify_producer"];
+       // print(modified_prod['producer']['id']);
+      }
     } else if (activestep == 1) {
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-               title:  Text('${LocalizationHelper.of(context)!.t_confirmation}'),
-                content:
-                     Text('${LocalizationHelper.of(context)!.t_registration}'),
-                actions: [
-                  /* GraphqlButton('Confirmer', false, updateProducer, {
-                     
-                   }, oncompleted)*/
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'Annuler'),
-                    child:  Text('${LocalizationHelper.of(context)!.t_cancel}',
-                        style: const TextStyle(color: Color(0xFF65C88D))),
-                  ),
-                  TextButton(
-                      onPressed: oncompleted,
-                      child:  Text('${LocalizationHelper.of(context)!.t_ok}',
-                          style: const TextStyle(color: Color(0xFF65C88D))))
-                ],
-                // content: ,
-              ));
+      
     } else if (activestep == 2) {
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-               title:  Text('${LocalizationHelper.of(context)!.t_confirmation}'),
-                content:
-                     Text('${LocalizationHelper.of(context)!.t_registration}'),
-                actions: [
-                  /* GraphqlButton('Confirmer', false, updateProducer, {
-                     
-                   }, oncompleted)*/
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'Annuler'),
-                    child:  Text('${LocalizationHelper.of(context)!.t_cancel}',
-                        style: const TextStyle(color: Color(0xFF65C88D))),
-                  ),
-                  TextButton(
-                      onPressed: oncompleted,
-                      child:  Text('${LocalizationHelper.of(context)!.t_ok}',
-                          style: const TextStyle(color: Color(0xFF65C88D))))
-                ],
-                // content: ,
-              ));
+      final MutationOptions options = MutationOptions(
+        document: gql(createProperty),
+        variables: {
+          "input": {
+            "area": double.parse(box.get('area') ) ,
+            "individuals": int.parse(box.get('individuals'))  ,
+            "has_garden": box.get('has_garden') ,
+            "has_garage": box.get('has_garage') ,
+            "has_barn": box.get('has_sheepfold') ,
+            "typeId": box.get('typeId') ?? "1",
+            "producerId": box.get('ProducerId')
+          }
+        },
+      );
+      final QueryResult result =
+          await AuthGraphQLClient.getClient(null).mutate(options);
+      if (result.hasException) {
+        // ignore: avoid_print
+        print("erreur");
+      } else {
+        // ignore: non_constant_identifier_names
+        final created_prop = result.data?["create_property"];
+        // ignore: avoid_print
+        print(created_prop['property']['id']);
+      }
+
+    
     } else if (activestep == 3) {
-      return showDialog(
-          context: context, 
-          builder: (BuildContext context) => AlertDialog(
-                title:  Text('${LocalizationHelper.of(context)!.t_confirmation}'),
-                content:
-                     Text('${LocalizationHelper.of(context)!.t_registration}'),
-                actions: [
-                  /* GraphqlButton('Confirmer', false, updateProducer, {
-                     
-                   }, oncompleted)*/
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'Annuler'),
-                    child:  Text('${LocalizationHelper.of(context)!.t_cancel}',
-                        style: const TextStyle(color: Color(0xFF65C88D))),
-                  ),
-                  TextButton(
-                      onPressed: oncompleted,
-                      child:  Text('${LocalizationHelper.of(context)!.t_ok}',
-                          style: const TextStyle(color: Color(0xFF65C88D))))
-                ],
-                // content: ,
-              ));
+      //oncompleted(); 
     } else if (activestep + 1 == dotcount) {
       return showDialog(
           context: context,
-          builder: (BuildContext context) =>  AlertDialog(
+          builder: (BuildContext context) => AlertDialog(
                 title: Text('${LocalizationHelper.of(context)!.t_congrats}'),
                 // content: ,
               ));
     }
+
+    setState(() {
+      activestep++;
+    });
+    //Navigator.of(context, rootNavigator: true).pop('dialog');
   }
 
   onBack() {
@@ -200,28 +211,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  late bool isConfirmed = false;
-  late bool isVerified = false;
-
-  void initHiveState() async {
-    late final Box box = Hive.box('auth');
-    isConfirmed = box.get('isConfirmed');
-    isVerified = box.get('isVerified');
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initHiveState();
-  }
-
   /* List<FAStep> _stepper =[
     FAStep(content:CompteForm() )
   ];*/
   @override
   Widget build(BuildContext context) {
-
-
     return (isConfirmed && !isVerified)
         ? Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             const Spacing(20),
@@ -234,26 +228,19 @@ class _HomePageState extends State<HomePage> {
             // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
 
             StepDot(activestep, dotcount),
-            Directionality(textDirection: TextDirection.ltr, child: 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-               
-                 
-                previousButton(), 
-                nextButton()],
-            )),
+            Directionality(
+                textDirection: TextDirection.ltr,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [previousButton(), nextButton()],
+                )),
           ])
         : const Text("error");
   }
 
-  
-
   /// Returns the next button widget.
   Widget nextButton() {
-    return
-   
-      IconButton(
+    return IconButton(
         onPressed: onpressed,
         icon: const Icon(
           FeatherIcons.chevronsRight,
@@ -263,15 +250,10 @@ class _HomePageState extends State<HomePage> {
 
   /// Returns the previous button widget.
   Widget previousButton() {
-    return
-   
-     
-    IconButton(
+    return IconButton(
         onPressed: onBack,
         icon: const Icon(
-          
           FeatherIcons.chevronsLeft,
-          
           color: Color(0xFF74c69d),
         ));
   }

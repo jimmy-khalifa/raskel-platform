@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:iraskel_mobile/auth_graphql_client.dart';
 import 'package:iraskel_mobile/components/atoms/_customcircularprogress.dart';
@@ -12,7 +13,6 @@ import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/atoms/_text.dart';
 import 'package:iraskel_mobile/components/atoms/datefield.dart';
-import 'package:iraskel_mobile/components/atoms/numinput.dart';
 import 'package:iraskel_mobile/components/molecules/_profilewidget.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
@@ -99,6 +99,9 @@ class _AccountFormState extends State<AccountForm> {
   late String lastname;
   late String firstname;
   late String id;
+  void mutationProducer() async{
+    
+  }
 
   void initQuery() async {
     final QueryOptions options = QueryOptions(
@@ -121,6 +124,13 @@ class _AccountFormState extends State<AccountForm> {
       setFirstName(prod['first_name']);
       setUserName(prod['user']['username']);
       setProdId(prod['id']);
+      setAge(prod['age']);
+      setNumCIN(prod['cin']);
+      setCinDate(prod['cin_delivery']);
+      setBirthDate(prod['date_of_birth']);
+     
+
+      
     }
   }
 
@@ -133,8 +143,25 @@ class _AccountFormState extends State<AccountForm> {
     initQuery();
   }
 
+  setCinDate(value){
+    setState(() {
+      cindateinput.text = value;
+    });
+     late final Box box = Hive.box('auth');
+      box.put('DeliveryCinDate', value);
+
+  }
+  setBirthDate(value){
+    setState(() {
+      birthDate.text = value;
+    });
+    late final Box box = Hive.box('auth');
+      box.put('BirthdayDate', value);
+  }
+
   setStateId(value) {
     setState(() => {stateId = value});
+   
   }
 
   setUserName(value) {
@@ -157,6 +184,8 @@ class _AccountFormState extends State<AccountForm> {
     setState(() {
       id = value;
     });
+     late final Box box = Hive.box('auth');
+      box.put('ProducerId', value);
   }
 
   setPhoneNumber(value) {
@@ -165,10 +194,14 @@ class _AccountFormState extends State<AccountForm> {
 
   setNumCIN(value) {
     setState(() => {numCIN = value});
+     late final Box box = Hive.box('auth');
+      box.put('Cin', value);
   }
 
   setAge(value) {
     setState(() => {age = value});
+     late final Box box = Hive.box('auth');
+      box.put('Age', value);
   }
 
   setLoading(value) {
@@ -340,10 +373,11 @@ class _AccountFormState extends State<AccountForm> {
                                     
                                    
                                     const Spacing(40),
-                                    NumInput(
+                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_identity_card}', setNumCIN, numCIN, numCIN.length<8 ? true : false,  numCIN.length<8 ? false: true, numCIN.length<8 ? true : false),
+                                   /* NumInput(
                                         hinttext:
                                             '${LocalizationHelper.of(context)!.t_identity_card}',
-                                        setter: setNumCIN),
+                                        setter: setNumCIN),*/
                                     const Spacing(40),
                                     DateField(
                                       dateinput: cindateinput,
@@ -408,15 +442,16 @@ class _AccountFormState extends State<AccountForm> {
                                           '${LocalizationHelper.of(context)!.t_birth}',
                                     ),
                                     const Spacing(40),
+                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_age}', setAge, age, age.length <2 ? true : false,  age.length < 2 ? false: true, age.length <2 ? true : false),
 
-                                    NumInput(
-                                        hinttext:
-                                            '${LocalizationHelper.of(context)!.t_age}',
-                                        setter: setAge),
+                                  
                                     const Spacing(40),
+                                    Text(id)
+                                   
                                   ],
                                 ),
-                              )))
+                              ))),
+                             
                     ]))));
   }
 }
