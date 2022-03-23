@@ -4,9 +4,10 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:iraskel_mobile/components/atoms/_customcircularprogress.dart';
-import 'package:iraskel_mobile/components/atoms/_custominput.dart';
-import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
+
+import 'package:iraskel_mobile/components/atoms/_dropdownwithoutdefaultvalue.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/atoms/multilineinput.dart';
 import 'package:iraskel_mobile/components/atoms/numinput.dart';
@@ -16,7 +17,26 @@ import 'package:latlong2/latlong.dart';
 //import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../../auth_graphql_client.dart';
+
 //import 'package:permission_handler/permission_handler.dart';
+
+const  adressByProducer = """
+query(\$producerId :ID!){
+  address_by_producer(producerId: \$producerId){
+  	id
+  	label
+  	zipcode
+  	district{
+	  	code
+	  	id
+		  name
+	}
+	
+}
+	
+}
+""";
 
 const stateBYCountry = """
 query(\$countryId: ID!){
@@ -39,6 +59,15 @@ query(\$stateId: ID!){
   }
 }
 """;
+const companyByMunicipality = """
+query(\$municipalityId: ID!){
+  companies_by_municipality(municipalityId: \$municipalityId){
+    
+    id
+    legal_name
+  }
+}
+""";
 
 class AddressForm extends StatefulWidget {
   const AddressForm({Key? key}) : super(key: key);
@@ -52,9 +81,41 @@ class _AddressFormState extends State<AddressForm> {
   late String stateId = "";
   late String municipalityId = "";
   late String codePostal = "";
+  late String companyId = "";
+  late String id ="" ;
 
   bool isChecked = false;
   LatLng point = LatLng(33.984250, 8.216120);
+  bool loading = false;
+
+  setLoading(value) {
+    setState(() {
+      loading = value;
+    }); 
+  }
+
+  void initQuery() async {
+    final QueryOptions options = QueryOptions(
+        document: gql(adressByProducer),
+        variables: {"producerId": box.get('ProducerId')}
+        );
+    setLoading(true);
+    final QueryResult result =
+        await AuthGraphQLClient.getClient(null).query(options);
+
+    setLoading(false);
+
+    if (result.hasException) {
+      // ignore: avoid_print
+      print(result.exception.toString());
+    } else {
+      final AdressQuery = result.data?['address_by_producer'];
+      setAdressId(AdressQuery['id']);
+     // print("adress :${id}");
+    }
+  }
+
+ 
 
   //var locationMessage = "";
   List<Placemark> placemarks = [];
@@ -64,7 +125,15 @@ class _AddressFormState extends State<AddressForm> {
   @override
   void initState() {
     getCurrentLocation();
+
     super.initState();
+    initQuery();
+  }
+   setAdressId(value) {
+    setState(() {
+      id = value;
+    });
+    box.put('adressId', value);
   }
 
   void getCurrentLocation() async {
@@ -78,12 +147,11 @@ class _AddressFormState extends State<AddressForm> {
     setState(() {
       currentPostion = LatLng(position.latitude, position.longitude);
       point = currentPostion;
-     // print("currentposition $currentPostion");
+      // print("currentposition $currentPostion");
     });
-    
   }
 
-
+  late final Box box = Hive.box('auth');
 
   setPays(value) {
     setState(() => {pays = value});
@@ -96,6 +164,12 @@ class _AddressFormState extends State<AddressForm> {
   setMunicipalityId(value) {
     setState(() {
       municipalityId = value;
+    });
+  }
+
+  setCompanyId(value) {
+    setState(() {
+      companyId = value;
     });
   }
 
@@ -137,11 +211,10 @@ class _AddressFormState extends State<AddressForm> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    CustomInput(
-                                      '${LocalizationHelper.of(context)!.t_country}',
-                                      setPays,
-                                    ),
-                                    const Spacing(40),
+                                    Text(id),
+                                    /* CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_country}',
+                                     setPays, 
+                                     box.get('stateId'), false, true, false),*/
                                     Query(
                                         options: QueryOptions(
                                             document: gql(stateBYCountry),
@@ -161,12 +234,13 @@ class _AddressFormState extends State<AddressForm> {
 
                                           final listItems1 =
                                               result.data?['states_by_country'];
-                                          return (DropdownInput(
-                                              '${LocalizationHelper.of(context)!.t_state}',
-                                              listItems1,
-                                              'name',
-                                              'id',
-                                              setStateId));
+                                          return (DropdownInputWithoutvalue(
+                                            '${LocalizationHelper.of(context)!.t_state}',
+                                            listItems1,
+                                            'name',
+                                            'id',
+                                            setStateId,
+                                          ));
                                         }),
                                     const Spacing(40),
                                     Query(
@@ -181,28 +255,71 @@ class _AddressFormState extends State<AddressForm> {
                                           }
                                           if (result.isLoading) {
                                             return const Center(
-                                                child:
-                                                    CustomCircularProgressIndicator());
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
                                           }
 
                                           final listItems2 = result
                                               .data?['municipality_by_state'];
-                                          return (DropdownInput(
-                                              '${LocalizationHelper.of(context)!.t_municipality}',
-                                              listItems2,
-                                              'name',
-                                              'id',
-                                              setMunicipalityId));
+                                          return (DropdownInputWithoutvalue(
+                                            '${LocalizationHelper.of(context)!.t_municipality}',
+                                            listItems2,
+                                            'name',
+                                            'id',
+                                            setMunicipalityId,
+                                          ));
                                         }),
+
+                                    const Spacing(30),
+
+                                    Query(
+                                        options: QueryOptions(
+                                            document:
+                                                gql(companyByMunicipality),
+                                            variables: {
+                                              "municipalityId": municipalityId
+                                            }),
+                                        builder: (QueryResult result,
+                                            {fetchMore, refetch}) {
+                                          if (result.hasException) {
+                                            return Text(
+                                                result.exception.toString());
+                                          }
+                                          if (result.isLoading) {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
+
+                                          final listItems3 = result.data?[
+                                              'companies_by_municipality'];
+                                          if (listItems3.length == 0) {
+                                            return const Text(
+                                              'Pas d"entreprise dans cette région',
+                                              style: TextStyle(),
+                                            );
+                                          } else {
+                                            return (DropdownInputWithoutvalue(
+                                              '${LocalizationHelper.of(context)!.t_company}',
+                                              listItems3,
+                                              'legal_name',
+                                              'id',
+                                              setCompanyId,
+                                            ));
+                                          }
+                                        }),
+                                    const Spacing(40),
                                     const Spacing(40),
                                     MultiLineInput(
                                         hinttext:
                                             '${LocalizationHelper.of(context)!.t_complementeryadrress}'),
                                     const Spacing(40),
                                     NumInput(
-                                       
-                                            '${LocalizationHelper.of(context)!.t_postal_code}',codePostal,
-                                         setCodePostal),
+                                        '${LocalizationHelper.of(context)!.t_postal_code}',
+                                        codePostal,
+                                        setCodePostal),
                                     CheckboxListTile(
                                         activeColor: const Color(0xFF65C88D),
                                         value: isChecked,
@@ -260,36 +377,42 @@ class _AddressFormState extends State<AddressForm> {
                                                         width: 80.0,
                                                         height: 80.0,
                                                         point: point,
-                                                        builder: (ctx) =>const Icon(
-                                                            Icons.location_on,
-                                                            color: Colors.red,
-                                                            size: 40.0),
+                                                        builder: (ctx) =>
+                                                            const Icon(
+                                                                Icons
+                                                                    .location_on,
+                                                                color:
+                                                                    Colors.red,
+                                                                size: 40.0),
                                                       )
                                                     ],
                                                     builder:
                                                         (context, markers) {
                                                       return Container();
                                                     },
-                                                  
                                                     popupOptions: PopupOptions(
-                                                        popupBuilder:
-                                                            (_, markers) =>
-                                                                Container(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .center,
-                                                                  height: 100,
-                                                                  width: 150,
-                                                                  decoration:const BoxDecoration(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      shape: BoxShape
-                                                                          .rectangle),
-                                                                          child:Text(placemarks.isEmpty
-                                                      ? " "
-                                                      : "${placemarks.first.country},${placemarks.first.locality},${placemarks.first.name},${placemarks.first.postalCode}",textDirection: TextDirection.ltr,),
-                                                ) ,
-                                                                )),
+                                                      popupBuilder:
+                                                          (_, markers) =>
+                                                              Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        height: 100,
+                                                        width: 150,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                shape: BoxShape
+                                                                    .rectangle),
+                                                        child: Text(
+                                                          placemarks.isEmpty
+                                                              ? " "
+                                                              : "${placemarks.first.country},${placemarks.first.locality},${placemarks.first.name},${placemarks.first.postalCode}",
+                                                          textDirection:
+                                                              TextDirection.ltr,
+                                                        ),
+                                                      ),
+                                                    )),
 
                                                 /*  MarkerLayerOptions(
                                                   markers: [
@@ -320,9 +443,8 @@ class _AddressFormState extends State<AddressForm> {
                                                       0xFF65C88D), // Splash color
                                                   onTap: () {
                                                     getCurrentLocation();
-                                                    
                                                   },
-                                                  
+
                                                   child: const SizedBox(
                                                       width: 56,
                                                       height: 56,

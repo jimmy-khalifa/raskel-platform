@@ -23,6 +23,7 @@ type Query{
     all_producers: [Producer]
     all_companies: [Company]
     address(addressId: ID!): Address
+    address_by_producer(producerId: ID!): [Address]
     producer(producerId: ID!): Producer
     producer_by_user: Producer!
     properties_by_producer(producerId: ID!): [Property]

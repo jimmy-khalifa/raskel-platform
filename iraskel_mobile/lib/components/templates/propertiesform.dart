@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:iraskel_mobile/components/atoms/_customcheckbox.dart';
+import 'package:iraskel_mobile/components/atoms/_custominputwithddefaultvalue.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
+import 'package:iraskel_mobile/components/atoms/_dropdownwithoutdefaultvalue.dart';
+import 'package:iraskel_mobile/components/atoms/_flowdropdown.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/atoms/numinput.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
@@ -152,24 +155,24 @@ class _PropertiesState extends State<PropertiesForm> {
                                          // setTypeId(listItems3['id']);
 
 
-                                          return (DropdownInput(
+                                          return (
+                                            DropdownInputWithoutvalue(
                                               '${LocalizationHelper.of(context)!.t_type}',
                                               listItems3,
                                               'name',
                                               'id',
-                                              setTypeId));
+                                              setTypeId,
+                                            )
+                                           
+                                            );
                                         }),
                                     const Spacing(40),
-                                    NumInput(
-                                        
-                                            '${LocalizationHelper.of(context)!.t_personNumber}', box.get('individuals'),
-                                         setNbPerson),
-                                    const Spacing(40),
-                                    NumInput(
-                                        
-                                            '${LocalizationHelper.of(context)!.t_area}', box.get('area') ,
-                                         setSurface),
-                                    const Spacing(40),
+                                 
+                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_personNumber}', setNbPerson, nbPerson, true, false ,true),
+                                     const Spacing(40),
+                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_area}',  setSurface, surface , true, false ,true),
+
+
                                     Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 20),

@@ -7,6 +7,7 @@ Model Address manages all the addresses
 The address migh be spatial when the latitude & longitude are set
 """
 class Address(models.Model):
+
     
     # Free text for the user to add his address details
     label = models.CharField(verbose_name="Lines", max_length=256, blank=True, null=True)

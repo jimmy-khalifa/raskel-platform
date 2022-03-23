@@ -16,6 +16,8 @@ import 'package:iraskel_mobile/localizations/app_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../atoms/_dropdownwithoutdefaultvalue.dart';
+
 const createUser = """
 mutation (\$input: UserInput!) {
   create_user(input: \$input) {
@@ -90,13 +92,17 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
   late String phoneNumber = "";
   late bool isMunicipality = false;
   late bool isCommunity = false;
+  late final Box box = Hive.box('auth');
+
 
   setStateId(value) {
     setState(() => {stateId = value});
+    box.put('stateId',value);
   }
 
   setMunicipalityId(value) {
     setState(() => {municipalityId = value});
+    box.put('municipalityId',value);
   }
 
   setFirstName(value) {
@@ -115,6 +121,7 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
     setState(() {
       companyId = value;
     });
+    box.put('companyId',value);
   }
 
   onpressedSignin() {
@@ -123,7 +130,6 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
   }
 
   oncompleted(data) async {
-    late final Box box = Hive.box('auth');
     box.put('phoneNumber', data["create_user"]["user"]["phone_number"]);
     box.put('username', data["create_user"]["user"]["username"]);
     box.put('email', data["create_user"]["user"]["email"]);
@@ -133,9 +139,9 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
     box.put('isConfirmed', data["create_user"]["user"]["is_confirmed"]);
     box.put('isVerified', data["create_user"]["user"]["is_verified"]);
     box.put('isAuthenticated', data["create_user"]["user"]["is_authenticated"]);
-    //box.put('municipalityId', data["create_user"]["user"]["municipalityId"]);
-    //box.put('companyId', data["create_user"]["user"]["companyId"]);
-    //box.put('stateId', data["create_user"]["user"]["stateId"]);
+    box.put('municipalityId', data["create_user"]["user"]["municipalityId"]);
+    box.put('companyId', data["create_user"]["user"]["companyId"]);
+    box.put('stateId', data["create_user"]["user"]["stateId"]);
 
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const ConfirmPage()));
@@ -236,12 +242,13 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
 
                               final listItems1 =
                                   result.data?['states_by_country'];
-                              return (DropdownInput(
+                              return (DropdownInputWithoutvalue(
                                 '${LocalizationHelper.of(context)!.t_state}',
                                 listItems1,
                                 'name',
                                 'id',
                                 setStateId,
+                                
                               ));
                             }),
                         const Spacing(40),
@@ -264,12 +271,13 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
 
                                   final listItems2 =
                                       result.data?['municipality_by_state'];
-                                  return (DropdownInput(
+                                  return (DropdownInputWithoutvalue(
                                       '${LocalizationHelper.of(context)!.t_municipality}',
                                       listItems2,
                                       'name',
                                       'id',
-                                      setMunicipalityId));
+                                      setMunicipalityId,
+                                     ));
                                 })
                             : const Spacing(40),
                         const Spacing(30),
@@ -299,12 +307,13 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
                                       style: TextStyle(),
                                     );
                                   } else {
-                                    return (DropdownInput(
+                                    return (DropdownInputWithoutvalue(
                                         '${LocalizationHelper.of(context)!.t_company}',
                                         listItems3,
                                         'legal_name',
                                         'id',
-                                        setCompanyId));
+                                        setCompanyId,
+                                     ));
                                   }
                                 })
                             : const Spacing(40),

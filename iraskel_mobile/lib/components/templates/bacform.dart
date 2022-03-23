@@ -1,14 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:iraskel_mobile/components/atoms/_custominputwithddefaultvalue.dart';
+import 'package:iraskel_mobile/components/atoms/_dropdownwithoutdefaultvalue.dart';
+import 'package:iraskel_mobile/components/atoms/_icon.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
+import 'package:iraskel_mobile/components/atoms/_text.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
+import '../atoms/_dropdowninputdecorator.dart';
+
 // ignore: constant_identifier_names
 const TypeGraphql = """
+query{
+	all_bin_types{
+		id
+		code
+	}
+}
 """;
 // ignore: constant_identifier_names
-const Usage = """
+const BrandGraphql = """
+query{
+	all_bin_brands{
+		id
+		code
+	}
+}
+""";
+const binByProducer = """
+query(\$producerId: ID!){
+ bins_by_producer(producerId: \$producerId){
+	id
+	size
+	volume
+	color
+	type{
+		code
+	}
+	brand{
+		id
+	}
+	
+}
+}
 """;
 
 class BacForm extends StatefulWidget {
@@ -19,15 +55,47 @@ class BacForm extends StatefulWidget {
 }
 
 class _BacFormState extends State<BacForm> {
-  setTypeId() {}
-  setUsageId() {}
-  setSize() {}
+  late final Box box = Hive.box('auth');
+  late String typeId = "";
+  late String brandId = "";
+  late String size = "";
+  late String volume = "";
+  late String color = "";
 
-  // ignore: non_constant_identifier_names
-  Object SizeItems = [
-    {"id": "1", "name": "1L"},
-    {"id": "2", "name": "2L"}
-  ];
+  setTypeId(value) {
+    setState(() {
+      typeId = value;
+    });
+    box.put('binTypeId', value);
+  }
+
+  setBrandId(value) {
+    setState(() {
+      brandId = value;
+    });
+    box.put('binBrandId', value);
+  }
+
+  setSize(value) {
+    setState(() {
+      size = value;
+    });
+    box.put('sizeBin', value);
+  }
+
+  setVolume(value) {
+    setState(() {
+      volume = value;
+    });
+    box.put('volumeBin', value);
+  }
+
+  setColor(value) {
+    setState(() {
+      color = value;
+    });
+    box.put('colorBin', value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,36 +125,10 @@ class _BacFormState extends State<BacForm> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    /*  Query(
-                                        options: QueryOptions(
-                                            document: gql(Usage),
-                                            variables: {}),
-                                        builder: (QueryResult result,
-                                            {fetchMore, refetch}) {
-                                          if (result.hasException) {
-                                            return Text(
-                                                result.exception.toString());
-                                          }
-                                          if (result.isLoading) {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          }
-
-                                          final listItems = result.data?[' '];
-
-                                          return (DropdownInput(
-                                              '${LocalizationHelper.of(context)!.t_usage}',
-                                              listItems,
-                                              ' ',
-                                              'id',
-                                              setUsageId));
-                                        }),
                                     Query(
                                         options: QueryOptions(
-                                            document: gql(TypeGraphql),
-                                            variables: {}),
+                                          document: gql(TypeGraphql),
+                                        ),
                                         builder: (QueryResult result,
                                             {fetchMore, refetch}) {
                                           if (result.hasException) {
@@ -100,26 +142,70 @@ class _BacFormState extends State<BacForm> {
                                             );
                                           }
 
-                                          final listItems3 = result.data?[' '];
+                                          final listItems =
+                                              result.data?['all_bin_types'];
+                                          // setTypeId(listItems3['id']);
 
-                                          return (DropdownInput(
-                                              '${LocalizationHelper.of(context)!.t_type}',
-                                              listItems3,
-                                              ' ',
+                                          return (DropdownInputWithoutvalue(
+                                            '${LocalizationHelper.of(context)!.t_type}',
+                                            listItems,
+                                            'code',
+                                            'id',
+                                            setTypeId,
+                                         
+
+                                          ));
+                                        }),
+
+                                    const Spacing(40),
+                                    Query(
+                                        options: QueryOptions(
+                                          document: gql(BrandGraphql),
+                                        ),
+                                        builder: (QueryResult result,
+                                            {fetchMore, refetch}) {
+                                          if (result.hasException) {
+                                            return Text(
+                                                result.exception.toString());
+                                          }
+                                          if (result.isLoading) {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
+
+                                          final listItems2 =
+                                              result.data?['all_bin_brands'];
+
+                                          return (DropdownInputWithoutvalue(
+                                              'brand',
+                                              listItems2,
+                                              'code',
                                               'id',
-                                              setTypeId));
-                                        }),*/
-                                    DropdownInput(
-                                        '${LocalizationHelper.of(context)!.t_size}',
-                                        SizeItems,
-                                        'name',
-                                        'id',
-                                        setSize),
-                                        const Spacing(40),
-                                      
-                                        Image.asset('assets/images/bin.png',fit: BoxFit.contain,height: 150,)
+                                              setBrandId,
+                                           
+                                             ));
+                                        }),
+                                    const Spacing(40),
+                                    CustomInputWithDefaultValue('size', setSize,
+                                        size, true, false, true),
+                                    const Spacing(40),
 
-                                        
+                                    CustomInputWithDefaultValue('volume',
+                                        setVolume, volume, true, false, true),
+                                    const Spacing(40),
+
+                                    CustomInputWithDefaultValue('color',
+                                        setColor, color,true, false, true),
+                                    const Spacing(40),
+
+                                    Image.asset(
+                                      'assets/images/bin.png',
+                                      fit: BoxFit.contain,
+                                      height: 100,
+                                    ),
+
                                     // StartImage('assets/images/bin.png', BoxFit.contain)
                                   ]))))
                 ]))));
