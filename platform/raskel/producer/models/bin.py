@@ -7,7 +7,7 @@ class Bin(models.Model):
 
 
     #type of the bin
-    type_bin=models.ForeignKey(BinType, on_delete=models.PROTECT)
+    type_bin=models.ForeignKey(BinType, on_delete=models.PROTECT,null=True,blank=False)
 
     #size of the bin
     size=models.CharField(max_length=50, default="50x20x10")
@@ -16,7 +16,7 @@ class Bin(models.Model):
 
 
     #volume of the bin
-    volume=models.FloatField(default=0.0)
+    volume=models.FloatField(blank=False,null=True,default=0.0)
 
     #color of the bin
     color=models.CharField(max_length=100,null=True)
@@ -25,7 +25,7 @@ class Bin(models.Model):
    # bar_code=models.CharField(max_length=100)
 
     #Brand of the bin
-    brand=models.ForeignKey(BinBrand, on_delete=models.PROTECT)
+    brand=models.ForeignKey(BinBrand, on_delete=models.PROTECT,null=True)
 
     objects = models.Manager()
 

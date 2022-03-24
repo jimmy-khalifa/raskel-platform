@@ -3,7 +3,7 @@ from ariadne import gql
 type_defs= gql("""
 
 type AdressQuery{
-    address_by_producer: [Address]
+    address_by_producer(producerId:ID!): [Address]
     address(addressId:String!):Address
 }
 

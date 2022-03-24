@@ -50,8 +50,10 @@ type Mutation{
     tokenAuth(phone_number: String!, password:String!): TokenAuth
     modify_address(input: AddressInput!): AddressResults
     modify_producer(input: ProducerInput!): ProducerResults
-    create_property(input: PropertyInput!): PropertyResults
+    create_property(input: PropertyCreateInput!): PropertyCreateResults
+    modify_property(input:PropertyInput!): PropertyResults
     create_bin(input: BinInput!):BinResults
+    modify_bin(input: BinInput!):BinResults
     create_bintype(input:BinTypeInput!):BinTypeResult
     create_binbrand(input:BinBrandInput! ):BinBrandResult
     create_property_type(input: PropertyTypeInput): PropertyTypeResults

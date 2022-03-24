@@ -60,6 +60,7 @@
     "personalInformation" : "Informations personnelles",
     "invoice": "Factures",
     "settings": "Paramètres",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "principaladress": "Adresse principale"
 
   }

@@ -82,7 +82,10 @@ class _AddressFormState extends State<AddressForm> {
   late String municipalityId = "";
   late String codePostal = "";
   late String companyId = "";
-  late String id ="" ;
+  late String id ="";
+  late String complementaryAdress = "";
+  late bool isprincipalAdress= false;
+  late bool isSpatial = false;
 
   bool isChecked = false;
   LatLng point = LatLng(33.984250, 8.216120);
@@ -94,7 +97,7 @@ class _AddressFormState extends State<AddressForm> {
     }); 
   }
 
-  void initQuery() async {
+ /* void initQuery() async {
     final QueryOptions options = QueryOptions(
         document: gql(adressByProducer),
         variables: {"producerId": box.get('ProducerId')}
@@ -109,11 +112,12 @@ class _AddressFormState extends State<AddressForm> {
       // ignore: avoid_print
       print(result.exception.toString());
     } else {
-      final AdressQuery = result.data?['address_by_producer'];
-      setAdressId(AdressQuery['id']);
+      final adressquery = result.data?['address_by_producer'];
+      print(adressquery['id']);
+    //  setAdressId(int.parse(adressquery['id']));
      // print("adress :${id}");
     }
-  }
+  }*/
 
  
 
@@ -127,13 +131,25 @@ class _AddressFormState extends State<AddressForm> {
     getCurrentLocation();
 
     super.initState();
-    initQuery();
+   // initQuery();
   }
    setAdressId(value) {
     setState(() {
       id = value;
     });
     box.put('adressId', value);
+  }
+  setIsPrincipalADress(value){
+    setState(() {
+      isprincipalAdress= value;
+    });
+    box.put('isprincipalAdress',value);
+  }
+  setComplementaryADress(value){
+    setState(() {
+      complementaryAdress= value;
+    });
+    box.put('complementaryADress',value);
   }
 
   void getCurrentLocation() async {
@@ -149,8 +165,17 @@ class _AddressFormState extends State<AddressForm> {
       point = currentPostion;
       // print("currentposition $currentPostion");
     });
+    box.put('lat', currentPostion.latitude);
+    box.put('long', currentPostion.longitude);
+    if(currentPostion.latitude == null && currentPostion.longitude==null){
+      isSpatial = false;
+    }
+    else{
+      isSpatial = true;
+    }
+    box.put('isSpatial', isSpatial);
   }
-
+ 
   late final Box box = Hive.box('auth');
 
   setPays(value) {
@@ -177,6 +202,7 @@ class _AddressFormState extends State<AddressForm> {
     setState(() {
       codePostal = value;
     });
+    box.put("postalCode",value);
   }
 
   var infoWindowVisible = false;
@@ -211,7 +237,7 @@ class _AddressFormState extends State<AddressForm> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    Text(id),
+                                   // Text(id),
                                     /* CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_country}',
                                      setPays, 
                                      box.get('stateId'), false, true, false),*/
@@ -314,22 +340,21 @@ class _AddressFormState extends State<AddressForm> {
                                     const Spacing(40),
                                     MultiLineInput(
                                         hinttext:
-                                            '${LocalizationHelper.of(context)!.t_complementeryadrress}'),
+                                            '${LocalizationHelper.of(context)!.t_complementeryadrress}',initialvalue:box.get('complementaryADress') ?? complementaryAdress,setter: setComplementaryADress),
                                     const Spacing(40),
                                     NumInput(
                                         '${LocalizationHelper.of(context)!.t_postal_code}',
-                                        codePostal,
+                                   box.get('postalCode')   ??  codePostal,
                                         setCodePostal),
                                     CheckboxListTile(
-                                        activeColor: const Color(0xFF65C88D),
-                                        value: isChecked,
+                                         activeColor: const Color(0xFF65C88D),
+                                        value: box.get('isprincipalAdress') ?? isChecked,
                                         onChanged: (bool? value) {
-                                          setState(() {
-                                            isChecked = value!;
-                                          });
+                                         setIsPrincipalADress(value);
+                                        
                                         },
                                         title: Text(
-                                            '${LocalizationHelper.of(context)!.t_restconnected}',
+                                            '${LocalizationHelper.of(context)!.t_principaladress}',
                                             style: GoogleFonts.tajawal(
                                                 textStyle: const TextStyle(
                                                     fontWeight: FontWeight.w300,

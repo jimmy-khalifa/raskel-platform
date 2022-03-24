@@ -9,7 +9,7 @@ scalar Upload
 
 type ProducerQuery{
     all_producers: [Producer]
-}
+} 
 
 type Producer {
     id: String
