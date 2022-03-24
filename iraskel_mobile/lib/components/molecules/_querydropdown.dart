@@ -39,7 +39,8 @@ class _QueryDropDownGraphQlState extends State<QueryDropDownGraphQl> {
                                    
                                     final listItems = result.data?[widget.listItems];
                                     return(
-                                      DropdownInput(widget.dropdowntextinput,listItems, widget.text,widget.id,widget.setter,)
+                                      Container()
+                                     // DropdownInput(widget.dropdowntextinput,listItems, widget.text,widget.id,widget.setter,)
                                     );
       
                                        } );

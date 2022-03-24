@@ -179,6 +179,7 @@ class LocalizationHelper {
   String? get t_settings => _translate("settings");
   // ignore: non_constant_identifier_names
   String? get t_logout => _translate("logout");
+  String? get t_principaladress => _translate("principaladress");
 
   
 

@@ -59,13 +59,51 @@ query{
   }
 }
 """;
-const createProperty = """
-mutation (\$input: PropertyInput!){
+const modifyProperty = """
+mutation (\$input:PropertyInput!){
+	modify_property(input:\$input){
+		modified
+		property{
+			id
+		
+		}
+	}
+}
+""";
+const createProperty= """
+mutation (\$input: PropertyCreateInput!){
   create_property(input: \$input){
     created
     property{
       id
       individuals
+    }
+  }
+}
+""";
+const createBin = """
+mutation(\$input:BinInput!){
+	create_bin(input:\$input){
+		created
+		err
+		bin{
+			id
+			size
+		}
+	}
+}
+""";
+const modifyAdress = """
+mutation(\$input: AddressInput!) {
+  modify_address(input: \$input) {
+    address {
+      id
+      label
+      latlong {
+        x
+        y
+      }
+      zipcode
     }
   }
 }
@@ -92,7 +130,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       activestep++;
     });
-  //  Navigator.of(context, rootNavigator: true).pop('dialog');
+    //  Navigator.of(context, rootNavigator: true).pop('dialog');
   }
 
   late bool isConfirmed = false;
@@ -150,25 +188,49 @@ class _HomePageState extends State<HomePage> {
       final QueryResult result =
           await AuthGraphQLClient.getClient(null).mutate(options);
       if (result.hasException) {
-      //  print("erreur");
+        //  print("erreur");
       } else {
         // ignore: non_constant_identifier_names, unused_local_variable
         final modified_prod = result.data?["modify_producer"];
-       // print(modified_prod['producer']['id']);
+        // print(modified_prod['producer']['id']);
       }
     } else if (activestep == 1) {
-      
+      final MutationOptions options =
+          MutationOptions(document: gql(modifyAdress), variables: {
+        "input": {
+          "id": box.get('ProducerId'),
+          "label": box.get('complementaryADress') ?? "",
+          "zipcode": box.get('postalCode'),
+          "is_spatial": box.get('isSpatial'),
+          "latitude": box.get('lat') ?? "",
+          "longitude": box.get('long') ?? "",
+          "district_id": null
+        }
+      });
+      final QueryResult result =
+          await AuthGraphQLClient.getClient(null).mutate(options);
+      if (result.hasException) {
+        // ignore: avoid_print
+        print("erreur");
+      } else {
+        // ignore: non_constant_identifier_names
+        final modified_adress = result.data?["modify_address"];
+        // ignore: avoid_print
+        print(modified_adress['address']['id']);
+      }
     } else if (activestep == 2) {
+    if(  box.get('PropertyId').isEmpty ){
       final MutationOptions options = MutationOptions(
         document: gql(createProperty),
         variables: {
           "input": {
-            "area": double.parse(box.get('area') ) ,
-            "individuals": int.parse(box.get('individuals'))  ,
-            "has_garden": box.get('has_garden') ,
-            "has_garage": box.get('has_garage') ,
-            "has_barn": box.get('has_sheepfold') ,
-            "typeId": box.get('typeId') ?? "1",
+            
+            "area": double.parse(box.get('area')),
+            "individuals": int.parse(box.get('individuals')),
+            "has_garden": box.get('has_garden') ?? false,
+            "has_garage": box.get('has_garage') ?? false,
+            "has_barn": box.get('has_sheepfold') ?? false,
+            "typeId": box.get('typeId'),
             "producerId": box.get('ProducerId')
           }
         },
@@ -180,14 +242,60 @@ class _HomePageState extends State<HomePage> {
         print("erreur");
       } else {
         // ignore: non_constant_identifier_names
-        final created_prop = result.data?["create_property"];
+        final created_prop = result.data?["modify_property"];
         // ignore: avoid_print
-        print(created_prop['property']['id']);
+      //  print(modified_prop['property']['id']);
       }
-
-    
+    }
+    else{
+       final MutationOptions options = MutationOptions(
+        document: gql(modifyProperty),
+        variables: {
+          "input": {
+            "id": box.get('PropertyId'),
+            "area": double.parse(box.get('area')),
+            "individuals": int.parse(box.get('individuals')),
+            "has_garden": box.get('has_garden') ?? false,
+            "has_garage": box.get('has_garage') ?? false,
+            "has_barn": box.get('has_sheepfold') ?? false,
+            "typeId": box.get('typeId'),
+            "producerId": box.get('ProducerId')
+          }
+        },
+      );
+      final QueryResult result =
+          await AuthGraphQLClient.getClient(null).mutate(options);
+      if (result.hasException) {
+        // ignore: avoid_print
+        print("erreur");
+      } else {
+        // ignore: non_constant_identifier_names
+        final modified_prop = result.data?["modify_property"];
+        // ignore: avoid_print
+      //  print(modified_prop['property']['id']);
+      }
+    }
     } else if (activestep == 3) {
-      //oncompleted(); 
+      final MutationOptions options =
+          MutationOptions(document: gql(createBin), variables: {
+        "input": {
+          "producerId": box.get('ProducerId'),
+          "typeId": box.get('binTypeId'),
+          "brandId": box.get('binBrandId'),
+          "volume": double.parse(box.get('volumeBin')),
+          "size": box.get('sizeBin'),
+          "color": box.get('colorBin')
+        }
+      });
+      final QueryResult result =
+          await AuthGraphQLClient.getClient(null).mutate(options);
+      if (result.hasException) {
+        //  print("erreur");
+      } else {
+        // ignore: non_constant_identifier_names, unused_local_variable
+        final created_bin = result.data?["create_bin"];
+        // print(modified_prod['producer']['id']);
+      }
     } else if (activestep + 1 == dotcount) {
       return showDialog(
           context: context,

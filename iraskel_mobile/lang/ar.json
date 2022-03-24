@@ -60,5 +60,6 @@
     "personalInformation" : "معلومات خاصة",
     "invoice": "فاتورة",
     "settings": "اعدادات",
-    "logout": "خروج"
+    "logout": "خروج",
+    "principaladress": " عنوان قار"
   }

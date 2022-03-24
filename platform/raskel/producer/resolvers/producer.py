@@ -25,7 +25,7 @@ def resolve_producer_by_user(_, info):
     return producer_queryset[0]
 
 prod_mutation = MutationType()
-
+ 
 
 @prod_mutation.field('modify_producer')
 def resolve_modify_producer(_,info, input):
@@ -41,7 +41,7 @@ def resolve_modify_producer(_,info, input):
 
     return {'modified': True, 'producer': producer, 'err': None}
 
-upload_mutation = MutationType()
+upload_mutation = MutationType() 
 
 
 @upload_mutation.field('uploadUserImage')

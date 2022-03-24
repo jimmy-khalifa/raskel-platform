@@ -1,15 +1,15 @@
 from ariadne import gql
-
+#"""properties_by_producer: [Property] """;
 type_defs = gql("""
-
+ 
 type PropertyQuery{
-    properties_by_producer: [Property]
+   
     property(propertyId: ID!): Property
     all_property_types: [PropertyType]
 }
 
 type Property {
-    id: ID
+    id: String
     area: Float
     individuals: Int
     has_garden: Boolean
@@ -26,7 +26,19 @@ type PropertyType {
     name: String
 }
 
-input PropertyInput {
+input PropertyInput { 
+    id: String!
+    area: Float
+    individuals: Int
+    has_garden: Boolean
+    has_garage: Boolean
+    has_barn: Boolean
+    typeId: ID!
+    producerId: ID!
+    address: ID
+}
+input PropertyCreateInput { 
+    
     area: Float
     individuals: Int
     has_garden: Boolean
@@ -43,9 +55,15 @@ input PropertyTypeInput {
 }
 
 type PropertyResults {
+    modified: Boolean!
+    property: Property
+    err: String
+}
+type PropertyCreateResults{
     created: Boolean!
     property: Property
     err: String
+    
 }
 
 type PropertyTypeResults {

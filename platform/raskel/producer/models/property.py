@@ -15,26 +15,26 @@ class Property(models.Model):
     area = models.FloatField(verbose_name="Area", default=0.0, null=True)
     
     #property garden field
-    has_garden = models.BooleanField(verbose_name="Garden", default=False, null=False)
+    has_garden = models.BooleanField(verbose_name="Garden", default=False, null=True)
     
     #property garage field
-    has_garage = models.BooleanField(verbose_name="Garage", default=False, null=False)
+    has_garage = models.BooleanField(verbose_name="Garage", default=False, null=True)
     
     #property garage field
-    has_barn = models.BooleanField(verbose_name="Barn", default=False, null=False)
+    has_barn = models.BooleanField(verbose_name="Barn", default=False, null=True)
     
     #individuals'number field
-    individuals = models.IntegerField(verbose_name="Individuals", default=0, null=False)
+    individuals = models.IntegerField(verbose_name="Individuals", default=0, null=True)
 
     producer = models.ForeignKey(Producer, on_delete=models.CASCADE, verbose_name="Producer", null=False, blank=False)
 
     #Place Foreign Keys for the Property
-    address = models.ForeignKey(Address, on_delete=models.PROTECT, null=False)
+    address = models.ForeignKey(Address, on_delete=models.PROTECT, null=True)
     
     type = models.ForeignKey(PropertyType, on_delete=models.PROTECT, default=None, null=True)
 
     #Property model object
-    objects = models.Manager()
+    objects = models.Manager() 
 
     # model representation function __str__
 

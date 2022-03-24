@@ -12,13 +12,14 @@ class DropdownLanguageSelect extends StatefulWidget {
 }
 
 class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
-  Language? _valueChoose; // Language(1,'fr', 'FR');
+   Language? valueChoose ;
 
   /*setValueChoose(value) {
     setState(() {
-      _valueChoose = value;
+      valueChoose = value;
     });
   }*/
+  
 
   void _changeLanguage(Language language) {
     Locale _temp;
@@ -40,6 +41,8 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
+     
         margin: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width / 10,
             vertical: MediaQuery.of(context).size.height / 10),
@@ -62,14 +65,9 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
                 Icons.language,
                 color: Color(0xFF393E41),
               ),
-              // isExpanded: false,
-              value: _valueChoose,
-              onChanged: (language) {
-                _changeLanguage(language!);
-                //LocalizationHelper.ChangeLanguage(language!, context);
-              },
-              items: Language.languageList()
-                  .map<DropdownMenuItem<Language>>(
+               value: valueChoose,
+               items: Language.languageList()
+                  .map(
                     (e) => DropdownMenuItem<Language>(
                       value: e,
                       child: Row(
@@ -79,6 +77,17 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
                     ),
                   )
                   .toList(),
+              // isExpanded: false,
+             
+              onChanged: (language) {
+                _changeLanguage(language!);
+
+               
+                   
+
+                //LocalizationHelper.ChangeLanguage(language!, context);
+              },
+             
             ))));
   }
 }

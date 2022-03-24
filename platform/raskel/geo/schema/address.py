@@ -2,12 +2,17 @@ from ariadne import gql
 
 type_defs= gql("""
 
-type Point {
+type AdressQuery{
+    address_by_producer(producerId:ID!): [Address]
+    address(addressId:String!):Address
+}
+
+type Point { 
     x: Float!
-    y: Float!
+    y: Float! 
 }
 type Address {
-    id: ID!
+    id: String!
     label: String!
     zipcode: String!
     municipality: Municipality!
@@ -18,7 +23,7 @@ type Address {
 }
 
 input AddressInput {
-    id: ID!
+    id: String!
     label: String
     zipcode: String
     district_id: ID
