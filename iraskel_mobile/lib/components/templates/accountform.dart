@@ -445,9 +445,6 @@ class _AccountFormState extends State<AccountForm> {
                                     CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_age}', setAge, age, age.length <2 ? true : false,  age.length < 2 ? false: true, age.length <2 ? true : false),
 
                                   
-                                    const Spacing(40),
-                                    Text(id)
-                                   
                                   ],
                                 ),
                               ))),

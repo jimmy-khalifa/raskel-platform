@@ -32,7 +32,7 @@ class _MultiLineInputState extends State<MultiLineInput> {
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFFDFF4EC)),
         ),
-        hintText: widget.hinttext,
+        labelText: widget.hinttext,
         filled: true,
         fillColor: Colors.white,
       ),
