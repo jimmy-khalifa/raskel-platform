@@ -3,13 +3,11 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:iraskel_mobile/components/atoms/_custominputwithddefaultvalue.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdownwithoutdefaultvalue.dart';
-import 'package:iraskel_mobile/components/atoms/_icon.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
-import 'package:iraskel_mobile/components/atoms/_text.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
-import '../atoms/_dropdowninputdecorator.dart';
+import '../../auth_graphql_client.dart';
 
 // ignore: constant_identifier_names
 const TypeGraphql = """
@@ -37,6 +35,7 @@ query(\$producerId: ID!){
 	volume
 	color
 	type{
+		id
 		code
 	}
 	brand{
@@ -61,11 +60,59 @@ class _BacFormState extends State<BacForm> {
   late String size = "";
   late String volume = "";
   late String color = "";
+   late String binId;
+  
+  bool loading = false;
+   void initQueryBin() async {
+    final QueryOptions options = QueryOptions(
+        document: gql(binByProducer),
+        variables: {"producerId": box.get('ProducerId')});
+    setLoading(true);
+    final QueryResult result =
+        await AuthGraphQLClient.getClient(null).query(options);
+
+    setLoading(false);
+
+    if (result.hasException) {
+      // ignore: avoid_print
+      print(result.exception.toString());
+    } else {
+      final bin = result.data?['bins_by_producer'];
+       //box.put('PropertyId', property[0]['id']);
+       if (bin.length == 0){
+         setBinId("");
+       }
+       else{
+         setBinId(bin[0]['id']);
+         
+
+       }
+        box.put('BinId', binId);
+      
+      //print(propertyId);
+    }
+  }
+  setLoading(value) {
+    setState(() {
+      loading = value;
+    });
+  }
+
+  setBinId(value){
+    setState(() {
+      binId = value;
+     
+    });
+     box.put('binId', value);
+     
+
+  }
 
   setTypeId(value) {
     setState(() {
       typeId = value;
     });
+
     box.put('binTypeId', value);
   }
 
@@ -96,6 +143,12 @@ class _BacFormState extends State<BacForm> {
     });
     box.put('colorBin', value);
   }
+  @override
+  void initState() {
+    super.initState();
+    initQueryBin();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +199,9 @@ class _BacFormState extends State<BacForm> {
                                               result.data?['all_bin_types'];
                                           // setTypeId(listItems3['id']);
 
-                                          return (DropdownInputWithoutvalue(
+                                          return (
+                                            
+                                            DropdownInputWithoutvalue(
                                             '${LocalizationHelper.of(context)!.t_type}',
                                             listItems,
                                             'code',
@@ -154,7 +209,8 @@ class _BacFormState extends State<BacForm> {
                                             setTypeId,
                                          
 
-                                          ));
+                                          ) 
+                                          );
                                         }),
 
                                     const Spacing(40),
@@ -189,15 +245,15 @@ class _BacFormState extends State<BacForm> {
                                         }),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue('size', setSize,
-                                        size, true, false, true),
+                                    box.get('sizeBin')  ??  size, true, false, true),
                                     const Spacing(40),
 
                                     CustomInputWithDefaultValue('volume',
-                                        setVolume, volume, true, false, true),
+                                        setVolume,box.get('volumeBin') ?? volume, true, false, true),
                                     const Spacing(40),
 
                                     CustomInputWithDefaultValue('color',
-                                        setColor, color,true, false, true),
+                                        setColor,box.get('colorBin') ?? color,true, false, true),
                                     const Spacing(40),
 
                                     Image.asset(

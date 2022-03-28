@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FlutterFlowDropDown extends StatefulWidget {
+  // ignore: use_key_in_widget_constructors
   const FlutterFlowDropDown({
     this.initialOption,
     this.hintText,
@@ -23,6 +24,7 @@ class FlutterFlowDropDown extends StatefulWidget {
   });
   final String id;
   final String text;
+  // ignore: prefer_typing_uninitialized_variables
   final listItems;
 
   final String? initialOption;

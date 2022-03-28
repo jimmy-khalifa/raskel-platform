@@ -41,7 +41,7 @@ class _CustomInputWithDefaultValueState extends State<CustomInputWithDefaultValu
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFFDFF4EC)),
         ),
-        hintText: widget.hinttext,
+        labelText: widget.hinttext,
         filled: true,
        fillColor: widget.enabled ? Colors.white : Colors.grey.shade200,
       ),

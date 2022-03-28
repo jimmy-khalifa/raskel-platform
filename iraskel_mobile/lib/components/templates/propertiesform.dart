@@ -3,11 +3,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:iraskel_mobile/components/atoms/_customcheckbox.dart';
 import 'package:iraskel_mobile/components/atoms/_custominputwithddefaultvalue.dart';
-import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdownwithoutdefaultvalue.dart';
-import 'package:iraskel_mobile/components/atoms/_flowdropdown.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
-import 'package:iraskel_mobile/components/atoms/numinput.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 
@@ -222,19 +219,22 @@ class _PropertiesState extends State<PropertiesForm> {
                                               .data?['all_property_types'];
                                           // setTypeId(listItems3['id']);
 
-                                          return (DropdownInputWithoutvalue(
+                                          return 
+                                         (
+                                           DropdownInputWithoutvalue(
                                             '${LocalizationHelper.of(context)!.t_type}',
                                             listItems3,
                                             'name',
                                             'id',
                                             setTypeId,
-                                          ));
+                                          ) 
+                                          ) ;
                                         }),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_personNumber}',
                                         setNbPerson,
-                                        nbPerson,
+                                       box.get("individuals") ?? nbPerson,
                                         true,
                                         false,
                                         true),
@@ -242,7 +242,7 @@ class _PropertiesState extends State<PropertiesForm> {
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_area}',
                                         setSurface,
-                                        surface,
+                                       box.get("area") ?? surface,
                                         true,
                                         false,
                                         true),

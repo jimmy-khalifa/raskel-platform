@@ -52,7 +52,7 @@ type Mutation{
     modify_producer(input: ProducerInput!): ProducerResults
     create_property(input: PropertyCreateInput!): PropertyCreateResults
     modify_property(input:PropertyInput!): PropertyResults
-    create_bin(input: BinInput!):BinResults
+    create_bin(input: BinCreateInput!):BinCreatedResults
     modify_bin(input: BinInput!):BinResults
     create_bintype(input:BinTypeInput!):BinTypeResult
     create_binbrand(input:BinBrandInput! ):BinBrandResult

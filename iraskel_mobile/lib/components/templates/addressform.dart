@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
@@ -17,7 +19,6 @@ import 'package:latlong2/latlong.dart';
 //import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../../auth_graphql_client.dart';
 
 //import 'package:permission_handler/permission_handler.dart';
 

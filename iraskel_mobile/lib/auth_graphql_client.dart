@@ -10,7 +10,7 @@ class AuthGraphQLClient {
       cache: GraphQLCache());
 
   static GraphQLClient getClient(HiveStore? store) {
-    final HttpLink httpLink = HttpLink(//"http://172.17.32.2:8000/graphql/");
+    final HttpLink httpLink = HttpLink(//"http://172.17.32.3:8000/graphql/");
         "http://172.17.32.3:8000/graphql/");
     final AuthLink authLink = AuthLink(getToken: () async {
       late final Box box = Hive.box('auth');

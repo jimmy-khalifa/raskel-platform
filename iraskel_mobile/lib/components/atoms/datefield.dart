@@ -25,7 +25,7 @@ class _DateFieldState extends State<DateField> {
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFFDFF4EC)),
         ),
-        hintText: widget.hinttext,
+        labelText: widget.hinttext,
         filled: true,
         fillColor: Colors.white,
         //label text of field

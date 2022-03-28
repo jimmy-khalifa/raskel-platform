@@ -53,10 +53,10 @@ def resolve_modify_bin(_,info,input):
     #we get the property with it's id
    
 
-    type = None
+    type_bin= None 
     brand=None
 
-    if(input['typeId']!= None) : type = BinType.objects.get(pk= input['typeId'])
+    if(input['typeId']!= None) : type_bin = BinType.objects.get(pk= input['typeId'])
     if(input['brandId']!= None) : brand = BinBrand.objects.get(pk= input['brandId'])
     if (input['producerId'] !=None) : producer = Producer.objects.get(pk= input['producerId'])
     bin = Bin.objects.get(pk=input['id'])
@@ -65,7 +65,7 @@ def resolve_modify_bin(_,info,input):
     if (input['size'] !=None) : bin.size = input['size']
     if(input['volume'] !=None) :bin.volume= input['volume']
     if (input['color']!=None) : bin.color = input['color']
-    if(type!= None) : bin.type = type
+    if(type_bin!= None) : bin.type_bin = type_bin
     if(brand != None) : bin.brand = brand
     if (producer != None): bin.producer = producer
     bin.save()

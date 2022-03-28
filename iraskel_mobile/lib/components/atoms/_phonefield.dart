@@ -35,7 +35,7 @@ class PhoneField extends StatelessWidget {
             borderSide: BorderSide(color: Color(0xFFDFF4EC))),
         filled: true,
         fillColor: Colors.white,
-        hintText: "XXXXXXXX",
+        labelText: "XXXXXXXX",
       ),
       initialCountryCode: 'TN',
      
