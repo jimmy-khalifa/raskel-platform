@@ -18,7 +18,7 @@ def resolve_property(_, info, propertyId):
 
 @property_query.field('all_property_types')
 def resolve_all_property_types(*_):
-    return PropertyType.objects.all()
+    return PropertyType.objects.all() 
 
 property_mutation = MutationType()
 

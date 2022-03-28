@@ -33,7 +33,7 @@ class CustomInput extends  StatelessWidget {
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFFDFF4EC)),
         ),
-        hintText: hinttext,
+        labelText: hinttext,
         filled: true,
         fillColor: Colors.white,
       ),

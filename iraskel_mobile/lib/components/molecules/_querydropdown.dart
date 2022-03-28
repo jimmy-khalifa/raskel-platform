@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
 
 class QueryDropDownGraphQl extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
@@ -37,6 +36,7 @@ class _QueryDropDownGraphQlState extends State<QueryDropDownGraphQl> {
                                       );
                                     }
                                    
+                                    // ignore: unused_local_variable
                                     final listItems = result.data?[widget.listItems];
                                     return(
                                       Container()

@@ -11,7 +11,7 @@ type BinQuery{
 
 }
 type Bin{
-    id:ID!
+    id:String!
     size: String
     volume: Float
     color: String
@@ -43,7 +43,17 @@ type BinBrand{
 }
 
 input BinInput{
-    id: ID!
+    id: String!
+    producerId: ID!
+    typeId: ID
+    brandId: ID!
+    size: String
+    volume: Float
+    color: String
+
+}
+input BinCreateInput{
+   
     producerId: ID!
     typeId: ID
     brandId: ID!
@@ -58,6 +68,13 @@ type BinResults{
     err: String
 
 }
+type BinCreatedResults{
+    created: Boolean!
+    bin: Bin
+    err: String
+
+}
+
 input BinTypeInput {
     code: String
     name: String
