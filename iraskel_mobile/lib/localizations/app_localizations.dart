@@ -181,6 +181,25 @@ class LocalizationHelper {
   String? get t_logout => _translate("logout");
   // ignore: non_constant_identifier_names
   String? get t_principaladress => _translate("principaladress");
+  // ignore: non_constant_identifier_names
+  String? get t_district => _translate("district");
+  // ignore: non_constant_identifier_names
+  String? get t_yes => _translate("yes");
+  // ignore: non_constant_identifier_names
+  String? get t_no => _translate("no");
+  // ignore: non_constant_identifier_names
+  String? get t_Tunis => _translate('tunisie');
+  // ignore: non_constant_identifier_names
+  String? get t_username => _translate('username');
+  // ignore: non_constant_identifier_names
+  String? get t_phone => _translate('phone');
+  // ignore: non_constant_identifier_names
+  String? get t_brand => _translate('brand');
+  // ignore: non_constant_identifier_names
+  String? get t_volume => _translate('volume');
+  // ignore: non_constant_identifier_names
+  String? get t_color => _translate('color');
+
 
   
 

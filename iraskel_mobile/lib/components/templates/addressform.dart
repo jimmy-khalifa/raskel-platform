@@ -7,9 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
-import 'package:iraskel_mobile/components/atoms/_customcircularprogress.dart';
 
-import 'package:iraskel_mobile/components/atoms/_dropdownwithoutdefaultvalue.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/atoms/multilineinput.dart';
 import 'package:iraskel_mobile/components/atoms/numinput.dart';
@@ -18,6 +16,9 @@ import 'package:iraskel_mobile/localizations/app_localizations.dart';
 import 'package:latlong2/latlong.dart';
 //import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
+
+import '../../auth_graphql_client.dart';
+import '../atoms/_custominputwithddefaultvalue.dart';
 
 
 //import 'package:permission_handler/permission_handler.dart';
@@ -69,6 +70,22 @@ query(\$municipalityId: ID!){
   }
 }
 """;
+const state = """
+query(\$stateId: ID!){
+	state(stateId:\$stateId){
+		id
+		name
+	}
+}
+""";
+const municipalityID = """
+query(\$municipalityId: ID!){
+	municipality(municipalityId:\$municipalityId){
+		id
+		name
+	}
+}
+""";
 
 class AddressForm extends StatefulWidget {
   const AddressForm({Key? key}) : super(key: key);
@@ -97,11 +114,10 @@ class _AddressFormState extends State<AddressForm> {
       loading = value;
     }); 
   }
-
- /* void initQuery() async {
-    final QueryOptions options = QueryOptions(
-        document: gql(adressByProducer),
-        variables: {"producerId": box.get('ProducerId')}
+  void municipalityQuery() async{
+     final QueryOptions options = QueryOptions(
+        document: gql(municipalityID),
+        variables: {"municipalityId": box.get("municipalityId")}
         );
     setLoading(true);
     final QueryResult result =
@@ -113,12 +129,54 @@ class _AddressFormState extends State<AddressForm> {
       // ignore: avoid_print
       print(result.exception.toString());
     } else {
-      final adressquery = result.data?['address_by_producer'];
-      print(adressquery['id']);
+      // ignore: non_constant_identifier_names
+      final municipality_id = result.data?['municipality'];
+      setMunicipalityName(municipality_id['name']);
+     
     //  setAdressId(int.parse(adressquery['id']));
      // print("adress :${id}");
     }
-  }*/
+
+  }
+  void stateQuery() async{
+     final QueryOptions options = QueryOptions(
+        document: gql(state),
+        variables: {"stateId": box.get("stateId")}
+        );
+    setLoading(true);
+    final QueryResult result =
+        await AuthGraphQLClient.getClient(null).query(options);
+
+    setLoading(false);
+
+    if (result.hasException) {
+      // ignore: avoid_print
+      print(result.exception.toString());
+    } else {
+      // ignore: non_constant_identifier_names
+      final state_id = result.data?['state'];
+      setStateName(state_id['name']);
+     
+   
+    }
+
+  }
+  late String municipalityName = "" ;
+  late String stateName = "" ;
+  setMunicipalityName(value){
+    setState(() {
+      municipalityName = value;
+      box.put("municipalityName",value);
+    });
+  }
+  setStateName(value){
+    setState(() {
+      stateName = value;
+      box.put("stateName",value);
+    });
+  }
+
+ 
 
  
 
@@ -130,6 +188,8 @@ class _AddressFormState extends State<AddressForm> {
   @override
   void initState() {
     getCurrentLocation();
+    municipalityQuery();
+    stateQuery();
 
     super.initState();
    // initQuery();
@@ -168,36 +228,17 @@ class _AddressFormState extends State<AddressForm> {
     });
     box.put('lat', currentPostion.latitude);
     box.put('long', currentPostion.longitude);
-    if(currentPostion.latitude == null && currentPostion.longitude==null){
-      isSpatial = false;
+    
+    if(currentPostion.latitude != null && currentPostion.longitude!=null){
+      isSpatial = true;
     }
     else{
-      isSpatial = true;
+      isSpatial = false;
     }
     box.put('isSpatial', isSpatial);
   }
  
   late final Box box = Hive.box('auth');
-
-  setPays(value) {
-    setState(() => {pays = value});
-  }
-
-  setStateId(value) {
-    setState(() => {stateId = value});
-  }
-
-  setMunicipalityId(value) {
-    setState(() {
-      municipalityId = value;
-    });
-  }
-
-  setCompanyId(value) {
-    setState(() {
-      companyId = value;
-    });
-  }
 
   setCodePostal(value) {
     setState(() {
@@ -205,6 +246,7 @@ class _AddressFormState extends State<AddressForm> {
     });
     box.put("postalCode",value);
   }
+ 
 
   var infoWindowVisible = false;
 
@@ -228,6 +270,7 @@ class _AddressFormState extends State<AddressForm> {
                       headerText:
                           '${LocalizationHelper.of(context)!.t_address}'),
                   Expanded(
+                   
                       child: SingleChildScrollView(
                           primary: false,
                           padding: EdgeInsets.zero,
@@ -239,105 +282,16 @@ class _AddressFormState extends State<AddressForm> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                    // Text(id),
-                                    /* CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_country}',
-                                     setPays, 
-                                     box.get('stateId'), false, true, false),*/
-                                    Query(
-                                        options: QueryOptions(
-                                            document: gql(stateBYCountry),
-                                            variables: {"countryId": "1"}),
-                                        builder: (QueryResult result,
-                                            {fetchMore, refetch}) {
-                                          if (result.hasException) {
-                                            return Text(
-                                                result.exception.toString());
-                                          }
-
-                                          if (result.isLoading) {
-                                            return const Center(
-                                                child:
-                                                    CustomCircularProgressIndicator());
-                                          }
-
-                                          final listItems1 =
-                                              result.data?['states_by_country'];
-                                          return (DropdownInputWithoutvalue(
-                                            '${LocalizationHelper.of(context)!.t_state}',
-                                            listItems1,
-                                            'name',
-                                            'id',
-                                            setStateId,
-                                          ));
-                                        }),
-                                    const Spacing(40),
-                                    Query(
-                                        options: QueryOptions(
-                                            document: gql(municipalities),
-                                            variables: {"stateId": stateId}),
-                                        builder: (QueryResult result,
-                                            {fetchMore, refetch}) {
-                                          if (result.hasException) {
-                                            return Text(
-                                                result.exception.toString());
-                                          }
-                                          if (result.isLoading) {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          }
-
-                                          final listItems2 = result
-                                              .data?['municipality_by_state'];
-                                          return (DropdownInputWithoutvalue(
-                                            '${LocalizationHelper.of(context)!.t_municipality}',
-                                            listItems2,
-                                            'name',
-                                            'id',
-                                            setMunicipalityId,
-                                          ));
-                                        }),
-
-                                    const Spacing(30),
-
-                                    Query(
-                                        options: QueryOptions(
-                                            document:
-                                                gql(companyByMunicipality),
-                                            variables: {
-                                              "municipalityId": municipalityId
-                                            }),
-                                        builder: (QueryResult result,
-                                            {fetchMore, refetch}) {
-                                          if (result.hasException) {
-                                            return Text(
-                                                result.exception.toString());
-                                          }
-                                          if (result.isLoading) {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          }
-
-                                          final listItems3 = result.data?[
-                                              'companies_by_municipality'];
-                                          if (listItems3.length == 0) {
-                                            return const Text(
-                                              'Pas d"entreprise dans cette région',
-                                              style: TextStyle(),
-                                            );
-                                          } else {
-                                            return (DropdownInputWithoutvalue(
-                                              '${LocalizationHelper.of(context)!.t_company}',
-                                              listItems3,
-                                              'legal_name',
-                                              'id',
-                                              setCompanyId,
-                                            ));
-                                          }
-                                        }),
-                                    const Spacing(40),
+                                    
+                                  
+                                    
+                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_state}',
+                                     setStateName, 
+                                    stateName, false, true, false),
+                                     const Spacing(40),
+                                      CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_municipality}',
+                                     setMunicipalityName, 
+                                    municipalityName, false, true, false),
                                     const Spacing(40),
                                     MultiLineInput(
                                         hinttext:

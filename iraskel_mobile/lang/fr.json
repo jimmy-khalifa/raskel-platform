@@ -61,6 +61,15 @@
     "invoice": "Factures",
     "settings": "Paramètres",
     "logout": "Se déconnecter",
-    "principaladress": "Adresse principale"
+    "principaladress": "Adresse principale",
+    "district" : "Quartier",
+    "yes": "Oui",
+    "no": "Non",
+    "tunisie": "Tunisie",
+    "username" : "Nom d'utilisateur",
+    "phone": "Numéro",
+    "brand": "Modèle",
+    "color": "Couleur",
+    "volume": "Volume"
 
   }

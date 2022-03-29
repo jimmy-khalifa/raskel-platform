@@ -7,7 +7,7 @@ class Bin(models.Model):
 
 
     #type of the bin
-    type_bin=models.ForeignKey(BinType, on_delete=models.PROTECT,null=True,blank=False)
+    type=models.ForeignKey(BinType, on_delete=models.PROTECT,null=True,blank=False)
 
     #size of the bin
     size=models.CharField(max_length=50, default="50x20x10")

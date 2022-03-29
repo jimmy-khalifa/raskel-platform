@@ -22,6 +22,8 @@ type Query{
     all_addresses: [Address]
     all_producers: [Producer]
     all_companies: [Company]
+    municipality(municipalityId: ID!) : Municipality
+    state(stateId:ID!) : State
     address(addressId: ID!): Address
     address_by_producer(producerId: ID!): [Address]
     producer(producerId: ID!): Producer

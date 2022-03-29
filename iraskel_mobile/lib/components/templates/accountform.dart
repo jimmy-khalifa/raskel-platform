@@ -146,38 +146,45 @@ class _AccountFormState extends State<AccountForm> {
   setCinDate(value){
     setState(() {
       cindateinput.text = value;
-    });
-     late final Box box = Hive.box('auth');
+      late final Box box = Hive.box('auth');
       box.put('DeliveryCinDate', value);
+    });
+     
 
   }
   setBirthDate(value){
     setState(() {
       birthDate.text = value;
-    });
-    late final Box box = Hive.box('auth');
+       late final Box box = Hive.box('auth');
       box.put('BirthdayDate', value);
-  }
-
-  setStateId(value) {
-    setState(() => {stateId = value});
+    });
    
   }
 
+ 
+
   setUserName(value) {
-    setState(() => {username = value});
+    setState(()  {username = value;
+     late final Box box = Hive.box('auth');
+      box.put('username', value);
+    });
   }
 
-  setMunicipalityId(value) {
-    setState(() => {municipalityId = value});
-  }
+
 
   setFirstName(value) {
-    setState(() => {firstName = value});
+    setState(()  {firstName = value;
+     late final Box box = Hive.box('auth');
+      box.put('firstName', value);
+    });
   }
 
   setLastName(value) {
-    setState(() => {lastName = value});
+    setState(() {
+      lastName = value;
+       late final Box box = Hive.box('auth');
+      box.put('lastName', value);
+      });
   }
 
   setProdId(value) {
@@ -189,7 +196,12 @@ class _AccountFormState extends State<AccountForm> {
   }
 
   setPhoneNumber(value) {
-    setState(() => {phoneNumber = value});
+    setState(() {phoneNumber = value;
+    
+      
+    });
+    late final Box box = Hive.box('auth');
+    box.put('phone', value);
   }
 
   setNumCIN(value) {
@@ -350,25 +362,25 @@ class _AccountFormState extends State<AccountForm> {
 
                                     //  CustomInput('@ffoulen', setUserName,),
                                     CustomInputWithDefaultValue(
-                                      '@ffoulen',
+                                      '${LocalizationHelper.of(context)!.t_username}',
                                       setUserName,
                                       username,
                                       widget.enabled, widget.readonly, widget.enable
                                     ),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
-                                        'Fouleni',
+                                        '${LocalizationHelper.of(context)!.t_lastname}',
                                         setFirstName,
                                         firstName,
                                      widget.enabled, widget.readonly, widget.enable),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
-                                        'Foulen',
+                                        '${LocalizationHelper.of(context)!.t_firstname}',
                                         setLastName,
                                         lastName,
                                        widget.enabled, widget.readonly, widget.enable),
                                     const Spacing(40),
-                                    CustomInputWithDefaultValue('Phone', setPhoneNumber,phoneNumber,widget.enabled, widget.readonly, widget.enable),
+                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_phone}', setPhoneNumber,phoneNumber,widget.enabled, widget.readonly, widget.enable),
                                    // PhoneField(setPhoneNumber),
                                     
                                    

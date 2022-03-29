@@ -87,7 +87,7 @@ class _BacFormState extends State<BacForm> {
          
 
        }
-        box.put('BinId', binId);
+     
       
       //print(propertyId);
     }
@@ -101,9 +101,10 @@ class _BacFormState extends State<BacForm> {
   setBinId(value){
     setState(() {
       binId = value;
+       box.put('BinId', value);
      
     });
-     box.put('binId', value);
+    
      
 
   }
@@ -111,42 +112,52 @@ class _BacFormState extends State<BacForm> {
   setTypeId(value) {
     setState(() {
       typeId = value;
+     
     });
+     box.put('binTypeId', value);
 
-    box.put('binTypeId', value);
+    
   }
 
   setBrandId(value) {
     setState(() {
       brandId = value;
+      
     });
     box.put('binBrandId', value);
+    
   }
 
   setSize(value) {
     setState(() {
       size = value;
+       box.put('sizeBin', value);
     });
-    box.put('sizeBin', value);
+   
   }
 
   setVolume(value) {
     setState(() {
       volume = value;
+      box.put('volumeBin', value);
     });
-    box.put('volumeBin', value);
+    
   }
 
   setColor(value) {
     setState(() {
       color = value;
+       box.put('colorBin', value);
     });
-    box.put('colorBin', value);
+   
   }
   @override
   void initState() {
     super.initState();
     initQueryBin();
+    color =  box.get('colorBin');
+    volume = box.get('volumeBin');
+    size= box.get('sizeBin');
   }
 
 
@@ -235,7 +246,7 @@ class _BacFormState extends State<BacForm> {
                                               result.data?['all_bin_brands'];
 
                                           return (DropdownInputWithoutvalue(
-                                              'brand',
+                                              '${LocalizationHelper.of(context)!.t_brand}',
                                               listItems2,
                                               'code',
                                               'id',
@@ -244,15 +255,15 @@ class _BacFormState extends State<BacForm> {
                                              ));
                                         }),
                                     const Spacing(40),
-                                    CustomInputWithDefaultValue('size', setSize,
+                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_size}', setSize,
                                     box.get('sizeBin')  ??  size, true, false, true),
                                     const Spacing(40),
 
-                                    CustomInputWithDefaultValue('volume',
+                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_volume}',
                                         setVolume,box.get('volumeBin') ?? volume, true, false, true),
                                     const Spacing(40),
 
-                                    CustomInputWithDefaultValue('color',
+                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_color}',
                                         setColor,box.get('colorBin') ?? color,true, false, true),
                                     const Spacing(40),
 
