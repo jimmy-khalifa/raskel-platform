@@ -95,13 +95,17 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
 
 
   setStateId(value) {
-    setState(() => {stateId = value});
-    box.put('stateId',value);
+    setState(()  {stateId = value;
+    box.put('stateId',value);});
+    
   }
 
   setMunicipalityId(value) {
-    setState(() => {municipalityId = value});
-    box.put('municipalityId',value);
+    setState(() {
+      municipalityId = value;
+      box.put('municipalityId',value);
+      });
+    
   }
 
   setFirstName(value) {
@@ -119,8 +123,9 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
   setCompanyId(value) {
     setState(() {
       companyId = value;
+       box.put('companyId',value);
     });
-    box.put('companyId',value);
+   
   }
 
   onpressedSignin() {
@@ -138,10 +143,10 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
     box.put('isConfirmed', data["create_user"]["user"]["is_confirmed"]);
     box.put('isVerified', data["create_user"]["user"]["is_verified"]);
     box.put('isAuthenticated', data["create_user"]["user"]["is_authenticated"]);
-    box.put('municipalityId', data["create_user"]["user"]["municipalityId"]);
-    box.put('companyId', data["create_user"]["user"]["companyId"]);
-    box.put('stateId', data["create_user"]["user"]["stateId"]);
-
+    //box.put('municipalityId', data["create_user"]["user"]["municipalityId"]);
+    //box.put('companyId', data["create_user"]["user"]["companyId"]);
+   // box.put('stateId', data["create_user"]["user"]["stateId"]);
+   
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const ConfirmPage()));
   }

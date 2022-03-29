@@ -7,7 +7,14 @@ municipality_query = QueryType()
 @municipality_query.field('all_municipalities')
 def resolve_municipalities(*_):
     return Municipality.objects.all()
-
+@municipality_query.field('municipality')
+def municipality(_, info, municipalityId):
+    municipality= Municipality.objects.get(pk= municipalityId)
+    if municipality :
+        return municipality
+    else:
+        return None
+ 
 @municipality_query.field('municipality_by_state')
 def resolve_municipality_by_state(_, info, stateId):
     if stateId == '' :

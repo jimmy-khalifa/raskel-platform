@@ -61,5 +61,15 @@
     "invoice": "فاتورة",
     "settings": "اعدادات",
     "logout": "خروج",
-    "principaladress": " عنوان قار"
+    "principaladress": " عنوان قار",
+    "district" : "المنطقة",
+    "yes": "نعم",
+    "no": "لا",
+    "tunisie": "تونس",
+    "username": " المستخدم",
+    "phone": "النومرو",
+    "brand": "مودال",
+    "color": "اللون",
+    "volume": "حجم"
+ 
   }

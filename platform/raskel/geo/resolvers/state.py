@@ -7,6 +7,14 @@ state_query = QueryType()
 def resolve_states(*_):
     return State.objects.all()
 
+@state_query.field('state')
+def state(_,info,stateId):
+    state= State.objects.get(pk= stateId)
+    if state :
+        return state
+    else:
+        return None
+
 @state_query.field('states_by_country')
 def resolve_states_by_country(_, info, countryId):
     country = Country.objects.get(pk=countryId)

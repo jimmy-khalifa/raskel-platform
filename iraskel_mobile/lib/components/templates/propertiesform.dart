@@ -75,7 +75,7 @@ class _PropertiesState extends State<PropertiesForm> {
          
 
        }
-        box.put('PropertyId', propertyId);
+       
       
       //print(propertyId);
     }
@@ -83,9 +83,10 @@ class _PropertiesState extends State<PropertiesForm> {
   setPropertyId(value){
     setState(() {
       propertyId = value;
+       box.put('PropertyId', value);
      
     });
-     box.put('PropertyId', value);
+    
      
 
   }
@@ -106,21 +107,28 @@ class _PropertiesState extends State<PropertiesForm> {
   }
 
   setNbPerson(value) {
-    setState(() => {nbPerson = value});
-    box.put('individuals', value);
+    setState(() {
+     nbPerson = value;
+      box.put('individuals', value);
+    }
+     );
+   
   }
 
   setSurface(value) {
     setState(() {
       surface = value;
+      box.put('area', value);
     });
-    box.put('area', value);
+    
   }
 
   @override
   void initState() {
     super.initState();
     initQueryProp();
+    nbPerson = box.get("individuals") ;
+    surface = box.get("area");
   }
 
   // ignore: non_constant_identifier_names
@@ -137,36 +145,41 @@ class _PropertiesState extends State<PropertiesForm> {
   setHasGarden(value) {
     setState(() {
       has_garden = value;
+       box.put('has_garden', value);
     });
-    box.put('has_garden', value);
+   
   }
 
   setHasGarage(value) {
     setState(() {
       has_garage = value;
+       box.put('has_garage', value);
     });
-    box.put('has_garage', value);
+   
   }
 
   setHasSheepfold(value) {
     setState(() {
       has_sheepfold = value;
+       box.put('has_sheepfold', value);
     });
-    box.put('has_sheepfold', value);
+   
   }
 
   setHasResidence(value) {
     setState(() {
       has_residence = value;
+       box.put('has_residence', value);
     });
-    box.put('has_residence', value);
+   
   }
 
   setHasAdress(value) {
     setState(() {
       has_adress_principal = value;
+     
     });
-    box.put('has_adress', value);
+     box.put('has_adress', value);
   }
 
   @override
@@ -234,7 +247,7 @@ class _PropertiesState extends State<PropertiesForm> {
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_personNumber}',
                                         setNbPerson,
-                                       box.get("individuals") ?? nbPerson,
+                                        nbPerson,
                                         true,
                                         false,
                                         true),
@@ -242,7 +255,7 @@ class _PropertiesState extends State<PropertiesForm> {
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_area}',
                                         setSurface,
-                                       box.get("area") ?? surface,
+                                        surface,
                                         true,
                                         false,
                                         true),

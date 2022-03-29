@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:iraskel_mobile/auth_graphql_client.dart';
+import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
 
 import 'package:iraskel_mobile/components/atoms/_dotstepper.dart';
+import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/confirmationinfo.dart';
 import 'package:iraskel_mobile/components/templates/accountform.dart';
@@ -179,6 +181,10 @@ class _HomePageState extends State<HomePage> {
     const BacForm(),
     const ConfirmationInfo()
   ];
+  onpressedOk(){
+    Navigator.pop(context);
+
+  }
   onpressed() async {
     /* if (activestep < dotcount - 1) {
       setState(() {
@@ -262,7 +268,7 @@ class _HomePageState extends State<HomePage> {
           document: gql(modifyProperty),
           variables: {
             "input": {
-              "id": box.get('PropertyId'),
+              "id": box.get('PropertyId'), 
               "area": double.parse(box.get('area')),
               "individuals": int.parse(box.get('individuals')),
               "has_garden": box.get('has_garden') ?? false,
@@ -334,7 +340,18 @@ class _HomePageState extends State<HomePage> {
       return showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: Text('${LocalizationHelper.of(context)!.t_congrats}'),
+                title: Center(child: BigTitle('${LocalizationHelper.of(context)!.t_congrats}',20)),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Votre demande est enregistré"),
+                     Text("Votre demande est enregistré")
+                  ],
+                ),
+                actions: [
+                  Button('${LocalizationHelper.of(context)!.t_ok}',onpressedOk)
+                ],
+
                 // content: ,
               ));
     }
