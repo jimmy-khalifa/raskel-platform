@@ -41,11 +41,10 @@ def resolve_modify_producer(_,info, input):
 
     return {'modified': True, 'producer': producer, 'err': None}
 
-upload_mutation = MutationType() 
 
 
-@upload_mutation.field('uploadUserImage')
-def resolve_modify_producer(_, info, image):
+@prod_mutation.field('uploadUserImage')
+def resolve_modify_image(_, info, image):
     producer_queryset = Producer.objects.filter(user=info.context.get('request').user)
     prod = producer_queryset[0]
     prod.image = image
@@ -53,10 +52,9 @@ def resolve_modify_producer(_, info, image):
     prod.save()
     return True
 
-upload_mutation_cin_front = MutationType()
 
-@upload_mutation_cin_front.field('uploadCinFront')
-def resolve_modify_producer(_, info, cin_pic_front):
+@prod_mutation.field('uploadCinFront')
+def resolve_modify_cinfront(_, info, cin_pic_front):
     producer_queryset = Producer.objects.filter(user=info.context.get('request').user)
     prod = producer_queryset[0]
     prod.cin_pic_front = cin_pic_front
@@ -64,10 +62,9 @@ def resolve_modify_producer(_, info, cin_pic_front):
     prod.save()
     return True
 
-upload_mutation_cin_back = MutationType()
 
-@upload_mutation_cin_back.field('uploadCinBack')
-def resolve_modify_producer(_, info, cin_pic_back):
+@prod_mutation.field('uploadCinBack')
+def resolve_modify_cinback(_, info, cin_pic_back):
     producer_queryset = Producer.objects.filter(user=info.context.get('request').user)
     prod = producer_queryset[0]
     prod.cin_pic_back = cin_pic_back

@@ -190,3 +190,6 @@ EMAIL_PORT = 993
 # Optional SMTP authentication information for EMAIL_HOST.
 
 EMAIL_USE_TLS = True
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/opt/workspace-raskel/raskel-platform/platform/raskel/media/'
+
