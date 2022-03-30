@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:iraskel_mobile/auth_graphql_client.dart';
 import 'package:iraskel_mobile/components/atoms/_customcircularprogress.dart';
@@ -18,6 +19,7 @@ import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 //import 'package:http/http.dart' as http;
 //import 'package:http_parser/http_parser.dart';
+import 'package:http_parser/http_parser.dart';
 
 import 'package:path/path.dart';
 
@@ -76,7 +78,7 @@ class AccountForm extends StatefulWidget {
   final bool enable;
 
   // ignore: use_key_in_widget_constructors
-  const AccountForm(this.enabled,this.readonly,this.enable);
+  const AccountForm(this.enabled, this.readonly, this.enable);
 
   @override
   _AccountFormState createState() => _AccountFormState();
@@ -99,9 +101,7 @@ class _AccountFormState extends State<AccountForm> {
   late String lastname;
   late String firstname;
   late String id;
-  void mutationProducer() async{
-    
-  }
+  void mutationProducer() async {}
 
   void initQuery() async {
     final QueryOptions options = QueryOptions(
@@ -128,9 +128,6 @@ class _AccountFormState extends State<AccountForm> {
       setNumCIN(prod['cin']);
       setCinDate(prod['cin_delivery']);
       setBirthDate(prod['date_of_birth']);
-     
-
-      
     }
   }
 
@@ -143,38 +140,34 @@ class _AccountFormState extends State<AccountForm> {
     initQuery();
   }
 
-  setCinDate(value){
+  setCinDate(value) {
     setState(() {
       cindateinput.text = value;
       late final Box box = Hive.box('auth');
       box.put('DeliveryCinDate', value);
     });
-     
-
   }
-  setBirthDate(value){
+
+  setBirthDate(value) {
     setState(() {
       birthDate.text = value;
-       late final Box box = Hive.box('auth');
+      late final Box box = Hive.box('auth');
       box.put('BirthdayDate', value);
     });
-   
   }
 
- 
-
   setUserName(value) {
-    setState(()  {username = value;
-     late final Box box = Hive.box('auth');
+    setState(() {
+      username = value;
+      late final Box box = Hive.box('auth');
       box.put('username', value);
     });
   }
 
-
-
   setFirstName(value) {
-    setState(()  {firstName = value;
-     late final Box box = Hive.box('auth');
+    setState(() {
+      firstName = value;
+      late final Box box = Hive.box('auth');
       box.put('firstName', value);
     });
   }
@@ -182,23 +175,22 @@ class _AccountFormState extends State<AccountForm> {
   setLastName(value) {
     setState(() {
       lastName = value;
-       late final Box box = Hive.box('auth');
+      late final Box box = Hive.box('auth');
       box.put('lastName', value);
-      });
+    });
   }
 
   setProdId(value) {
     setState(() {
       id = value;
     });
-     late final Box box = Hive.box('auth');
-      box.put('ProducerId', value);
+    late final Box box = Hive.box('auth');
+    box.put('ProducerId', value);
   }
 
   setPhoneNumber(value) {
-    setState(() {phoneNumber = value;
-    
-      
+    setState(() {
+      phoneNumber = value;
     });
     late final Box box = Hive.box('auth');
     box.put('phone', value);
@@ -206,14 +198,14 @@ class _AccountFormState extends State<AccountForm> {
 
   setNumCIN(value) {
     setState(() => {numCIN = value});
-     late final Box box = Hive.box('auth');
-      box.put('Cin', value);
+    late final Box box = Hive.box('auth');
+    box.put('Cin', value);
   }
 
   setAge(value) {
     setState(() => {age = value});
-     late final Box box = Hive.box('auth');
-      box.put('Age', value);
+    late final Box box = Hive.box('auth');
+    box.put('Age', value);
   }
 
   setLoading(value) {
@@ -224,29 +216,31 @@ class _AccountFormState extends State<AccountForm> {
 
   // ignore: prefer_typing_uninitialized_variables
   var _image;
+
   final imagePicker = ImagePicker();
   // ignore: duplicate_ignore
   Future getImage() async {
     // ignore: deprecated_member_use
-    final image = await imagePicker.getImage(source: ImageSource.camera);
+    final image = await imagePicker.pickImage(source: ImageSource.camera);
+    //getImage(source: ImageSource.camera);
 
     setState(() {
       _image = File(image!.path);
+      //File(image!.path);
     });
   }
 
   // ignore: prefer_typing_uninitialized_variables
- 
-  String fileName = "";
 
+  String fileName = "";
 
   final ImagePicker cinsImage = ImagePicker();
   List<XFile> cinList = [];
-  List<String> fileNames =[];
+  List<String> fileNames = [];
   // ignore: prefer_typing_uninitialized_variables, unused_field
   var _images;
   // ignore: prefer_typing_uninitialized_variables
-  var  index;
+  var index;
   void selectcinImage() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {
@@ -256,7 +250,7 @@ class _AccountFormState extends State<AccountForm> {
     // print("Image List Length:" + cinList.length.toString());
 
     setState(() {
-       _images= File(cinList[index].path);
+      _images = File(cinList[index].path);
     });
   }
 
@@ -264,14 +258,10 @@ class _AccountFormState extends State<AccountForm> {
     //String fileName = basename(filePath.path);
     //return Text('$fileName');
     setState(() {
-     for (var element in cinList) {
-       fileName = basename(element.path);
-       fileNames.add(fileName);
-       
-       
-     }
-
-      
+      for (var element in cinList) {
+        fileName = basename(element.path);
+        fileNames.add(fileName);
+      }
     });
   }
 
@@ -324,31 +314,74 @@ class _AccountFormState extends State<AccountForm> {
                                             username,
                                             30.0)
                                         : Column(children: [
-
-                                        ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(100.0),
-                                            child: Image.file(
-                                              _image,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  6,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  4,
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100.0),
+                                              child: Image.file(
+                                                _image,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    6,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4,
+                                              ),
                                             ),
-                                          ),
-                                          Center(child:CustomText(username, FontWeight.w300, 30.0))
-                                        ]),
+                                            Center(
+                                                child: CustomText(username,
+                                                    FontWeight.w300, 30.0))
+                                          ]),
 
                                     modified
                                         ? Button(
                                             '${LocalizationHelper.of(context)!.t_update}',
                                             onpressed,
                                           )
-                                        : GraphqlButtonforImage(
+                                        : Mutation(
+                                            options: MutationOptions(
+                                              document: gql(imageProfile),
+                                              onCompleted: (d) {},
+                                              update: (cache, results) {
+                                                var message = results!.hasException
+                                                    ? '${results.exception}'
+                                                    : "Image was uploaded successfully!";
+
+                                                final snackBar = SnackBar(
+                                                    content: Text(message));
+                                                Scaffold.of(context)
+                                                    .showSnackBar(snackBar);
+                                              },
+                                            ),
+                                            builder: (RunMutation? runMutation,
+                                                QueryResult? result) {
+                                              return OutlineButton(
+                                               child: Text('upload'),
+                                                onPressed: () {
+                                                  var byteData =
+                                                      _image.readAsBytesSync();
+
+                                                  var multipartFile =
+                                                      MultipartFile.fromBytes(
+                                                    'photo',
+                                                    byteData,
+                                                    filename:
+                                                        '${DateTime.now().second}.jpg',
+                                                    contentType: MediaType(
+                                                        "image", "jpg"),
+                                                  );
+
+                                                  runMutation!(<String,
+                                                      dynamic>{
+                                                    "file": multipartFile,
+                                                  });
+                                                },
+                                              );
+                                            },
+                                          ),
+
+                                    /*   GraphqlButtonforImage(
                                             '${LocalizationHelper.of(context)!.t_upload}',
                                             false,
                                             imageProfile,
@@ -357,36 +390,52 @@ class _AccountFormState extends State<AccountForm> {
                                                 30,
                                             MediaQuery.of(context).size.height /
                                                 80,
-                                          ),
-                                        const  Spacing(40),
+                                          ),*/
+                                    const Spacing(40),
 
                                     //  CustomInput('@ffoulen', setUserName,),
                                     CustomInputWithDefaultValue(
-                                      '${LocalizationHelper.of(context)!.t_username}',
-                                      setUserName,
-                                      username,
-                                      widget.enabled, widget.readonly, widget.enable
-                                    ),
+                                        '${LocalizationHelper.of(context)!.t_username}',
+                                        setUserName,
+                                        username,
+                                        widget.enabled,
+                                        widget.readonly,
+                                        widget.enable),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_lastname}',
                                         setFirstName,
                                         firstName,
-                                     widget.enabled, widget.readonly, widget.enable),
+                                        widget.enabled,
+                                        widget.readonly,
+                                        widget.enable),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_firstname}',
                                         setLastName,
                                         lastName,
-                                       widget.enabled, widget.readonly, widget.enable),
+                                        widget.enabled,
+                                        widget.readonly,
+                                        widget.enable),
                                     const Spacing(40),
-                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_phone}', setPhoneNumber,phoneNumber,widget.enabled, widget.readonly, widget.enable),
-                                   // PhoneField(setPhoneNumber),
-                                    
-                                   
+                                    CustomInputWithDefaultValue(
+                                        '${LocalizationHelper.of(context)!.t_phone}',
+                                        setPhoneNumber,
+                                        phoneNumber,
+                                        widget.enabled,
+                                        widget.readonly,
+                                        widget.enable),
+                                    // PhoneField(setPhoneNumber),
+
                                     const Spacing(40),
-                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_identity_card}', setNumCIN, numCIN, numCIN.length<8 ? true : false,  numCIN.length<8 ? false: true, numCIN.length<8 ? true : false),
-                                   /* NumInput(
+                                    CustomInputWithDefaultValue(
+                                        '${LocalizationHelper.of(context)!.t_identity_card}',
+                                        setNumCIN,
+                                        numCIN,
+                                        numCIN.length < 8 ? true : false,
+                                        numCIN.length < 8 ? false : true,
+                                        numCIN.length < 8 ? true : false),
+                                    /* NumInput(
                                         hinttext:
                                             '${LocalizationHelper.of(context)!.t_identity_card}',
                                         setter: setNumCIN),*/
@@ -424,9 +473,9 @@ class _AccountFormState extends State<AccountForm> {
                               
                                   ],) : const Text('Pas d"image sélectionnée'),*/
                                     cinList.isEmpty
-                                        ?const Text('pas d"image')
+                                        ? const Text('pas d"image')
                                         : Column(children: [
-                                           /* SizedBox(
+                                            /* SizedBox(
                                                 height: 100.0,
                                                 width: 100.0,
                                                 child: GridView.builder(
@@ -445,8 +494,7 @@ class _AccountFormState extends State<AccountForm> {
                                             // ignore: unnecessary_string_interpolations
                                             Text('${fileNames[1]}')
                                           ]),
-                                           const Spacing(40),
-
+                                    const Spacing(40),
 
                                     DateField(
                                       dateinput: birthDate,
@@ -454,13 +502,16 @@ class _AccountFormState extends State<AccountForm> {
                                           '${LocalizationHelper.of(context)!.t_birth}',
                                     ),
                                     const Spacing(40),
-                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_age}', setAge, age, age.length <2 ? true : false,  age.length < 2 ? false: true, age.length <2 ? true : false),
-
-                                  
+                                    CustomInputWithDefaultValue(
+                                        '${LocalizationHelper.of(context)!.t_age}',
+                                        setAge,
+                                        age,
+                                        age.length < 2 ? true : false,
+                                        age.length < 2 ? false : true,
+                                        age.length < 2 ? true : false),
                                   ],
                                 ),
                               ))),
-                             
                     ]))));
   }
 }

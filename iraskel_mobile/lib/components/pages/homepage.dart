@@ -343,9 +343,10 @@ class _HomePageState extends State<HomePage> {
                 title: Center(child: BigTitle('${LocalizationHelper.of(context)!.t_congrats}',20)),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
+                  // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    Text("Votre demande est enregistré"),
-                     Text("Votre demande est enregistré")
+                    const Text("Votre demande est enregistré"),
+                     const Text("Votre demande est enregistré")
                   ],
                 ),
                 actions: [
