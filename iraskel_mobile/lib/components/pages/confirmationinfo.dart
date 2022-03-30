@@ -119,6 +119,7 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
     });
   }
 
+  @override
   void initState(){
     super.initState();
     initBinQuery();
