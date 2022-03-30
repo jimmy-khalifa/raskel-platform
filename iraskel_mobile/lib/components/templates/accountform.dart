@@ -374,7 +374,7 @@ class _AccountFormState extends State<AccountForm> {
 
                                                   runMutation!(<String,
                                                       dynamic>{
-                                                    "file": multipartFile,
+                                                    "image": multipartFile,
                                                   });
                                                 },
                                               );
