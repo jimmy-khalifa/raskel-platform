@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,7 +11,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:iraskel_mobile/auth_graphql_client.dart';
 import 'package:iraskel_mobile/components/atoms/_customcircularprogress.dart';
 import 'package:iraskel_mobile/components/atoms/_custominputwithddefaultvalue.dart';
-import 'package:iraskel_mobile/components/atoms/_graphbuttonforimage.dart';
 import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/atoms/_text.dart';
@@ -69,6 +70,16 @@ const String producerByUser = r'''
 const imageProfile = """
 mutation (\$image: Upload!){
   uploadUserImage(image: \$image)
+}
+""";
+const imageCinFront = """
+mutation (\$image: Upload!){
+  uploadCinFront(cin_pic_front: \$image)
+}
+""";
+const imageCinBack = """
+mutation(\$image:Upload!){
+	uploadCinBack(cin_pic_back:\$image)
 }
 """;
 
@@ -132,13 +143,6 @@ class _AccountFormState extends State<AccountForm> {
   }
 
   //late Future<String?> municipality;
-  @override
-  void initState() {
-    cindateinput.text = ""; //set the initial value of text field
-    birthDate.text = "";
-    super.initState();
-    initQuery();
-  }
 
   setCinDate(value) {
     setState(() {
@@ -230,46 +234,67 @@ class _AccountFormState extends State<AccountForm> {
     });
   }
 
-  // ignore: prefer_typing_uninitialized_variables
-
-  String fileName = "";
-
-  final ImagePicker cinsImage = ImagePicker();
-  List<XFile> cinList = [];
-  List<String> fileNames = [];
-  // ignore: prefer_typing_uninitialized_variables, unused_field
-  var _images;
-  // ignore: prefer_typing_uninitialized_variables
-  var index;
-  void selectcinImage() async {
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages!.isNotEmpty) {
-      cinList.addAll(selectedImages);
-    }
-    _uploadFile(selectedImages);
-    // print("Image List Length:" + cinList.length.toString());
+  var _cinFront;
+  String cinfrontName = "";
+  String cinbackName = "";
+  var _cinBack;
+  Future selectCinFront() async {
+    final cinFront = await imagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      _images = File(cinList[index].path);
+      _cinFront = File(cinFront!.path);
+      cinfrontName = basename(cinFront.path);
     });
   }
 
-  void _uploadFile(filePath) async {
-    //String fileName = basename(filePath.path);
-    //return Text('$fileName');
+  Future selectCinBack() async {
+    final cinBack = await imagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-      for (var element in cinList) {
-        fileName = basename(element.path);
-        fileNames.add(fileName);
-      }
+      _cinBack = File(cinBack!.path);
+      cinbackName = basename(cinBack.path);
     });
   }
+
+  late bool isSelectedFront = false;
+  late bool isSelectedBack = false;
+
+  @override
+  void initState() {
+    cindateinput.text = ""; //set the initial value of text field
+    birthDate.text = "";
+    super.initState();
+    initQuery();
+  }
+
+  late bool isConfirmedCinFront = false;
+  late bool isConfirmedCinBack = false;
 
   late bool modified = true;
+  oncinfrontselected() {
+    selectCinFront();
+    isSelectedFront = true;
+  }
+
+  oncinbackselected() {
+    selectCinBack();
+    isSelectedBack = true;
+  }
 
   onpressed() {
     getImage();
     modified = false;
+  }
+
+  setIsConfirmedCinFront(value) {
+    setState(() {
+      isConfirmedCinFront = value;
+    });
+  }
+
+  setIsConfirmedCinBack(value) {
+    setState(() {
+      isConfirmedCinBack = value;
+    });
   }
 
   @override
@@ -333,7 +358,6 @@ class _AccountFormState extends State<AccountForm> {
                                                 child: CustomText(username,
                                                     FontWeight.w300, 30.0))
                                           ]),
-
                                     modified
                                         ? Button(
                                             '${LocalizationHelper.of(context)!.t_update}',
@@ -344,9 +368,10 @@ class _AccountFormState extends State<AccountForm> {
                                               document: gql(imageProfile),
                                               onCompleted: (d) {},
                                               update: (cache, results) {
-                                                var message = results!.hasException
+                                                var message = results!
+                                                        .hasException
                                                     ? '${results.exception}'
-                                                    : "Image was uploaded successfully!";
+                                                    : '${LocalizationHelper.of(context)!.t_success}';
 
                                                 final snackBar = SnackBar(
                                                     content: Text(message));
@@ -356,9 +381,9 @@ class _AccountFormState extends State<AccountForm> {
                                             ),
                                             builder: (RunMutation? runMutation,
                                                 QueryResult? result) {
-                                              return OutlineButton(
-                                               child: Text('upload'),
-                                                onPressed: () {
+                                              return Button(
+                                                '${LocalizationHelper.of(context)!.t_upload}',
+                                                () {
                                                   var byteData =
                                                       _image.readAsBytesSync();
 
@@ -380,20 +405,7 @@ class _AccountFormState extends State<AccountForm> {
                                               );
                                             },
                                           ),
-
-                                    /*   GraphqlButtonforImage(
-                                            '${LocalizationHelper.of(context)!.t_upload}',
-                                            false,
-                                            imageProfile,
-                                            {"image": _image},
-                                            MediaQuery.of(context).size.width /
-                                                30,
-                                            MediaQuery.of(context).size.height /
-                                                80,
-                                          ),*/
                                     const Spacing(40),
-
-                                    //  CustomInput('@ffoulen', setUserName,),
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_username}',
                                         setUserName,
@@ -425,8 +437,6 @@ class _AccountFormState extends State<AccountForm> {
                                         widget.enabled,
                                         widget.readonly,
                                         widget.enable),
-                                    // PhoneField(setPhoneNumber),
-
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_identity_card}',
@@ -435,10 +445,6 @@ class _AccountFormState extends State<AccountForm> {
                                         numCIN.length < 8 ? true : false,
                                         numCIN.length < 8 ? false : true,
                                         numCIN.length < 8 ? true : false),
-                                    /* NumInput(
-                                        hinttext:
-                                            '${LocalizationHelper.of(context)!.t_identity_card}',
-                                        setter: setNumCIN),*/
                                     const Spacing(40),
                                     DateField(
                                       dateinput: cindateinput,
@@ -446,33 +452,197 @@ class _AccountFormState extends State<AccountForm> {
                                           '${LocalizationHelper.of(context)!.t_delivery_date}',
                                     ),
                                     const Spacing(40),
-                                    IconButton(
-                                      onPressed: () {
-                                        //getCinImage();
-                                        selectcinImage();
-                                      },
-                                      icon: const Icon(
-                                        FeatherIcons.uploadCloud,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    /* _file!=null ? Column(children: [
-                                    Image.file(
-                                              _file,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  8,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /8
-                                            ),
-                                            // ignore: unnecessary_string_interpolations
-                                            Text('$fileName')
+                                    InputDecorator(
+                                      decoration: InputDecoration(
+                                       
+                                      border: OutlineInputBorder(
+                                        
 
-                              
-                                  ],) : const Text('Pas d"image sélectionnée'),*/
-                                    cinList.isEmpty
+                                        borderRadius:
+
+                                            BorderRadius.circular(10.0),
+                                            
+                                           
+
+                                            
+                                      ),
+
+                                     
+                                      
+                                      
+                                      labelText: '${LocalizationHelper.of(context)!.t_cin}',
+                                      ),
+                                    
+                                    child: Column(
+                                      // alignment: ,
+                                      children: [
+                                        CustomText(
+                                            '${LocalizationHelper.of(context)!.t_cin_front}',
+                                            FontWeight.w500,
+                                            15),
+                                        const Spacing(50),
+                                        isSelectedFront == false
+                                            ? IconButton(
+                                                onPressed: () {
+                                                  oncinfrontselected();
+                                                },
+                                                icon: const Icon(
+                                                  FeatherIcons.uploadCloud,
+                                                  size: 30,
+                                                 color: Color(0xFF65C88D)
+                                                ),
+                                              )
+                                            : ((isConfirmedCinFront ==
+                                                    false)
+                                                ? Mutation(
+                                                    options:
+                                                        MutationOptions(
+                                                            document: gql(
+                                                                imageCinFront),
+                                                            onCompleted:
+                                                                (d) {},
+                                                            update: (cache,
+                                                                results) {
+                                                              var message = results!
+                                                                      .hasException
+                                                                  ? '${results.exception}'
+                                                                  : '${LocalizationHelper.of(context)!.t_success}';
+
+                                                              final snackBar =
+                                                                  SnackBar(
+                                                                      content:
+                                                                          Text(message));
+                                                              Scaffold.of(
+                                                                      context)
+                                                                  .showSnackBar(
+                                                                      snackBar);
+                                                            }),
+                                                    builder: (RunMutation?
+                                                            runMutation,
+                                                        QueryResult?
+                                                            result) {
+                                                      return (Button(
+                                                        '${LocalizationHelper.of(context)!.t_confirmButton}',
+                                                        () {
+                                                          setIsConfirmedCinFront(
+                                                              true);
+                                                          runMutation!(<
+                                                              String,
+                                                              dynamic>{
+                                                            "image":
+                                                                cinfrontName,
+                                                          });
+                                                        },
+                                                      ));
+                                                    })
+                                                : const Icon(
+                                                    Icons
+                                                        .check_circle_outline,
+                                                    color:
+                                                        Color(0xFF65C88D),
+                                                    size: 40,
+                                                  )),
+                                        const Spacing(40),
+                                        _cinFront != null
+                                            ? Text(cinfrontName)
+                                            : Text(
+                                                '${LocalizationHelper.of(context)!.t_no_image_selected}'),
+                                        const Spacing(20),
+                                        CustomText(
+                                            '${LocalizationHelper.of(context)!.t_cin_back}',
+                                            FontWeight.w500,
+                                            15),
+                                        const Spacing(50),
+                                        isSelectedBack == false
+                                            ? IconButton(
+                                                onPressed: () {
+                                                  oncinbackselected();
+                                                },
+                                                icon: const Icon(
+                                                  FeatherIcons.uploadCloud,
+                                                  size: 30,
+                                                  color: Color(0xFF65C88D),
+                                                ),
+                                              )
+                                            : ((isConfirmedCinBack == false)
+                                                ? Mutation(
+                                                    options:
+                                                        MutationOptions(
+                                                            document: gql(
+                                                                imageCinBack),
+                                                            onCompleted:
+                                                                (d) {},
+                                                            update: (cache,
+                                                                results) {
+                                                              var message = results!
+                                                                      .hasException
+                                                                  ? '${results.exception}'
+                                                                  : '${LocalizationHelper.of(context)!.t_success}';
+
+                                                              final snackBar =
+                                                                  SnackBar(
+                                                                      content:
+                                                                          Text(message));
+                                                              Scaffold.of(
+                                                                      context)
+                                                                  .showSnackBar(
+                                                                      snackBar);
+                                                            }),
+                                                    builder: (RunMutation?
+                                                            runMutation,
+                                                        QueryResult?
+                                                            result) {
+                                                      return (Button(
+                                                        '${LocalizationHelper.of(context)!.t_confirmButton}',
+                                                        () {
+                                                          setIsConfirmedCinBack(
+                                                              true);
+                                                          runMutation!(<
+                                                              String,
+                                                              dynamic>{
+                                                            "image":
+                                                                cinbackName,
+                                                          });
+                                                        },
+                                                      ));
+                                                    })
+                                                : const Icon(
+                                                    Icons
+                                                        .check_circle_outline,
+                                                    color:
+                                                        Color(0xFF65C88D),
+                                                    size: 40,
+                                                  )),
+                                        const Spacing(40),
+                                        _cinBack != null
+                                            ? Text(cinbackName)
+                                            : Text(
+                                                '${LocalizationHelper.of(context)!.t_no_image_selected}'),
+                                      ],
+                                    )),
+                                    const Spacing(40),
+                                    DateField(
+                                      dateinput: birthDate,
+                                      hinttext:
+                                          '${LocalizationHelper.of(context)!.t_birth}',
+                                    ),
+                                    const Spacing(40),
+                                    CustomInputWithDefaultValue(
+                                        '${LocalizationHelper.of(context)!.t_age}',
+                                        setAge,
+                                        age,
+                                        age.length < 2 ? true : false,
+                                        age.length < 2 ? false : true,
+                                        age.length < 2 ? true : false),
+                                  ],
+                                ),
+                              ))),
+                    ]))));
+  }
+}
+
+
+ /*  cinList.isEmpty
                                         ? const Text('pas d"image')
                                         : Column(children: [
                                             /* SizedBox(
@@ -493,25 +663,38 @@ class _AccountFormState extends State<AccountForm> {
                                             Text('${fileNames[0]}'),
                                             // ignore: unnecessary_string_interpolations
                                             Text('${fileNames[1]}')
-                                          ]),
-                                    const Spacing(40),
+                                          ]),*/
 
-                                    DateField(
-                                      dateinput: birthDate,
-                                      hinttext:
-                                          '${LocalizationHelper.of(context)!.t_birth}',
-                                    ),
-                                    const Spacing(40),
-                                    CustomInputWithDefaultValue(
-                                        '${LocalizationHelper.of(context)!.t_age}',
-                                        setAge,
-                                        age,
-                                        age.length < 2 ? true : false,
-                                        age.length < 2 ? false : true,
-                                        age.length < 2 ? true : false),
-                                  ],
-                                ),
-                              ))),
-                    ]))));
+                                          //String fileName = "";
+
+  /*final ImagePicker cinsImage = ImagePicker();
+  List<XFile> cinList = [];
+  List<String> fileNames = [];
+  // ignore: prefer_typing_uninitialized_variables, unused_field
+  var _images;
+  // ignore: prefer_typing_uninitialized_variables
+  var index;
+  void selectcinImage() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages!.isNotEmpty) {
+      cinList.addAll(selectedImages);
+    }
+    _uploadFile(selectedImages);
+    // print("Image List Length:" + cinList.length.toString());
+
+    setState(() {
+      _images = File(cinList[index].path);
+    });
   }
-}
+
+  void _uploadFile(filePath) async {
+    //String fileName = basename(filePath.path);
+    //return Text('$fileName');
+    setState(() {
+      for (var element in cinList) {
+        fileName = basename(element.path);
+        fileNames.add(fileName);
+      }
+    });
+  }
+*/

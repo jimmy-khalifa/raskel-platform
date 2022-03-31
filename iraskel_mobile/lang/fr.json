@@ -70,6 +70,11 @@
     "phone": "Numéro",
     "brand": "Modèle",
     "color": "Couleur",
-    "volume": "Volume"
+    "volume": "Volume",
+    "noimage":"Pas d'image sélectionnée !",
+    "success" :"Ton image est chargée avec succés !",
+    "cinfront" :"Face avant de la carte CIN",
+    "cinback":"Face arrière de la carte CIN",
+    "cin":"Carte d'identité"
 
   }
