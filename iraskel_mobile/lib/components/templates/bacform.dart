@@ -60,10 +60,10 @@ class _BacFormState extends State<BacForm> {
   late String size = "";
   late String volume = "";
   late String color = "";
-   late String binId;
-  
+  late String binId;
+
   bool loading = false;
-   void initQueryBin() async {
+  void initQueryBin() async {
     final QueryOptions options = QueryOptions(
         document: gql(binByProducer),
         variables: {"producerId": box.get('ProducerId')});
@@ -78,88 +78,73 @@ class _BacFormState extends State<BacForm> {
       print(result.exception.toString());
     } else {
       final bin = result.data?['bins_by_producer'];
-       //box.put('PropertyId', property[0]['id']);
-       if (bin.length == 0){
-         setBinId("");
-       }
-       else{
-         setBinId(bin[0]['id']);
-         
+      //box.put('PropertyId', property[0]['id']);
+      if (bin.length == 0) {
+        setBinId("");
+      } else {
+        setBinId(bin[0]['id']);
+      }
 
-       }
-     
-      
       //print(propertyId);
     }
   }
+
   setLoading(value) {
     setState(() {
       loading = value;
     });
   }
 
-  setBinId(value){
+  setBinId(value) {
     setState(() {
-      binId = value;
-       box.put('BinId', value);
-     
+      binId = value ?? "";
+      box.put('BinId', value ?? "");
     });
-    
-     
-
   }
 
   setTypeId(value) {
     setState(() {
-      typeId = value;
-     
+      typeId = value ?? "";
+      box.put('binTypeId', value ?? "");
     });
-     box.put('binTypeId', value);
-
-    
   }
 
   setBrandId(value) {
     setState(() {
-      brandId = value;
-      
+      brandId = value ?? "";
+      box.put('binBrandId', value ?? "");
     });
-    box.put('binBrandId', value);
-    
   }
 
   setSize(value) {
     setState(() {
-      size = value;
-       box.put('sizeBin', value);
+      size = value ?? "";
+      box.put('sizeBin', value ?? "");
     });
-   
   }
 
   setVolume(value) {
     setState(() {
-      volume = value;
-      box.put('volumeBin', value);
+      volume = value ?? "";
+      box.put('volumeBin', value ?? "");
     });
-    
   }
 
   setColor(value) {
     setState(() {
-      color = value;
-       box.put('colorBin', value);
+      color = value ?? "";
+      box.put('colorBin', value ?? "");
     });
-   
   }
+
   @override
   void initState() {
     super.initState();
     initQueryBin();
-    color =  box.get('colorBin');
-    volume = box.get('volumeBin');
-    size= box.get('sizeBin');
+    color = box.get('colorBin') ?? "";
+    volume = box.get('volumeBin') ?? "";
+    size = box.get('sizeBin') ?? "";
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -210,18 +195,13 @@ class _BacFormState extends State<BacForm> {
                                               result.data?['all_bin_types'];
                                           // setTypeId(listItems3['id']);
 
-                                          return (
-                                            
-                                            DropdownInputWithoutvalue(
+                                          return (DropdownInputWithoutvalue(
                                             '${LocalizationHelper.of(context)!.t_type}',
                                             listItems,
                                             'code',
                                             'id',
                                             setTypeId,
-                                         
-
-                                          ) 
-                                          );
+                                          ));
                                         }),
 
                                     const Spacing(40),
@@ -246,25 +226,39 @@ class _BacFormState extends State<BacForm> {
                                               result.data?['all_bin_brands'];
 
                                           return (DropdownInputWithoutvalue(
-                                              '${LocalizationHelper.of(context)!.t_brand}',
-                                              listItems2,
-                                              'code',
-                                              'id',
-                                              setBrandId,
-                                           
-                                             ));
+                                            '${LocalizationHelper.of(context)!.t_brand}',
+                                            listItems2,
+                                            'code',
+                                            'id',
+                                            setBrandId,
+                                          ));
                                         }),
                                     const Spacing(40),
-                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_size}', setSize,
-                                    box.get('sizeBin')  ??  size, true, false, true),
+                                    CustomInputWithDefaultValue(
+                                        '${LocalizationHelper.of(context)!.t_size}',
+                                        setSize,
+                                        box.get('sizeBin') ?? size,
+                                        true,
+                                        false,
+                                        true),
                                     const Spacing(40),
 
-                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_volume}',
-                                        setVolume,box.get('volumeBin') ?? volume, true, false, true),
+                                    CustomInputWithDefaultValue(
+                                        '${LocalizationHelper.of(context)!.t_volume}',
+                                        setVolume,
+                                        box.get('volumeBin') ?? volume,
+                                        true,
+                                        false,
+                                        true),
                                     const Spacing(40),
 
-                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_color}',
-                                        setColor,box.get('colorBin') ?? color,true, false, true),
+                                    CustomInputWithDefaultValue(
+                                        '${LocalizationHelper.of(context)!.t_color}',
+                                        setColor,
+                                        box.get('colorBin') ?? color,
+                                        true,
+                                        false,
+                                        true),
                                     const Spacing(40),
 
                                     Image.asset(

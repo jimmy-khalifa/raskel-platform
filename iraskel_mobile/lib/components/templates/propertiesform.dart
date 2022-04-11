@@ -48,7 +48,7 @@ class _PropertiesState extends State<PropertiesForm> {
   late String? surface = "";
   late String typeId = "";
   late String propertyId;
-  
+
   bool loading = false;
   late final Box box = Hive.box('auth');
   void initQueryProp() async {
@@ -66,32 +66,23 @@ class _PropertiesState extends State<PropertiesForm> {
       print(result.exception.toString());
     } else {
       final property = result.data?['properties_by_producer'];
-       //box.put('PropertyId', property[0]['id']);
-       if (property.length == 0){
-         setPropertyId("");
-       }
-       else{
-         setPropertyId(property[0]['id']);
-         
+      //box.put('PropertyId', property[0]['id']);
+      if (property.length == 0) {
+        setPropertyId("");
+      } else {
+        setPropertyId(property[0]['id']);
+      }
 
-       }
-       
-      
       //print(propertyId);
     }
   }
-  setPropertyId(value){
+
+  setPropertyId(value) {
     setState(() {
       propertyId = value;
-       box.put('PropertyId', value);
-     
+      box.put('PropertyId', value);
     });
-    
-     
-
   }
-
- 
 
   setLoading(value) {
     setState(() {
@@ -101,34 +92,31 @@ class _PropertiesState extends State<PropertiesForm> {
 
   setTypeId(value) {
     setState(() {
-      typeId = value;
+      typeId = value ?? "";
+      box.put('typeId', value ?? "");
     });
-    box.put('typeId', value);
   }
 
   setNbPerson(value) {
     setState(() {
-     nbPerson = value;
-      box.put('individuals', value);
-    }
-     );
-   
+      nbPerson = value ?? "";
+      box.put('individuals', value ?? "");
+    });
   }
 
   setSurface(value) {
     setState(() {
-      surface = value;
-      box.put('area', value);
+      surface = value ?? "";
+      box.put('area', value ?? "");
     });
-    
   }
 
   @override
   void initState() {
     super.initState();
     initQueryProp();
-    nbPerson = box.get("individuals") ;
-    surface = box.get("area");
+    nbPerson = box.get("individuals") ?? "";
+    surface = box.get("area") ?? "";
   }
 
   // ignore: non_constant_identifier_names
@@ -145,41 +133,36 @@ class _PropertiesState extends State<PropertiesForm> {
   setHasGarden(value) {
     setState(() {
       has_garden = value;
-       box.put('has_garden', value);
+      box.put('has_garden', value);
     });
-   
   }
 
   setHasGarage(value) {
     setState(() {
       has_garage = value;
-       box.put('has_garage', value);
+      box.put('has_garage', value);
     });
-   
   }
 
   setHasSheepfold(value) {
     setState(() {
       has_sheepfold = value;
-       box.put('has_sheepfold', value);
+      box.put('has_sheepfold', value);
     });
-   
   }
 
   setHasResidence(value) {
     setState(() {
       has_residence = value;
-       box.put('has_residence', value);
+      box.put('has_residence', value);
     });
-   
   }
 
   setHasAdress(value) {
     setState(() {
       has_adress_principal = value;
-     
     });
-     box.put('has_adress', value);
+    box.put('has_adress', value);
   }
 
   @override
@@ -232,16 +215,13 @@ class _PropertiesState extends State<PropertiesForm> {
                                               .data?['all_property_types'];
                                           // setTypeId(listItems3['id']);
 
-                                          return 
-                                         (
-                                           DropdownInputWithoutvalue(
+                                          return (DropdownInputWithoutvalue(
                                             '${LocalizationHelper.of(context)!.t_type}',
                                             listItems3,
                                             'name',
                                             'id',
                                             setTypeId,
-                                          ) 
-                                          ) ;
+                                          ));
                                         }),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(

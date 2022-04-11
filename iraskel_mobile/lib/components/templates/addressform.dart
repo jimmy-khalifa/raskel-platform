@@ -20,10 +20,9 @@ import 'package:geolocator/geolocator.dart';
 import '../../auth_graphql_client.dart';
 import '../atoms/_custominputwithddefaultvalue.dart';
 
-
 //import 'package:permission_handler/permission_handler.dart';
 
-const  adressByProducer = """
+const adressByProducer = """
 query(\$producerId :ID!){
   address_by_producer(producerId: \$producerId){
   	id
@@ -100,9 +99,9 @@ class _AddressFormState extends State<AddressForm> {
   late String municipalityId = "";
   late String codePostal = "";
   late String companyId = "";
-  late String id ="";
+  late String id = "";
   late String complementaryAdress = "";
-  late bool isprincipalAdress= false;
+  late bool isprincipalAdress = false;
   late bool isSpatial = false;
 
   bool isChecked = false;
@@ -112,13 +111,13 @@ class _AddressFormState extends State<AddressForm> {
   setLoading(value) {
     setState(() {
       loading = value;
-    }); 
+    });
   }
-  void municipalityQuery() async{
-     final QueryOptions options = QueryOptions(
+
+  void municipalityQuery() async {
+    final QueryOptions options = QueryOptions(
         document: gql(municipalityID),
-        variables: {"municipalityId": box.get("municipalityId")}
-        );
+        variables: {"municipalityId": box.get("municipalityId")});
     setLoading(true);
     final QueryResult result =
         await AuthGraphQLClient.getClient(null).query(options);
@@ -132,17 +131,15 @@ class _AddressFormState extends State<AddressForm> {
       // ignore: non_constant_identifier_names
       final municipality_id = result.data?['municipality'];
       setMunicipalityName(municipality_id['name']);
-     
-    //  setAdressId(int.parse(adressquery['id']));
-     // print("adress :${id}");
-    }
 
+      //  setAdressId(int.parse(adressquery['id']));
+      // print("adress :${id}");
+    }
   }
-  void stateQuery() async{
-     final QueryOptions options = QueryOptions(
-        document: gql(state),
-        variables: {"stateId": box.get("stateId")}
-        );
+
+  void stateQuery() async {
+    final QueryOptions options = QueryOptions(
+        document: gql(state), variables: {"stateId": box.get("stateId")});
     setLoading(true);
     final QueryResult result =
         await AuthGraphQLClient.getClient(null).query(options);
@@ -156,29 +153,24 @@ class _AddressFormState extends State<AddressForm> {
       // ignore: non_constant_identifier_names
       final state_id = result.data?['state'];
       setStateName(state_id['name']);
-     
-   
     }
-
   }
-  late String municipalityName = "" ;
-  late String stateName = "" ;
-  setMunicipalityName(value){
+
+  late String municipalityName = "";
+  late String stateName = "";
+  setMunicipalityName(value) {
     setState(() {
       municipalityName = value;
-      box.put("municipalityName",value);
+      box.put("municipalityName", value);
     });
   }
-  setStateName(value){
+
+  setStateName(value) {
     setState(() {
       stateName = value;
-      box.put("stateName",value);
+      box.put("stateName", value);
     });
   }
-
- 
-
- 
 
   //var locationMessage = "";
   List<Placemark> placemarks = [];
@@ -192,25 +184,28 @@ class _AddressFormState extends State<AddressForm> {
     stateQuery();
 
     super.initState();
-   // initQuery();
+    // initQuery();
   }
-   setAdressId(value) {
+
+  setAdressId(value) {
     setState(() {
       id = value;
     });
     box.put('adressId', value);
   }
-  setIsPrincipalADress(value){
+
+  setIsPrincipalADress(value) {
     setState(() {
-      isprincipalAdress= value;
+      isprincipalAdress = value;
     });
-    box.put('isprincipalAdress',value);
+    box.put('isprincipalAdress', value);
   }
-  setComplementaryADress(value){
+
+  setComplementaryADress(value) {
     setState(() {
-      complementaryAdress= value;
+      complementaryAdress = value;
     });
-    box.put('complementaryADress',value);
+    box.put('complementaryADress', value);
   }
 
   void getCurrentLocation() async {
@@ -228,25 +223,23 @@ class _AddressFormState extends State<AddressForm> {
     });
     box.put('lat', currentPostion.latitude);
     box.put('long', currentPostion.longitude);
-    
-    if(currentPostion.latitude != null && currentPostion.longitude!=null){
+
+    if (currentPostion.latitude != null && currentPostion.longitude != null) {
       isSpatial = true;
-    }
-    else{
+    } else {
       isSpatial = false;
     }
     box.put('isSpatial', isSpatial);
   }
- 
+
   late final Box box = Hive.box('auth');
 
   setCodePostal(value) {
     setState(() {
-      codePostal = value;
+      codePostal = value ?? "";
     });
-    box.put("postalCode",value);
+    box.put("postalCode", value ?? "");
   }
- 
 
   var infoWindowVisible = false;
 
@@ -270,7 +263,6 @@ class _AddressFormState extends State<AddressForm> {
                       headerText:
                           '${LocalizationHelper.of(context)!.t_address}'),
                   Expanded(
-                   
                       child: SingleChildScrollView(
                           primary: false,
                           padding: EdgeInsets.zero,
@@ -281,32 +273,42 @@ class _AddressFormState extends State<AddressForm> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                   // Text(id),
-                                    
-                                  
-                                    
-                                    CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_state}',
-                                     setStateName, 
-                                    stateName, false, true, false),
-                                     const Spacing(40),
-                                      CustomInputWithDefaultValue('${LocalizationHelper.of(context)!.t_municipality}',
-                                     setMunicipalityName, 
-                                    municipalityName, false, true, false),
+                                    // Text(id),
+
+                                    CustomInputWithDefaultValue(
+                                        '${LocalizationHelper.of(context)!.t_state}',
+                                        setStateName,
+                                        stateName,
+                                        false,
+                                        true,
+                                        false),
+                                    const Spacing(40),
+                                    CustomInputWithDefaultValue(
+                                        '${LocalizationHelper.of(context)!.t_municipality}',
+                                        setMunicipalityName,
+                                        municipalityName,
+                                        false,
+                                        true,
+                                        false),
                                     const Spacing(40),
                                     MultiLineInput(
                                         hinttext:
-                                            '${LocalizationHelper.of(context)!.t_complementeryadrress}',initialvalue:box.get('complementaryADress') ?? complementaryAdress,setter: setComplementaryADress),
+                                            '${LocalizationHelper.of(context)!.t_complementeryadrress}',
+                                        initialvalue:
+                                            box.get('complementaryADress') ??
+                                                complementaryAdress,
+                                        setter: setComplementaryADress),
                                     const Spacing(40),
                                     NumInput(
                                         '${LocalizationHelper.of(context)!.t_postal_code}',
-                                   box.get('postalCode')   ??  codePostal,
+                                        box.get('postalCode') ?? codePostal,
                                         setCodePostal),
                                     CheckboxListTile(
-                                         activeColor: const Color(0xFF65C88D),
-                                        value: box.get('isprincipalAdress') ?? isChecked,
+                                        activeColor: const Color(0xFF65C88D),
+                                        value: box.get('isprincipalAdress') ??
+                                            isChecked,
                                         onChanged: (bool? value) {
-                                         setIsPrincipalADress(value);
-                                        
+                                          setIsPrincipalADress(value);
                                         },
                                         title: Text(
                                             '${LocalizationHelper.of(context)!.t_principaladress}',

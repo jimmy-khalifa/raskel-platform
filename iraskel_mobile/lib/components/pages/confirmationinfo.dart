@@ -24,7 +24,7 @@ query(\$binId: ID!){
 	}
 }
 """;
-const property= """
+const property = """
 query(\$propertyId:ID!){
 	property(propertyId:\$propertyId){
 		id
@@ -50,13 +50,12 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
   setLoading(value) {
     setState(() {
       loading = value;
-    }); 
+    });
   }
-  void initBinQuery()async{
+
+  void initBinQuery() async {
     final QueryOptions options = QueryOptions(
-        document: gql(bin),
-        variables: {"binId": box.get("BinId")}
-        );
+        document: gql(bin), variables: {"binId": box.get("BinId")});
     setLoading(true);
     final QueryResult result =
         await AuthGraphQLClient.getClient(null).query(options);
@@ -72,13 +71,12 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
       setBinType(bin_id['type']['name']);
       setBinBrand(bin_id['brand']['name']);
     }
-
   }
-  void initPropertyQuery() async{
+
+  void initPropertyQuery() async {
     final QueryOptions options = QueryOptions(
         document: gql(property),
-        variables: {"propertyId": box.get("PropertyId")}
-        );
+        variables: {"propertyId": box.get("PropertyId")});
     setLoading(true);
     final QueryResult result =
         await AuthGraphQLClient.getClient(null).query(options);
@@ -92,39 +90,40 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
       // ignore: non_constant_identifier_names
       final property_id = result.data?['property'];
       setPropertyType(property_id['type']['name']);
-     
     }
-
-
   }
-   late String brandName = "" ;
-  late String typeName = "" ;
+
+  late String brandName = "";
+  late String typeName = "";
   late String propertyTypeName = "";
-  setBinBrand(value){
+  setBinBrand(value) {
     setState(() {
-      brandName = value;
-      box.put("binBrandName",value);
+      brandName = value ?? "";
+      box.put("binBrandName", value ?? "");
     });
   }
-  setBinType(value){
+
+  setBinType(value) {
     setState(() {
-      typeName = value;
-      box.put("binTypeName",value);
+      typeName = value ?? "";
+      box.put("binTypeName", value ?? "");
     });
   }
-  setPropertyType(value){
+
+  setPropertyType(value) {
     setState(() {
-      propertyTypeName=value;
-      box.put("propertyTypeName",value);
+      propertyTypeName = value ?? "";
+      box.put("propertyTypeName", value ?? "");
     });
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     initBinQuery();
     initPropertyQuery();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: OrientationBuilder(builder: (context, orientation) {
@@ -148,7 +147,6 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Column(
-
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             BigTitle(
@@ -248,8 +246,7 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
                                 15),
                             const Spacing(20),
                             BigTitle(
-                                '${LocalizationHelper.of(context)!.t_bac}',
-                                20),
+                                '${LocalizationHelper.of(context)!.t_bac}', 20),
                             CustomText(
                                 "${LocalizationHelper.of(context)!.t_type}:",
                                 FontWeight.w700,
@@ -275,125 +272,77 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const BigTitle(
-                                '',
-                                20),
+                            const BigTitle('', 20),
                             CustomText(
-                                box.get("username"),
+                                box.get("username"), FontWeight.w700, 15),
+                            CustomText(
+                                box.get("lastName"), FontWeight.w700, 15),
+                            CustomText(
+                                box.get("firstName"), FontWeight.w700, 15),
+                            CustomText(box.get("phone"), FontWeight.w700, 15),
+                            CustomText(
+                                box.get("BirthdayDate"), FontWeight.w700, 15),
+                            CustomText(box.get("Age"), FontWeight.w700, 15),
+                            CustomText(box.get("Cin"), FontWeight.w700, 15),
+                            CustomText(box.get("DeliveryCinDate"),
+                                FontWeight.w700, 15),
+                            const Spacing(20),
+                            const BigTitle('', 20),
+                            CustomText(
+                                "${LocalizationHelper.of(context)!.t_Tunis}",
                                 FontWeight.w700,
                                 15),
                             CustomText(
-                                 box.get("lastName"),
+                                box.get("stateName"), FontWeight.w700, 15),
+                            CustomText(box.get("municipalityName"),
+                                FontWeight.w700, 15),
+                            const CustomText("", FontWeight.w700, 15),
+                            CustomText(box.get("postalCode") ?? "",
+                                FontWeight.w700, 15),
+                            CustomText(
+                                box.get("isprincipalAdress") == true
+                                    ? " ${LocalizationHelper.of(context)!.t_yes}"
+                                    : " ${LocalizationHelper.of(context)!.t_no}",
+                                FontWeight.w700,
+                                15),
+                            CustomText(box.get("complementaryADress") ?? "",
+                                FontWeight.w700, 15),
+                            const Spacing(20),
+                            const BigTitle('', 20),
+                            CustomText(box.get("propertyTypeName") ?? "",
+                                FontWeight.w700, 15),
+                            CustomText(
+                                box.get('individuals'), FontWeight.w700, 15),
+                            CustomText(box.get('area'), FontWeight.w700, 15),
+                            CustomText(
+                                box.get("has_garden") == true
+                                    ? " ${LocalizationHelper.of(context)!.t_yes}"
+                                    : " ${LocalizationHelper.of(context)!.t_no}",
                                 FontWeight.w700,
                                 15),
                             CustomText(
-                                box.get("firstName"),
+                                box.get("has_garage") == true
+                                    ? " ${LocalizationHelper.of(context)!.t_yes}"
+                                    : " ${LocalizationHelper.of(context)!.t_no}",
                                 FontWeight.w700,
                                 15),
                             CustomText(
-                               box.get("phone"),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                                 box.get("BirthdayDate"),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                                box.get("Age"),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                                box.get("Cin"),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                                box.get("DeliveryCinDate"),
+                                box.get("has_sheepfold") == true
+                                    ? " ${LocalizationHelper.of(context)!.t_yes}"
+                                    : " ${LocalizationHelper.of(context)!.t_no}",
                                 FontWeight.w700,
                                 15),
                             const Spacing(20),
-                            const BigTitle(
-                                '',
-                                20),
+                            const BigTitle('', 20),
                             CustomText(
-                              "${LocalizationHelper.of(context)!.t_Tunis}",
-                                FontWeight.w700,
-                                15),
+                                box.get('binTypeName'), FontWeight.w700, 15),
                             CustomText(
-                                 box.get("stateName"),
-                                FontWeight.w700,
-                                15),
+                                box.get('binBrandName'), FontWeight.w700, 15),
+                            CustomText(box.get('sizeBin'), FontWeight.w700, 15),
                             CustomText(
-                                box.get("municipalityName"),
-                                FontWeight.w700,
-                                15),
-                           const CustomText(
-                                "",
-                                FontWeight.w700,
-                                15),
+                                box.get('volumeBin'), FontWeight.w700, 15),
                             CustomText(
-                                box.get("postalCode"),
-                                FontWeight.w700,
-                                15),
-                            CustomText( 
-                       box.get("isprincipalAdress")==true ? " ${LocalizationHelper.of(context)!.t_yes}" : " ${LocalizationHelper.of(context)!.t_no}",
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                                box.get("complementaryADress"),
-                                FontWeight.w700,
-                                15),
-                            const Spacing(20),
-                            const BigTitle(
-                                '',
-                                20),
-                            CustomText(
-                               box.get("propertyTypeName"),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                                box.get('individuals'),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                               box.get('area'),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                                box.get("has_garden")==true ? " ${LocalizationHelper.of(context)!.t_yes}" : " ${LocalizationHelper.of(context)!.t_no}",
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                               box.get("has_garage")==true ? " ${LocalizationHelper.of(context)!.t_yes}" : " ${LocalizationHelper.of(context)!.t_no}",
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                                box.get("has_sheepfold")==true ? " ${LocalizationHelper.of(context)!.t_yes}" : " ${LocalizationHelper.of(context)!.t_no}",
-                                FontWeight.w700,
-                                15),
-                            const Spacing(20),
-                            const BigTitle(
-                                '',
-                                20),
-                            CustomText(
-                                box.get('binTypeName'),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                               box.get('binBrandName'),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                               box.get('sizeBin'),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                                box.get('volumeBin'),
-                                FontWeight.w700,
-                                15),
-                            CustomText(
-                                box.get('colorBin'),
-                                FontWeight.w700,
-                                15),
+                                box.get('colorBin'), FontWeight.w700, 15),
                           ],
                         ),
                       ],
@@ -413,9 +362,7 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
 
                 ],
               )),*/
-            
-              
-           
+
                     ))
           ]));
     }));
