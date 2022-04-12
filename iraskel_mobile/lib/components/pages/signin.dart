@@ -87,6 +87,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       resizeToAvoidBottomInset: false,
 /*        body: FutureBuilder<String?>(
             future: phoneNumber,
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
 import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_custominput.dart';
@@ -10,21 +11,14 @@ import 'package:iraskel_mobile/localizations/app_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../auth_graphql_client.dart';
+
 const verifyNumber = """
 mutation(\$input: CodeInput!) {
   verify_phone_number(input: \$input) {
     success
     err
-    	user{
-			username
-			phone_number
-			first_name
-			last_name
-			email
-			is_active
-			is_confirmed
-			is_verified
-		}
+    
 		
   }
 }
@@ -52,12 +46,45 @@ class _ConfirmPageState extends State<ConfirmPage> {
 
   late String code = "";
   setCode(value) {
-    setState(() => {code = value});
+    setState(() {
+      code = value;
+    });
   }
 
   String phoneNumber = "";
   setPhoneNumber(value) {
     setState(() => {phoneNumber = value});
+  }
+
+  late final Box box = Hive.box('auth');
+  void mutationTokenAuth() async {
+    final MutationOptions options = MutationOptions(
+      document: gql(tokenCreate),
+     /* onCompleted: (data) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const MainPage()));
+      },*/
+      variables: {"phone_number": phoneNumber, "password": code},
+    );
+    final QueryResult result =
+        await AuthGraphQLClient.getClient(null).mutate(options);
+    if (result.hasException) {
+    // return Text(result.exception!.graphqlErrors[0].message);
+    final snackBar = SnackBar(
+            content:  Text(result.exception!.graphqlErrors[0].message),
+            
+            
+          );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      //  print("erreur");
+    } else {
+      // ignore: non_constant_identifier_names, unused_local_variable
+      final token_created = result.data?["tokenAuth"]["token"];
+      box.put("token", token_created);
+      // print(modified_prod['producer']['id']);
+       Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const MainPage()));
+    }
   }
 
   void initHiveState() async {
@@ -69,6 +96,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
   void initState() {
     super.initState();
     initHiveState();
+    // mutationTokenAuth();
   }
 
   final formKey = GlobalKey<FormState>();
@@ -76,6 +104,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Card(
             margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height / 25,
@@ -94,9 +123,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
                         right: MediaQuery.of(context).size.width / 10,
                         bottom: MediaQuery.of(context).size.height / 4),
                     child: SingleChildScrollView(
-
-                        //reverse: true,
-
                         child: Form(
                             key: formKey,
                             child: Column(
@@ -132,23 +158,25 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                       }, (data) async {
                                         late final Box box = Hive.box('auth');
                                         box.put('isConfirmed', true);
+                                        mutationTokenAuth();
+                                      },
 
-                                        return showDialog(
+                                          /*  return showDialog(
                                             context: context,
                                             builder: (BuildContext context) =>
                                                 AlertDialog(
-                                                  title:  Text(
+                                                  title: Text(
                                                       '${LocalizationHelper.of(context)!.t_confirmation}'),
-                                                  content:  Text(
-                                                    '${LocalizationHelper.of(context)!.t_registration}'),
+                                                  content: Text(
+                                                      '${LocalizationHelper.of(context)!.t_registration}'),
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () =>
                                                           Navigator.pop(context,
                                                               'Annuler'),
-                                                      child:  Text(
-                                                        '${LocalizationHelper.of(context)!.t_cancel}',
-                                                          style:const TextStyle(
+                                                      child: Text(
+                                                          '${LocalizationHelper.of(context)!.t_cancel}',
+                                                          style: const TextStyle(
                                                               color: Color(
                                                                   0xFF65C88D))),
                                                     ),
@@ -162,19 +190,25 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                                         "password": code
                                                       },
                                                       (data) async {
+                                                       
                                                         late final Box box =
                                                             Hive.box('auth');
                                                         box.put(
                                                             'token',
                                                             data["tokenAuth"]
                                                                 ["token"]);
+                                                                
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
                                                                 builder:
                                                                     (context) =>
                                                                         const MainPage()));
-                                                      },
+                                                                      
+                                                      
+                                                      // ignore: non_constant_identifier_names
+                                                  
+                                         },
                                                       MediaQuery.of(context)
                                                               .size
                                                               .width /
@@ -186,8 +220,8 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                                     )
                                                   ],
                                                   // content: ,
-                                                ));
-                                      }, formKey)),
+                                                ));*/
+                                          formKey)),
                                 ])))))));
   }
 }

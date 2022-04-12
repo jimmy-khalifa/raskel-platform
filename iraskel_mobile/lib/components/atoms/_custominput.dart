@@ -5,6 +5,7 @@ class CustomInput extends  StatelessWidget {
  // final String? initialvalue;
   final String hinttext;
   final Function setter;
+ 
   // ignore: use_key_in_widget_constructors
   const CustomInput(this.hinttext, this.setter);
 
@@ -21,7 +22,10 @@ class CustomInput extends  StatelessWidget {
         if (value == null || value.isEmpty) {
                 return '* Required';
               }
+               
               return null;
+             
+              
         
       },
       
