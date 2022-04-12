@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-import '../../localizations/app_localizations.dart';
 
 class GraphqlButtonWithoutKey extends StatelessWidget {
   final bool isquery;

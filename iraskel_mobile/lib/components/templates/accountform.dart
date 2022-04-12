@@ -224,7 +224,6 @@ class _AccountFormState extends State<AccountForm> {
   final imagePicker = ImagePicker();
   // ignore: duplicate_ignore
   Future getImage() async {
-    // ignore: deprecated_member_use
     final image = await imagePicker.pickImage(source: ImageSource.camera);
     //getImage(source: ImageSource.camera);
 
@@ -234,9 +233,11 @@ class _AccountFormState extends State<AccountForm> {
     });
   }
 
+  // ignore: prefer_typing_uninitialized_variables
   var _cinFront;
   String cinfrontName = "";
   String cinbackName = "";
+  // ignore: prefer_typing_uninitialized_variables
   var _cinBack;
   Future selectCinFront() async {
     final cinFront = await imagePicker.pickImage(source: ImageSource.gallery);

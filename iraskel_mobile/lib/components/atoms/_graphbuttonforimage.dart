@@ -80,6 +80,7 @@ class GraphqlButtonforImage extends StatelessWidget {
                       : "Image was uploaded successfully!";
 
                   final snackBar = SnackBar(content: Text(message));
+                  // ignore: deprecated_member_use
                   Scaffold.of(context).showSnackBar(snackBar);
                 }),
             builder: (RunMutation? runMutation, QueryResult? result) {

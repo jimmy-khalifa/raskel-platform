@@ -3,7 +3,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
 import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_custominput.dart';
-import 'package:iraskel_mobile/components/atoms/_graphqlbuttonwithoutkey.dart';
 import 'package:iraskel_mobile/components/atoms/_graphqloutlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/mainpage.dart';
