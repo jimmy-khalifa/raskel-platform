@@ -199,10 +199,15 @@ class LocalizationHelper {
   String? get t_volume => _translate('volume');
   // ignore: non_constant_identifier_names
   String? get t_color => _translate('color');
+  // ignore: non_constant_identifier_names
   String? get t_no_image_selected => _translate('noimage');
+  // ignore: non_constant_identifier_names
   String? get t_success => _translate('success');
+  // ignore: non_constant_identifier_names
   String? get t_cin_front => _translate('cinfront');
+    // ignore: non_constant_identifier_names
     String? get t_cin_back => _translate('cinback');
+  // ignore: non_constant_identifier_names
   String? get t_cin => _translate('cin');
 
 

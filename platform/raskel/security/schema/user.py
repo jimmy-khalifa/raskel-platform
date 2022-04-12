@@ -43,7 +43,7 @@ input CodeInput {
 
 type CodeResult {
     success: Boolean!
-    user: User!
+
     err: String!
 }
 

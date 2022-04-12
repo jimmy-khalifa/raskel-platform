@@ -177,6 +177,7 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       resizeToAvoidBottomInset: false,
         body: Card(
             margin: EdgeInsets.only(
                 left: MediaQuery.of(context).size.height / 80,
@@ -219,11 +220,13 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
                         CustomInput(
                           '${LocalizationHelper.of(context)!.t_lastname}',
                           setLastName,
+                         
                         ),
                         const Spacing(40),
                         CustomInput(
                           '${LocalizationHelper.of(context)!.t_firstname}',
                           setFirstName,
+                         
                         ),
                         const Spacing(40),
                         Query(

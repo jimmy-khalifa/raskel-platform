@@ -23,6 +23,16 @@ class _CustomInputWithDefaultValueState extends State<CustomInputWithDefaultValu
   Widget build(BuildContext context) {
     
     return  TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+                return '* Required';
+              }
+               
+              return null;
+             
+              
+        
+      },
       readOnly: widget.read,
       enabled: widget.enable,
     

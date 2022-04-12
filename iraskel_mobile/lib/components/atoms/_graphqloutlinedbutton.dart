@@ -74,6 +74,15 @@ class GraphqlButton extends StatelessWidget {
               },
             ),
             builder: (RunMutation? _runMutation, QueryResult? result) {
+              if (result!.hasException) {
+                  /*  var message = result.hasException
+                    ? '${result.exception}'
+                    : '${LocalizationHelper.of(context)!.t_success}';
+                ;
+                final snackBar = SnackBar(content: Text(message));
+                Scaffold.of(context).showSnackBar(snackBar);*/
+                return Text(result.exception!.graphqlErrors[0].message);
+              }
               // ignore: prefer_function_declarations_over_variables
               final runMutation = () => _runMutation!(variables);
               return OutlinedButton(
