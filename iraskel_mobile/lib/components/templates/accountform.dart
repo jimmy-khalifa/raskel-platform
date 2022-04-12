@@ -141,6 +141,7 @@ class _AccountFormState extends State<AccountForm> {
       setBirthDate(prod['date_of_birth']);
     }
   }
+  final formKey = GlobalKey<FormState>();
 
   //late Future<String?> municipality;
 
@@ -328,6 +329,8 @@ class _AccountFormState extends State<AccountForm> {
                               primary: false,
                               padding: EdgeInsets.zero,
                               reverse: false,
+                              child: Form(
+                                key: formKey,
                               child: Container(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Column(
@@ -638,7 +641,7 @@ class _AccountFormState extends State<AccountForm> {
                                   ],
                                 ),
                               ))),
-                    ]))));
+     ) ]))));
   }
 }
 

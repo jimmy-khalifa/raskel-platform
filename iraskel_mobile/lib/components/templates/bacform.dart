@@ -159,6 +159,8 @@ class _BacFormState extends State<BacForm> {
     volume = box.get('volumeBin');
     size= box.get('sizeBin');
   }
+    final formKey = GlobalKey<FormState>();
+
 
 
   @override
@@ -183,6 +185,8 @@ class _BacFormState extends State<BacForm> {
                       child: SingleChildScrollView(
                           primary: false,
                           padding: EdgeInsets.zero,
+                           child: Form(
+                                key: formKey,
                           child: Container(
                               padding: const EdgeInsets.all(10.0),
                               child: Column(
@@ -274,7 +278,7 @@ class _BacFormState extends State<BacForm> {
                                     ),
 
                                     // StartImage('assets/images/bin.png', BoxFit.contain)
-                                  ]))))
+                                  ])))))
                 ]))));
   }
 }

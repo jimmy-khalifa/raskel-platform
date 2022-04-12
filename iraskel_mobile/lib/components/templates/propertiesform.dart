@@ -90,6 +90,8 @@ class _PropertiesState extends State<PropertiesForm> {
      
 
   }
+    final formKey = GlobalKey<FormState>();
+
 
  
 
@@ -205,6 +207,8 @@ class _PropertiesState extends State<PropertiesForm> {
                       child: SingleChildScrollView(
                           primary: false,
                           padding: EdgeInsets.zero,
+                           child: Form(
+                                key: formKey,
                           child: Container(
                               padding: const EdgeInsets.all(10.0),
                               child: Column(
@@ -289,7 +293,7 @@ class _PropertiesState extends State<PropertiesForm> {
                                                 setHasAdress),
                                           ],
                                         ))
-                                  ]))))
+                                  ])))))
                 ]))));
   }
 }

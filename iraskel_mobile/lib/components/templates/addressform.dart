@@ -212,6 +212,7 @@ class _AddressFormState extends State<AddressForm> {
     });
     box.put('complementaryADress',value);
   }
+  final formKey = GlobalKey<FormState>();
 
   void getCurrentLocation() async {
     //  try {
@@ -275,6 +276,8 @@ class _AddressFormState extends State<AddressForm> {
                           primary: false,
                           padding: EdgeInsets.zero,
                           reverse: false,
+                           child: Form(
+                                key: formKey,
                           child: Container(
                               padding: const EdgeInsets.all(10.0),
                               child: Column(
@@ -457,7 +460,7 @@ class _AddressFormState extends State<AddressForm> {
                                       ),
                                     ),
                                     //  Text('Position: $locationMessage'),
-                                  ])))),
+                      ]))))),
                 ]))));
   }
 }
