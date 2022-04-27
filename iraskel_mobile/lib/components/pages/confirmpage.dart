@@ -9,6 +9,7 @@ import 'package:iraskel_mobile/components/pages/mainpage.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 import '../../auth_graphql_client.dart';
 
@@ -59,7 +60,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
   void mutationTokenAuth() async {
     final MutationOptions options = MutationOptions(
       document: gql(tokenCreate),
-     /* onCompleted: (data) {
+      /* onCompleted: (data) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const MainPage()));
       },*/
@@ -68,21 +69,19 @@ class _ConfirmPageState extends State<ConfirmPage> {
     final QueryResult result =
         await AuthGraphQLClient.getClient(null).mutate(options);
     if (result.hasException) {
-    // return Text(result.exception!.graphqlErrors[0].message);
-    final snackBar = SnackBar(
-            content:  Text(result.exception!.graphqlErrors[0].message),
-            
-            
-          );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // return Text(result.exception!.graphqlErrors[0].message);
+      final snackBar = SnackBar(
+        content: Text(result.exception!.graphqlErrors[0].message),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       //  print("erreur");
     } else {
       // ignore: non_constant_identifier_names, unused_local_variable
       final token_created = result.data?["tokenAuth"]["token"];
       box.put("token", token_created);
       // print(modified_prod['producer']['id']);
-       Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const MainPage()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const MainPage()));
     }
   }
 
@@ -90,13 +89,26 @@ class _ConfirmPageState extends State<ConfirmPage> {
     late final Box box = Hive.box('auth');
     setPhoneNumber(box.get('phoneNumber'));
   }
+ Future<void> sendmail () async {
+   final Email sendEmail = Email(
+      body: 'Password',
+      subject: 'your password is $code',
+      recipients: ['rim.horchani@ipalm.tn'],
+      bcc: ['khaled.khalifa@ipalm.tn'],
+     // isHTML: false,
+    );
+   await FlutterEmailSender.send(sendEmail);
 
+ }
   @override
   void initState() {
     super.initState();
     initHiveState();
+   
+    
     // mutationTokenAuth();
   }
+
 
   final formKey = GlobalKey<FormState>();
 
@@ -158,6 +170,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                         late final Box box = Hive.box('auth');
                                         box.put('isConfirmed', true);
                                         mutationTokenAuth();
+                                        sendmail();
                                       },
 
                                           /*  return showDialog(
