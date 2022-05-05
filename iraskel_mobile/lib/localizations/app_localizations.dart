@@ -245,7 +245,10 @@ class Language {
   final String languageCode;
   final String languageName;
 
-  Language(this.id, this.languageCode, this.languageName);
+ const Language(this.id, this.languageCode, this.languageName);
+   int get hashCode => languageCode.hashCode;
+
+  bool operator==(Object other) => other is Language && other.languageCode == languageCode;
 
   static List<Language> languageList() {
     return <Language>[

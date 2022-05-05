@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 class DateField extends StatefulWidget {
   final TextEditingController dateinput;
+ 
   final String hinttext;
-  const DateField({Key? key, required this.dateinput, required this.hinttext})
+  final String valueName;
+  
+  const DateField({Key? key, required this.dateinput, required this.hinttext,required this.valueName})
       : super(key: key);
 
   @override
@@ -12,10 +16,21 @@ class DateField extends StatefulWidget {
 }
 
 class _DateFieldState extends State<DateField> {
+  late String birthDateInString;
+late DateTime birthDate;
+ late final Box box = Hive.box('auth');
   //text editing controller for text field
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return '* Required';
+        }
+        return null;
+      },
+     
+      
       controller: widget.dateinput, //editing controller of this TextField
       decoration: InputDecoration(
         suffixIcon: const Icon(Icons.calendar_today), //icon of text field
@@ -36,14 +51,18 @@ class _DateFieldState extends State<DateField> {
             context: context,
             initialDate: DateTime.now(),
             firstDate: DateTime(
-                2000), //DateTime.now() - not to allow to choose before today.
+                1900), //DateTime.now() - not to allow to choose before today.
             lastDate: DateTime(2101));
 
         if (pickedDate != null) {
-          String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+         // String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
           setState(() {
-            widget.dateinput.text =
-                formattedDate; //set output date to TextField value.
+            //widget.dateinput.text =
+               // formattedDate; //set output date to TextField value.
+               birthDate = pickedDate;
+               widget.dateinput.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+               //"${birthDate.year}-${birthDate.month}-${birthDate.day}";
+                box.put(widget.valueName,  widget.dateinput.text );
           });
         }
       },

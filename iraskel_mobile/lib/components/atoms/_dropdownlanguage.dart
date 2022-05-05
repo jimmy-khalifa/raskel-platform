@@ -35,6 +35,7 @@ class _DropdownLanguageSelectState extends State<DropdownLanguageSelect> {
       default:
         _temp = Locale(language.languageCode, 'FR');
     }
+    
     MyApp.setLocale(context, _temp);
   }
 
