@@ -137,8 +137,8 @@ class _AccountFormState extends State<AccountForm> {
       setProdId(prod['id']);
       setAge(prod['age']);
       setNumCIN(prod['cin']);
-      setCinDate(prod['cin_delivery']);
-      setBirthDate(prod['date_of_birth']);
+     // setCinDate(prod['cin_delivery']);
+     // setBirthDate(prod['date_of_birth']);
     }
   }
   final formKey = GlobalKey<FormState>();
@@ -155,10 +155,12 @@ class _AccountFormState extends State<AccountForm> {
 
   setBirthDate(value) {
     setState(() {
-      birthDate.text = value ?? "";
+      birthDate.text = value ;
+       
 
-      box.put('BirthdayDate', value ?? "");
+    
     });
+    
   }
 
   setUserName(value) {
@@ -298,6 +300,7 @@ class _AccountFormState extends State<AccountForm> {
       isConfirmedCinBack = value;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -451,6 +454,8 @@ class _AccountFormState extends State<AccountForm> {
                                         numCIN.length < 8 ? true : false),
                                     const Spacing(40),
                                     DateField(
+                                      valueName: 'DeliveryCinDate',
+                                     
                                       dateinput: cindateinput,
                                       hinttext:
                                           '${LocalizationHelper.of(context)!.t_delivery_date}',
@@ -615,6 +620,8 @@ class _AccountFormState extends State<AccountForm> {
                                         )),
                                     const Spacing(40),
                                     DateField(
+                                      valueName:'BirthdayDate' ,
+                                     
                                       dateinput: birthDate,
                                       hinttext:
                                           '${LocalizationHelper.of(context)!.t_birth}',

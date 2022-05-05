@@ -185,11 +185,15 @@ class _HomePageState extends State<HomePage> {
     Navigator.pop(context);
 
   }
+  final formKey = GlobalKey<FormState>();
+   
   onpressed() async {
     /* if (activestep < dotcount - 1) {
       setState(() {
         activestep++;
       });*/
+    if (formKey.currentState!.validate()) {
+                     
     if (activestep == 0) {
       final MutationOptions options = MutationOptions(
         document: gql(updateProducer),
@@ -197,8 +201,8 @@ class _HomePageState extends State<HomePage> {
           "input": {
             "id": box.get('ProducerId'),
             "cin": box.get('Cin'),
-            "cin_delivery": "2012-05-25",
-            "date_of_birth": "1999-06-19",
+            "cin_delivery": box.get('DeliveryCinDate'),
+            "date_of_birth": box.get('BirthdayDate'),
             "age": box.get('Age')
           }
         },
@@ -208,10 +212,12 @@ class _HomePageState extends State<HomePage> {
       if (result.hasException) {
         //  print("erreur");
       } else {
+         
+                    
         // ignore: non_constant_identifier_names, unused_local_variable
         final modified_prod = result.data?["modify_producer"];
         // print(modified_prod['producer']['id']);
-      }
+       }
     } else if (activestep == 1) {
       final MutationOptions options =
           MutationOptions(document: gql(modifyAdress), variables: {
@@ -361,7 +367,7 @@ class _HomePageState extends State<HomePage> {
       activestep++;
     });
     //Navigator.of(context, rootNavigator: true).pop('dialog');
-  }
+  }}
 
   onBack() {
     if (activestep > 0) {
@@ -377,17 +383,21 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return (isConfirmed && !isVerified)
-        ? Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        ? 
+                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             const Spacing(20),
             Expanded(
+             
               child: IndexedStack(
                 index: activestep,
                 children: screens,
               ),
             ),
             // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
-
-            StepDot(activestep, dotcount),
+Form(
+                key: formKey,
+                child:
+            StepDot(activestep, dotcount)),
             Directionality(
                 textDirection: TextDirection.ltr,
                 child: Row(
