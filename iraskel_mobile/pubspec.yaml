@@ -70,6 +70,7 @@ dependencies:
 
   hive: 
   hive_flutter: 
+  flutter_email_sender: ^5.1.0
 
  
 flutter_icons:
