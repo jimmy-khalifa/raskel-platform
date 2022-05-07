@@ -6,9 +6,10 @@ class DateField extends StatefulWidget {
   final TextEditingController dateinput;
  
   final String hinttext;
+  final String initialvalue;
   final String valueName;
   
-  const DateField({Key? key, required this.dateinput, required this.hinttext,required this.valueName})
+  const DateField({Key? key, required this.dateinput, required this.hinttext,required this.valueName, required this.initialvalue})
       : super(key: key);
 
   @override
@@ -23,6 +24,9 @@ late DateTime birthDate;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+    //  key: Key(widget.initialvalue),
+      
+     // initialValue: widget.initialvalue,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return '* Required';
