@@ -22,7 +22,10 @@ class _CustomInputWithDefaultValueState extends State<CustomInputWithDefaultValu
   
   Widget build(BuildContext context) {
     
-    return  TextFormField(
+    return  
+    TextFormField(
+
+
       validator: (value) {
         if (value == null || value.isEmpty) {
                 return '* Required';
@@ -36,7 +39,7 @@ class _CustomInputWithDefaultValueState extends State<CustomInputWithDefaultValu
       readOnly: widget.read,
       enabled: widget.enable,
     
-      key: Key(widget.initialvalue!),
+     // key: Key(widget.initialvalue!),
       initialValue: widget.initialvalue,
       //controller: TextEditingController(text: initialvalue),
       onChanged: (text) {

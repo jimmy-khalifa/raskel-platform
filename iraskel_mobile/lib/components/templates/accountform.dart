@@ -15,6 +15,7 @@ import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/atoms/_text.dart';
 import 'package:iraskel_mobile/components/atoms/datefield.dart';
+import 'package:iraskel_mobile/components/atoms/numinput.dart';
 import 'package:iraskel_mobile/components/molecules/_profilewidget.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
 import 'package:iraskel_mobile/localizations/app_localizations.dart';
@@ -137,11 +138,10 @@ class _AccountFormState extends State<AccountForm> {
       setProdId(prod['id']);
       setAge(prod['age']);
       setNumCIN(prod['cin']);
-     // setCinDate(prod['cin_delivery']);
-     // setBirthDate(prod['date_of_birth']);
+      // setCinDate(prod['cin_delivery']);
+      // setBirthDate(prod['date_of_birth']);
     }
   }
-  final formKey = GlobalKey<FormState>();
 
   //late Future<String?> municipality;
 
@@ -155,12 +155,8 @@ class _AccountFormState extends State<AccountForm> {
 
   setBirthDate(value) {
     setState(() {
-      birthDate.text = value ;
-       
-
-    
+      birthDate.text = value;
     });
-    
   }
 
   setUserName(value) {
@@ -211,7 +207,7 @@ class _AccountFormState extends State<AccountForm> {
   setAge(value) {
     setState(() {
       age = value ?? "";
-      box.put('Age', value);
+      box.put('Age', value ?? "");
     });
   }
 
@@ -261,13 +257,15 @@ class _AccountFormState extends State<AccountForm> {
 
   late bool isSelectedFront = false;
   late bool isSelectedBack = false;
-
   @override
   void initState() {
+    //final formKey = GlobalKey<FormState>();
+
     cindateinput.text = ""; //set the initial value of text field
     birthDate.text = "";
     super.initState();
     initQuery();
+    
   }
 
   late bool isConfirmedCinFront = false;
@@ -301,7 +299,6 @@ class _AccountFormState extends State<AccountForm> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -328,316 +325,328 @@ class _AccountFormState extends State<AccountForm> {
                           headerText:
                               '${LocalizationHelper.of(context)!.t_account}'),
                       Expanded(
-                          child: SingleChildScrollView(
-                              primary: false,
-                              padding: EdgeInsets.zero,
-                              reverse: false,
-                              child: Form(
-                                key: formKey,
-                              child: Container(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    _image == null
-                                        ? ProfileWidget(
-                                            'assets/images/profile.png',
-                                            username,
-                                            30.0)
-                                        : Column(children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(100.0),
-                                              child: Image.file(
-                                                _image,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    6,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    4,
-                                              ),
-                                            ),
-                                            Center(
-                                                child: CustomText(username,
-                                                    FontWeight.w300, 30.0))
-                                          ]),
-                                    modified
-                                        ? Button(
-                                            '${LocalizationHelper.of(context)!.t_update}',
-                                            onpressed,
-                                          )
-                                        : Mutation(
-                                            options: MutationOptions(
-                                              document: gql(imageProfile),
-                                              onCompleted: (d) {},
-                                              update: (cache, results) {
-                                                var message = results!
-                                                        .hasException
-                                                    ? '${results.exception}'
-                                                    : '${LocalizationHelper.of(context)!.t_success}';
+                        child: ListView(
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
+                            shrinkWrap: true,
+                            primary: false,
+                            padding: EdgeInsets.zero,
+                            reverse: false,
+                            children: [
+                             Container(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _image == null
+                                            ? ProfileWidget(
+                                                'assets/images/profile.png',
+                                                username,
+                                                30.0)
+                                            : Column(children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100.0),
+                                                  child: Image.file(
+                                                    _image,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            6,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            4,
+                                                  ),
+                                                ),
+                                                Center(
+                                                    child: CustomText(username,
+                                                        FontWeight.w300, 30.0))
+                                              ]),
+                                        modified
+                                            ? Button(
+                                                '${LocalizationHelper.of(context)!.t_update}',
+                                                onpressed,
+                                              )
+                                            : Mutation(
+                                                options: MutationOptions(
+                                                  document: gql(imageProfile),
+                                                  onCompleted: (d) {},
+                                                  update: (cache, results) {
+                                                    var message = results!
+                                                            .hasException
+                                                        ? '${results.exception}'
+                                                        : '${LocalizationHelper.of(context)!.t_success}';
 
-                                                final snackBar = SnackBar(
-                                                    content: Text(message));
-                                                Scaffold.of(context)
-                                                    .showSnackBar(snackBar);
-                                              },
-                                            ),
-                                            builder: (RunMutation? runMutation,
-                                                QueryResult? result) {
-                                              return Button(
-                                                '${LocalizationHelper.of(context)!.t_upload}',
-                                                () {
-                                                  var byteData =
-                                                      _image.readAsBytesSync();
+                                                    final snackBar = SnackBar(
+                                                        content: Text(message));
+                                                    Scaffold.of(context)
+                                                        .showSnackBar(snackBar);
+                                                  },
+                                                ),
+                                                builder:
+                                                    (RunMutation? runMutation,
+                                                        QueryResult? result) {
+                                                  return Button(
+                                                    '${LocalizationHelper.of(context)!.t_upload}',
+                                                    () {
+                                                      var byteData = _image
+                                                          .readAsBytesSync();
 
-                                                  var multipartFile =
-                                                      MultipartFile.fromBytes(
-                                                    'photo',
-                                                    byteData,
-                                                    filename:
-                                                        '${DateTime.now().second}.jpg',
-                                                    contentType: MediaType(
-                                                        "image", "jpg"),
+                                                      var multipartFile =
+                                                          MultipartFile
+                                                              .fromBytes(
+                                                        'photo',
+                                                        byteData,
+                                                        filename:
+                                                            '${DateTime.now().second}.jpg',
+                                                        contentType: MediaType(
+                                                            "image", "jpg"),
+                                                      );
+
+                                                      runMutation!(<String,
+                                                          dynamic>{
+                                                        "image": multipartFile,
+                                                      });
+                                                    },
                                                   );
-
-                                                  runMutation!(<String,
-                                                      dynamic>{
-                                                    "image": multipartFile,
-                                                  });
                                                 },
-                                              );
-                                            },
-                                          ),
-                                    const Spacing(40),
-                                    CustomInputWithDefaultValue(
-                                        '${LocalizationHelper.of(context)!.t_username}',
-                                        setUserName,
-                                        username,
-                                        widget.enabled,
-                                        widget.readonly,
-                                        widget.enable),
-                                    const Spacing(40),
-                                    CustomInputWithDefaultValue(
-                                        '${LocalizationHelper.of(context)!.t_lastname}',
-                                        setFirstName,
-                                        firstName,
-                                        widget.enabled,
-                                        widget.readonly,
-                                        widget.enable),
-                                    const Spacing(40),
-                                    CustomInputWithDefaultValue(
-                                        '${LocalizationHelper.of(context)!.t_firstname}',
-                                        setLastName,
-                                        lastName,
-                                        widget.enabled,
-                                        widget.readonly,
-                                        widget.enable),
-                                    const Spacing(40),
-                                    CustomInputWithDefaultValue(
-                                        '${LocalizationHelper.of(context)!.t_phone}',
-                                        setPhoneNumber,
-                                        phoneNumber,
-                                        widget.enabled,
-                                        widget.readonly,
-                                        widget.enable),
-                                    const Spacing(40),
-                                    CustomInputWithDefaultValue(
-                                        '${LocalizationHelper.of(context)!.t_identity_card}',
-                                        setNumCIN,
-                                        numCIN,
-                                        numCIN.length < 8 ? true : false,
-                                        numCIN.length < 8 ? false : true,
-                                        numCIN.length < 8 ? true : false),
-                                    const Spacing(40),
-                                    DateField(
-                                      valueName: 'DeliveryCinDate',
-                                     
-                                      dateinput: cindateinput,
-                                      hinttext:
-                                          '${LocalizationHelper.of(context)!.t_delivery_date}',
-                                    ),
-                                    const Spacing(40),
-                                    InputDecorator(
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          labelText:
-                                              '${LocalizationHelper.of(context)!.t_cin}',
+                                              ),
+                                        const Spacing(40),
+                                        CustomInputWithDefaultValue(
+                                            '${LocalizationHelper.of(context)!.t_username}',
+                                            setUserName,
+                                            username,
+                                            widget.enabled,
+                                            widget.readonly,
+                                            widget.enable),
+                                        const Spacing(40),
+                                        CustomInputWithDefaultValue(
+                                            '${LocalizationHelper.of(context)!.t_lastname}',
+                                            setFirstName,
+                                            firstName,
+                                            widget.enabled,
+                                            widget.readonly,
+                                            widget.enable),
+                                        const Spacing(40),
+                                        CustomInputWithDefaultValue(
+                                            '${LocalizationHelper.of(context)!.t_firstname}',
+                                            setLastName,
+                                            lastName,
+                                            widget.enabled,
+                                            widget.readonly,
+                                            widget.enable),
+                                        const Spacing(40),
+                                        CustomInputWithDefaultValue(
+                                            '${LocalizationHelper.of(context)!.t_phone}',
+                                            setPhoneNumber,
+                                            phoneNumber,
+                                            widget.enabled,
+                                            widget.readonly,
+                                            widget.enable),
+                                        const Spacing(40),
+                                        CustomInputWithDefaultValue(
+                                            '${LocalizationHelper.of(context)!.t_identity_card}',
+                                            setNumCIN,
+                                            numCIN,
+                                            numCIN.length < 8 ? true : false,
+                                            numCIN.length < 8 ? false : true,
+                                            numCIN.length < 8 ? true : false),
+                                        const Spacing(40),
+                                        DateField(
+                                          initialvalue:
+                                              box.get("DeliveryCinDate") ??
+                                                  "2022-01-01",
+                                          valueName: 'DeliveryCinDate',
+                                          dateinput: cindateinput,
+                                          hinttext:
+                                              '${LocalizationHelper.of(context)!.t_delivery_date}',
                                         ),
-                                        child: Column(
-                                          // alignment: ,
-                                          children: [
-                                            CustomText(
-                                                '${LocalizationHelper.of(context)!.t_cin_front}',
-                                                FontWeight.w500,
-                                                15),
-                                            const Spacing(50),
-                                            isSelectedFront == false
-                                                ? IconButton(
-                                                    onPressed: () {
-                                                      oncinfrontselected();
-                                                    },
-                                                    icon: const Icon(
-                                                        FeatherIcons
-                                                            .uploadCloud,
-                                                        size: 30,
-                                                        color:
-                                                            Color(0xFF65C88D)),
-                                                  )
-                                                : ((isConfirmedCinFront ==
-                                                        false)
-                                                    ? Mutation(
-                                                        options:
-                                                            MutationOptions(
-                                                                document: gql(
-                                                                    imageCinFront),
-                                                                onCompleted:
-                                                                    (d) {},
-                                                                update: (cache,
-                                                                    results) {
-                                                                  var message = results!
-                                                                          .hasException
-                                                                      ? '${results.exception}'
-                                                                      : '${LocalizationHelper.of(context)!.t_success}';
+                                        const Spacing(40),
+                                        InputDecorator(
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              labelText:
+                                                  '${LocalizationHelper.of(context)!.t_cin}',
+                                            ),
+                                            child: Column(
+                                              // alignment: ,
+                                              children: [
+                                                CustomText(
+                                                    '${LocalizationHelper.of(context)!.t_cin_front}',
+                                                    FontWeight.w500,
+                                                    15),
+                                                const Spacing(50),
+                                                isSelectedFront == false
+                                                    ? IconButton(
+                                                        onPressed: () {
+                                                          oncinfrontselected();
+                                                        },
+                                                        icon: const Icon(
+                                                            FeatherIcons
+                                                                .uploadCloud,
+                                                            size: 30,
+                                                            color: Color(
+                                                                0xFF65C88D)),
+                                                      )
+                                                    : ((isConfirmedCinFront ==
+                                                            false)
+                                                        ? Mutation(
+                                                            options:
+                                                                MutationOptions(
+                                                                    document: gql(
+                                                                        imageCinFront),
+                                                                    onCompleted:
+                                                                        (d) {},
+                                                                    update: (cache,
+                                                                        results) {
+                                                                      var message = results!
+                                                                              .hasException
+                                                                          ? '${results.exception}'
+                                                                          : '${LocalizationHelper.of(context)!.t_success}';
 
-                                                                  final snackBar =
-                                                                      SnackBar(
-                                                                          content:
-                                                                              Text(message));
-                                                                  Scaffold.of(
-                                                                          context)
-                                                                      .showSnackBar(
-                                                                          snackBar);
-                                                                }),
-                                                        builder: (RunMutation?
-                                                                runMutation,
-                                                            QueryResult?
-                                                                result) {
-                                                          return (Button(
-                                                            '${LocalizationHelper.of(context)!.t_confirmButton}',
-                                                            () {
-                                                              setIsConfirmedCinFront(
-                                                                  true);
-                                                              runMutation!(<
-                                                                  String,
-                                                                  dynamic>{
-                                                                "image":
-                                                                    cinfrontName,
-                                                              });
-                                                            },
-                                                          ));
-                                                        })
-                                                    : const Icon(
-                                                        Icons
-                                                            .check_circle_outline,
-                                                        color:
-                                                            Color(0xFF65C88D),
-                                                        size: 40,
-                                                      )),
-                                            const Spacing(40),
-                                            _cinFront != null
-                                                ? Text(cinfrontName)
-                                                : Text(
-                                                    '${LocalizationHelper.of(context)!.t_no_image_selected}'),
-                                            const Spacing(20),
-                                            CustomText(
-                                                '${LocalizationHelper.of(context)!.t_cin_back}',
-                                                FontWeight.w500,
-                                                15),
-                                            const Spacing(50),
-                                            isSelectedBack == false
-                                                ? IconButton(
-                                                    onPressed: () {
-                                                      oncinbackselected();
-                                                    },
-                                                    icon: const Icon(
-                                                      FeatherIcons.uploadCloud,
-                                                      size: 30,
-                                                      color: Color(0xFF65C88D),
-                                                    ),
-                                                  )
-                                                : ((isConfirmedCinBack == false)
-                                                    ? Mutation(
-                                                        options:
-                                                            MutationOptions(
-                                                                document: gql(
-                                                                    imageCinBack),
-                                                                onCompleted:
-                                                                    (d) {},
-                                                                update: (cache,
-                                                                    results) {
-                                                                  var message = results!
-                                                                          .hasException
-                                                                      ? '${results.exception}'
-                                                                      : '${LocalizationHelper.of(context)!.t_success}';
+                                                                      final snackBar =
+                                                                          SnackBar(
+                                                                              content: Text(message));
+                                                                      Scaffold.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                              snackBar);
+                                                                    }),
+                                                            builder: (RunMutation?
+                                                                    runMutation,
+                                                                QueryResult?
+                                                                    result) {
+                                                              return (Button(
+                                                                '${LocalizationHelper.of(context)!.t_confirmButton}',
+                                                                () {
+                                                                  setIsConfirmedCinFront(
+                                                                      true);
+                                                                  runMutation!(<
+                                                                      String,
+                                                                      dynamic>{
+                                                                    "image":
+                                                                        cinfrontName,
+                                                                  });
+                                                                },
+                                                              ));
+                                                            })
+                                                        : const Icon(
+                                                            Icons
+                                                                .check_circle_outline,
+                                                            color: Color(
+                                                                0xFF65C88D),
+                                                            size: 40,
+                                                          )),
+                                                const Spacing(40),
+                                                _cinFront != null
+                                                    ? Text(cinfrontName)
+                                                    : Text(
+                                                        '${LocalizationHelper.of(context)!.t_no_image_selected}'),
+                                                const Spacing(20),
+                                                CustomText(
+                                                    '${LocalizationHelper.of(context)!.t_cin_back}',
+                                                    FontWeight.w500,
+                                                    15),
+                                                const Spacing(50),
+                                                isSelectedBack == false
+                                                    ? IconButton(
+                                                        onPressed: () {
+                                                          oncinbackselected();
+                                                        },
+                                                        icon: const Icon(
+                                                          FeatherIcons
+                                                              .uploadCloud,
+                                                          size: 30,
+                                                          color:
+                                                              Color(0xFF65C88D),
+                                                        ),
+                                                      )
+                                                    : ((isConfirmedCinBack ==
+                                                            false)
+                                                        ? Mutation(
+                                                            options:
+                                                                MutationOptions(
+                                                                    document: gql(
+                                                                        imageCinBack),
+                                                                    onCompleted:
+                                                                        (d) {},
+                                                                    update: (cache,
+                                                                        results) {
+                                                                      var message = results!
+                                                                              .hasException
+                                                                          ? '${results.exception}'
+                                                                          : '${LocalizationHelper.of(context)!.t_success}';
 
-                                                                  final snackBar =
-                                                                      SnackBar(
-                                                                          content:
-                                                                              Text(message));
-                                                                  Scaffold.of(
-                                                                          context)
-                                                                      .showSnackBar(
-                                                                          snackBar);
-                                                                }),
-                                                        builder: (RunMutation?
-                                                                runMutation,
-                                                            QueryResult?
-                                                                result) {
-                                                          return (Button(
-                                                            '${LocalizationHelper.of(context)!.t_confirmButton}',
-                                                            () {
-                                                              setIsConfirmedCinBack(
-                                                                  true);
-                                                              runMutation!(<
-                                                                  String,
-                                                                  dynamic>{
-                                                                "image":
-                                                                    cinbackName,
-                                                              });
-                                                            },
-                                                          ));
-                                                        })
-                                                    : const Icon(
-                                                        Icons
-                                                            .check_circle_outline,
-                                                        color:
-                                                            Color(0xFF65C88D),
-                                                        size: 40,
-                                                      )),
-                                            const Spacing(40),
-                                            _cinBack != null
-                                                ? Text(cinbackName)
-                                                : Text(
-                                                    '${LocalizationHelper.of(context)!.t_no_image_selected}'),
-                                          ],
-                                        )),
-                                    const Spacing(40),
-                                    DateField(
-                                      valueName:'BirthdayDate' ,
-                                     
-                                      dateinput: birthDate,
-                                      hinttext:
-                                          '${LocalizationHelper.of(context)!.t_birth}',
+                                                                      final snackBar =
+                                                                          SnackBar(
+                                                                              content: Text(message));
+                                                                      Scaffold.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                              snackBar);
+                                                                    }),
+                                                            builder: (RunMutation?
+                                                                    runMutation,
+                                                                QueryResult?
+                                                                    result) {
+                                                              return (Button(
+                                                                '${LocalizationHelper.of(context)!.t_confirmButton}',
+                                                                () {
+                                                                  setIsConfirmedCinBack(
+                                                                      true);
+                                                                  runMutation!(<
+                                                                      String,
+                                                                      dynamic>{
+                                                                    "image":
+                                                                        cinbackName,
+                                                                  });
+                                                                },
+                                                              ));
+                                                            })
+                                                        : const Icon(
+                                                            Icons
+                                                                .check_circle_outline,
+                                                            color: Color(
+                                                                0xFF65C88D),
+                                                            size: 40,
+                                                          )),
+                                                const Spacing(40),
+                                                _cinBack != null
+                                                    ? Text(cinbackName)
+                                                    : Text(
+                                                        '${LocalizationHelper.of(context)!.t_no_image_selected}'),
+                                              ],
+                                            )),
+                                        const Spacing(40),
+                                        DateField(
+                                          initialvalue: box.get("BirthdayDate"),
+                                          valueName: 'BirthdayDate',
+                                          dateinput: birthDate,
+                                          hinttext:
+                                              '${LocalizationHelper.of(context)!.t_birth}',
+                                        ),
+                                        const Spacing(40),
+                                        CustomInputWithDefaultValue(
+                                            '${LocalizationHelper.of(context)!.t_age}',
+                                            setAge,
+                                            age,
+                                            age.length < 2 ? true : false,
+                                            age.length < 2 ? false : true,
+                                            age.length < 2 ? true : false),
+                                      ],
                                     ),
-                                    const Spacing(40),
-                                    CustomInputWithDefaultValue(
-                                        '${LocalizationHelper.of(context)!.t_age}',
-                                        setAge,
-                                        age,
-                                        age.length < 2 ? true : false,
-                                        age.length < 2 ? false : true,
-                                        age.length < 2 ? true : false),
-                                  ],
-                                ),
-                              ))),
-     ) ]))));
+                                  )
+                            ]),
+                      )
+                    ]))));
   }
 }
 

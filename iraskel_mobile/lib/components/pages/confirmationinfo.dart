@@ -281,10 +281,10 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
                                 box.get("firstName"), FontWeight.w700, 15),
                             CustomText(box.get("phone"), FontWeight.w700, 15),
                             CustomText(
-                                box.get("BirthdayDate"), FontWeight.w700, 15),
-                            CustomText(box.get("Age"), FontWeight.w700, 15),
-                            CustomText(box.get("Cin"), FontWeight.w700, 15),
-                            CustomText(box.get("DeliveryCinDate"),
+                                box.get("BirthdayDate")??"", FontWeight.w700, 15),
+                            CustomText(box.get("Age")?? "", FontWeight.w700, 15),
+                            CustomText(box.get("Cin")?? "", FontWeight.w700, 15),
+                            CustomText(box.get("DeliveryCinDate")??"",
                                 FontWeight.w700, 15),
                             const Spacing(20),
                             const BigTitle('', 20),
@@ -293,11 +293,11 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
                                 FontWeight.w700,
                                 15),
                             CustomText(
-                                box.get("stateName"), FontWeight.w700, 15),
-                            CustomText(box.get("municipalityName"),
+                                box.get("stateName")??"", FontWeight.w700, 15),
+                            CustomText(box.get("municipalityName")?? "",
                                 FontWeight.w700, 15),
                             const CustomText("", FontWeight.w700, 15),
-                            CustomText(box.get("postalCode") ?? "",
+                            CustomText(box.get("codePostal") ?? "",
                                 FontWeight.w700, 15),
                             CustomText(
                                 box.get("isprincipalAdress") == true
@@ -312,8 +312,8 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
                             CustomText(box.get("propertyTypeName") ?? "",
                                 FontWeight.w700, 15),
                             CustomText(
-                                box.get('individuals'), FontWeight.w700, 15),
-                            CustomText(box.get('area'), FontWeight.w700, 15),
+                                box.get('individuals')??"", FontWeight.w700, 15),
+                            CustomText(box.get('area')??"", FontWeight.w700, 15),
                             CustomText(
                                 box.get("has_garden") == true
                                     ? " ${LocalizationHelper.of(context)!.t_yes}"
@@ -335,14 +335,14 @@ class _ConfirmationInfoState extends State<ConfirmationInfo> {
                             const Spacing(20),
                             const BigTitle('', 20),
                             CustomText(
-                                box.get('binTypeName'), FontWeight.w700, 15),
+                                box.get('binTypeName')??"", FontWeight.w700, 15),
                             CustomText(
-                                box.get('binBrandName'), FontWeight.w700, 15),
-                            CustomText(box.get('sizeBin'), FontWeight.w700, 15),
+                                box.get('binBrandName')??"", FontWeight.w700, 15),
+                            CustomText(box.get('sizeBin')??"", FontWeight.w700, 15),
                             CustomText(
-                                box.get('volumeBin'), FontWeight.w700, 15),
+                                box.get('volumeBin')??"", FontWeight.w700, 15),
                             CustomText(
-                                box.get('colorBin'), FontWeight.w700, 15),
+                                box.get('colorBin')??"", FontWeight.w700, 15),
                           ],
                         ),
                       ],

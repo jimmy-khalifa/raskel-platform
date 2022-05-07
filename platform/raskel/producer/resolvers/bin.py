@@ -30,7 +30,7 @@ def resolve_create_bin(_,info,input):
     producer = Producer.objects.get(pk= input["producerId"])
     type = BinType.objects.get(pk= input["typeId"])
     brand = BinBrand.objects.get(pk= input["brandId"])
-    bin = Bin.objects.create(size= input["size"],volume=input["volume"],color=input["color"],producer=producer,type_bin=type,brand=brand)
+    bin = Bin.objects.create(size= input["size"],volume=input["volume"],color=input["color"],producer=producer,type=type,brand=brand)
     bin.save()
     return {"created":True, "bin": bin, "err": ""}
 

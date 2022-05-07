@@ -160,8 +160,8 @@ class _AddressFormState extends State<AddressForm> {
   late String stateName = "";
   setMunicipalityName(value) {
     setState(() {
-      municipalityName = value;
-      box.put("municipalityName", value);
+      municipalityName = value ?? "";
+      box.put("municipalityName", value ?? "");
     });
   }
 
@@ -203,9 +203,9 @@ class _AddressFormState extends State<AddressForm> {
 
   setComplementaryADress(value) {
     setState(() {
-      complementaryAdress = value;
+      complementaryAdress = value ?? "";
     });
-    box.put('complementaryADress', value);
+    box.put('complementaryADress', value ?? "");
   }
   final formKey = GlobalKey<FormState>();
 
@@ -237,9 +237,10 @@ class _AddressFormState extends State<AddressForm> {
 
   setCodePostal(value) {
     setState(() {
-      codePostal = value ?? "";
+      codePostal = value  ?? "";
+      box.put("codePostal", value ?? ""  );
     });
-    box.put("postalCode", value ?? "");
+    
   }
 
   var infoWindowVisible = false;
@@ -281,7 +282,7 @@ class _AddressFormState extends State<AddressForm> {
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_state}',
                                         setStateName,
-                                        stateName,
+                                  box.get("stateName")   ??   stateName,
                                         false,
                                         true,
                                         false),
@@ -289,7 +290,7 @@ class _AddressFormState extends State<AddressForm> {
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_municipality}',
                                         setMunicipalityName,
-                                        municipalityName,
+                                    box.get("municipalityName")??    municipalityName,
                                         false,
                                         true,
                                         false),
@@ -302,10 +303,11 @@ class _AddressFormState extends State<AddressForm> {
                                                 complementaryAdress,
                                         setter: setComplementaryADress),
                                     const Spacing(40),
-                                    NumInput(
+                                    CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_postal_code}',
-                                        box.get('postalCode') ?? codePostal,
-                                        setCodePostal),
+                                         setCodePostal,
+                                        box.get("codePostal") ??codePostal,
+                                       true,false,true),
                                     CheckboxListTile(
                                         activeColor: const Color(0xFF65C88D),
                                         value: box.get('isprincipalAdress') ??

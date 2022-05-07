@@ -185,25 +185,32 @@ class _HomePageState extends State<HomePage> {
     Navigator.pop(context);
 
   }
-  final formKey = GlobalKey<FormState>();
+   void _showSnackbar() {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Veuillez entrer toutes les données demandés')));
+  }
    
   onpressed() async {
     /* if (activestep < dotcount - 1) {
       setState(() {
         activestep++;
       });*/
-    if (formKey.currentState!.validate()) {
+  
+                    
                      
     if (activestep == 0) {
+      if ( box.get('DeliveryCinDate').length !=0 &&  box.get('BirthdayDate').length!=0 &&   box.get('Age').length!=0 && box.get('Cin').length !=0){
+
+      
+      
       final MutationOptions options = MutationOptions(
         document: gql(updateProducer),
         variables: {
           "input": {
             "id": box.get('ProducerId'),
-            "cin": box.get('Cin'),
-            "cin_delivery": box.get('DeliveryCinDate'),
-            "date_of_birth": box.get('BirthdayDate'),
-            "age": box.get('Age')
+            "cin": box.get('Cin') ?? "",
+            "cin_delivery": box.get('DeliveryCinDate')?? "2022-01-01",
+            "date_of_birth": box.get('BirthdayDate') ?? "2022-01-01",
+            "age": box.get('Age') ?? ""
           }
         },
       );
@@ -217,15 +224,19 @@ class _HomePageState extends State<HomePage> {
         // ignore: non_constant_identifier_names, unused_local_variable
         final modified_prod = result.data?["modify_producer"];
         // print(modified_prod['producer']['id']);
+       }}
+       else{
+         return _showSnackbar();
        }
     } else if (activestep == 1) {
+       if ( box.get('codePostal').length !=0 ){
       final MutationOptions options =
           MutationOptions(document: gql(modifyAdress), variables: {
         "input": {
           "id": box.get('ProducerId'),
           "label": box.get('complementaryADress') ?? "",
-          "zipcode": box.get('postalCode'),
-          "is_spatial": box.get('isSpatial'),
+          "zipcode": box.get('codePostal') ?? "",
+          "is_spatial": box.get('isSpatial') ,
           "latitude": box.get('lat') ?? "",
           "longitude": box.get('long') ?? "",
           "district_id": null
@@ -241,14 +252,19 @@ class _HomePageState extends State<HomePage> {
         final modified_adress = result.data?["modify_address"];
         // ignore: avoid_print
         print(modified_adress['address']['id']);
+      }}
+      else{
+        return _showSnackbar();
       }
     } else if (activestep == 2) {
       if (box.get('PropertyId').isEmpty) {
+          if ( box.get('individuals') !=null &&  box.get('area')!=null &&   box.get('typeId')!=null ){
+
         final MutationOptions options = MutationOptions(
           document: gql(createProperty),
           variables: {
             "input": {
-              "area": double.parse(box.get('area')),
+              "area": double.parse(box.get('area')) ,
               "individuals": int.parse(box.get('individuals')),
               "has_garden": box.get('has_garden') ?? false,
               "has_garage": box.get('has_garage') ?? false,
@@ -268,6 +284,9 @@ class _HomePageState extends State<HomePage> {
           final created_prop = result.data?["modify_property"];
           // ignore: avoid_print
           //  print(modified_prop['property']['id']);
+        }}
+        else{
+          return _showSnackbar();
         }
       } else {
         final MutationOptions options = MutationOptions(
@@ -299,6 +318,8 @@ class _HomePageState extends State<HomePage> {
       }
     } else if (activestep == 3) {
       if (box.get('BinId').isEmpty) {
+                  if ( box.get('binTypeId') !=null && box.get('binBrandId')!=null &&  box.get('volumeBin')!=null && box.get('sizeBin')!=null && box.get('colorBin')!=null ){
+
         final MutationOptions options =
             MutationOptions(document: gql(createBin), variables: {
           "input": {
@@ -318,6 +339,10 @@ class _HomePageState extends State<HomePage> {
           // ignore: non_constant_identifier_names, unused_local_variable
           final created_bin = result.data?["create_bin"];
           // print(modified_prod['producer']['id']);
+        }}
+        else{
+          return _showSnackbar();
+
         }
       } else {
         final MutationOptions options =
@@ -367,7 +392,7 @@ class _HomePageState extends State<HomePage> {
       activestep++;
     });
     //Navigator.of(context, rootNavigator: true).pop('dialog');
-  }}
+  }//}
 
   onBack() {
     if (activestep > 0) {
@@ -394,15 +419,14 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             // Padding(padding: const EdgeInsets.all(18.0), child: steps( )),
-Form(
-                key: formKey,
-                child:
-            StepDot(activestep, dotcount)),
+
+            StepDot(activestep, dotcount),
             Directionality(
                 textDirection: TextDirection.ltr,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [previousButton(), nextButton()],
+                  children: [previousButton(),
+      nextButton()],
                 )),
           ])
         : const Text("error");
@@ -410,8 +434,11 @@ Form(
 
   /// Returns the next button widget.
   Widget nextButton() {
-    return IconButton(
-        onPressed: onpressed,
+    return 
+   
+    IconButton(
+        onPressed:  //activestep==0 && birthdate.length !=0 &&  cinDate.length!=0 &&  age.length!=0
+      onpressed, //: null ,
         icon: const Icon(
           FeatherIcons.chevronsRight,
           color: Color(0xFF74c69d),
