@@ -152,7 +152,7 @@ class _SignInState extends State<SignIn> {
                             formKey),
                         const Spacing(60),
                         Button(
-                          'S"inscrire',
+                          '${LocalizationHelper.of(context)!.t_rejoin}',
                           signupPressed,
                         )
                       ],

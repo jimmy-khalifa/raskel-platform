@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:geocoding/geocoding.dart';
@@ -285,7 +286,9 @@ class _AddressFormState extends State<AddressForm> {
                                   box.get("stateName")   ??   stateName,
                                         false,
                                         true,
-                                        false),
+                                        false,
+                                        TextInputType.text,
+                                            ),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_municipality}',
@@ -293,7 +296,9 @@ class _AddressFormState extends State<AddressForm> {
                                     box.get("municipalityName")??    municipalityName,
                                         false,
                                         true,
-                                        false),
+                                        false,
+                                        TextInputType.text,
+                                            ),
                                     const Spacing(40),
                                     MultiLineInput(
                                         hinttext:
@@ -307,7 +312,8 @@ class _AddressFormState extends State<AddressForm> {
                                         '${LocalizationHelper.of(context)!.t_postal_code}',
                                          setCodePostal,
                                         box.get("codePostal") ??codePostal,
-                                       true,false,true),
+                                       true,false,true,TextInputType.number,
+                                            ),
                                     CheckboxListTile(
                                         activeColor: const Color(0xFF65C88D),
                                         value: box.get('isprincipalAdress') ??
