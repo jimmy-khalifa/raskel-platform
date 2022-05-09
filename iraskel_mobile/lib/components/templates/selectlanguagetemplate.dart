@@ -5,6 +5,9 @@ import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
 import 'package:iraskel_mobile/components/atoms/_outlinedbutton.dart';
 import 'package:iraskel_mobile/components/pages/_getstarted.dart';
 
+import '../../localizations/app_localizations.dart';
+import '../../main.dart';
+
 class SelectLanguageTemplate extends StatefulWidget {
   final String imageSrc;
   // ignore: prefer_typing_uninitialized_variables
@@ -35,6 +38,33 @@ class _SelectLanguageTemplateState extends State<SelectLanguageTemplate> {
           builder: (context) => const GetStarted()), //SignUpPage()),
     );
   }
+    Language? valueChoose =const Language(2, "AR", "عربي");
+
+  /*setValueChoose(value) {
+    setState(() {
+      valueChoose = value;
+    }); 
+  }*/
+  
+
+  void _changeLanguage(Language language) {
+    Locale _temp;
+    //setValueChoose(language);
+    switch (language.languageCode) {
+      case 'FR':
+        _temp = Locale(language.languageCode, 'FR');
+        break;
+      case 'AR':
+        _temp = Locale(language.languageCode, 'AR');
+        break;
+
+      default:
+        _temp = Locale(language.languageCode, 'FR');
+    }
+    
+    MyApp.setLocale(context, _temp);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +91,63 @@ class _SelectLanguageTemplateState extends State<SelectLanguageTemplate> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Center(
-                        child: BigTitle(widget.title, 36.0),
+                        child: BigTitle(widget.title, 36.0) ,
                       ),
-                      const DropdownLanguageSelect(),
+                     Container(
+      
+     
+        margin: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width / 10,
+            vertical: MediaQuery.of(context).size.height / 10),
+        child: InputDecorator(
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: const Color(0xFFFFFFFF),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Color(0xFF65C88D)),
+                    borderRadius: BorderRadius.circular(5.0)),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFFDFF4EC)),
+                ),
+                contentPadding:
+                    EdgeInsets.all(MediaQuery.of(context).size.height / 100)),
+            child: DropdownButtonHideUnderline(
+
+                child: DropdownButton<Language>(
+                  
+              underline: const SizedBox(),
+              icon: const Icon(
+                Icons.language,
+                color: Color(0xFF393E41),
+              ),
+               value: valueChoose,
+               items: Language.languageList()
+                  .map(
+                    (e) => DropdownMenuItem<Language>(
+
+                      value: e,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[Text(e.languageName)],
+                      ),
+                    ),
+                  )
+                  .toList(),
+              // isExpanded: false,
+             
+              onChanged: (language) {
+                setState(() {
+                  valueChoose= language;
+                });
+                _changeLanguage(language!);
+
+               
+                   
+
+                //LocalizationHelper.ChangeLanguage(language!, context);
+              },
+             
+            )))),
                       Button(widget.txt, onpressed),
                     ]))
             : Container(
@@ -76,7 +160,58 @@ class _SelectLanguageTemplateState extends State<SelectLanguageTemplate> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       BigTitle(widget.title, 36.0),
-                      const DropdownLanguageSelect(),
+                      Container(
+      
+     
+        margin: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width / 10,
+            vertical: MediaQuery.of(context).size.height / 10),
+        child: InputDecorator(
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: const Color(0xFFFFFFFF),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Color(0xFF65C88D)),
+                    borderRadius: BorderRadius.circular(5.0)),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFFDFF4EC)),
+                ),
+                contentPadding:
+                    EdgeInsets.all(MediaQuery.of(context).size.height / 100)),
+            child: DropdownButtonHideUnderline(
+                child: DropdownButton<Language>(
+              underline: const SizedBox(),
+              icon: const Icon(
+                Icons.language,
+                color: Color(0xFF393E41),
+              ),
+               value: valueChoose,
+               items: Language.languageList()
+                  .map(
+                    (e) => DropdownMenuItem<Language>(
+                      value: e,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[Text(e.languageName)],
+                      ),
+                    ),
+                  )
+                  .toList(),
+              // isExpanded: false,
+             
+              onChanged: (language) {
+                setState(() {
+                  valueChoose= language;
+                });
+                _changeLanguage(language!);
+
+               
+                   
+
+                //LocalizationHelper.ChangeLanguage(language!, context);
+              },
+             
+            )))),
                       Button(widget.txt,
                           onpressed), //,MediaQuery.of(context).size.width /80,MediaQuery.of(context).size.height / 80),
                     ])));
