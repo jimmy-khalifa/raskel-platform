@@ -3,6 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:iraskel_mobile/components/atoms/_bigtitle.dart';
 import 'package:iraskel_mobile/components/atoms/_customdecoration.dart';
 import 'package:iraskel_mobile/components/atoms/_custominput.dart';
+import 'package:iraskel_mobile/components/atoms/_custominputwithiconvisible.dart';
 import 'package:iraskel_mobile/components/atoms/_graphqloutlinedbutton.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/pages/mainpage.dart';
@@ -151,7 +152,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                                         36.0),
                                   ),
                                   const Spacing(40),
-                                  CustomInput(
+                                  CustomInputWithEye(
                                     '${LocalizationHelper.of(context)!.t_code}',
                                     setCode,
                                   ),

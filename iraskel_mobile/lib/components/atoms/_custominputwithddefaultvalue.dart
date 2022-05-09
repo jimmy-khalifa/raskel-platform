@@ -8,8 +8,9 @@ class CustomInputWithDefaultValue extends  StatefulWidget {
   final bool enabled;
   final bool read;
   final bool enable;
+  final TextInputType keyboardtype;
   // ignore: use_key_in_widget_constructors
-  const CustomInputWithDefaultValue(this.hinttext, this.setter,this.initialvalue, this.enabled, this.read, this.enable);
+  const CustomInputWithDefaultValue(this.hinttext, this.setter,this.initialvalue, this.enabled, this.read, this.enable,this.keyboardtype);
 
   @override
   State<CustomInputWithDefaultValue> createState() => _CustomInputWithDefaultValueState();
@@ -24,6 +25,12 @@ class _CustomInputWithDefaultValueState extends State<CustomInputWithDefaultValu
     
     return  
     TextFormField(
+      keyboardType: widget.keyboardtype,
+     // inputFormatters:  <TextInputFormatter> [
+        // FilteringTextInputFormatter.digitsOnly
+       // widget.filter
+
+    //  ],
 
 
       validator: (value) {

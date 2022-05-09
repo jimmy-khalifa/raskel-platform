@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 
-class CustomInput extends  StatefulWidget {
+class CustomInputWithEye extends  StatefulWidget {
  
  // final String? initialvalue;
   final String hinttext;
   final Function setter;
  
   // ignore: use_key_in_widget_constructors
-  const CustomInput(this.hinttext, this.setter);
+  const CustomInputWithEye(this.hinttext, this.setter);
 
   @override
-  State<CustomInput> createState() => _CustomInputState();
+  State<CustomInputWithEye> createState() => _CustomInputWithEyeState();
 }
 
-class _CustomInputState extends State<CustomInput> {
- 
+class _CustomInputWithEyeState extends State<CustomInputWithEye> {
+  late bool _codevisible;
+  @override
+  void initState() {
+    _codevisible = false;
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-     
+      obscureText:_codevisible ,
      // initialValue: initialvalue,
      /// controller: TextEditingController(text: initialvalue),
       onChanged: (text) {
@@ -47,7 +53,17 @@ class _CustomInputState extends State<CustomInput> {
         labelText: widget.hinttext,
         filled: true,
         fillColor: Colors.white,
-        ),
+        suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+               _codevisible
+               ? Icons.visibility_off
+               : Icons.visibility,
+      ), onPressed: () { 
+         setState(() {
+                   _codevisible = !_codevisible;
+               });
+       })),
     );
   }
 }

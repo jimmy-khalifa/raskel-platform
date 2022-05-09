@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:iraskel_mobile/components/atoms/_custominputwithddefaultvalue.dart';
@@ -244,7 +245,8 @@ class _BacFormState extends State<BacForm> {
                                         box.get('sizeBin') ?? size,
                                         true,
                                         false,
-                                        true),
+                                        true,TextInputType.number,
+                                           ),
                                     const Spacing(40),
 
                                     CustomInputWithDefaultValue(
@@ -253,7 +255,9 @@ class _BacFormState extends State<BacForm> {
                                         box.get('volumeBin') ?? volume,
                                         true,
                                         false,
-                                        true),
+                                        true,
+                                        TextInputType.number,
+                                            ),
                                     const Spacing(40),
 
                                     CustomInputWithDefaultValue(
@@ -262,7 +266,9 @@ class _BacFormState extends State<BacForm> {
                                         box.get('colorBin') ?? color,
                                         true,
                                         false,
-                                        true),
+                                        true,
+                                        TextInputType.text,
+                                           ),
                                     const Spacing(40),
 
                                     Image.asset(

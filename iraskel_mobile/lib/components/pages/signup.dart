@@ -95,16 +95,19 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
 
 
   setStateId(value) {
-    setState(()  {stateId = value;
-    box.put('stateId',value);});
+    setState(()  {
+      stateId = value;
+    });
+    box.put('stateId',value);
     
   }
 
   setMunicipalityId(value) {
     setState(() {
       municipalityId = value;
-      box.put('municipalityId',value);
+      
       });
+      box.put('municipalityId',value);
     
   }
 
@@ -249,14 +252,17 @@ class _SignUpPageState extends State<SignUpPage>  with TickerProviderStateMixin{
 
                               final listItems1 =
                                   result.data?['states_by_country'];
+                                   // box.put("stateId",listItems1['id']);
                               return (DropdownInputWithoutvalue(
                                 '${LocalizationHelper.of(context)!.t_state}',
                                 listItems1,
                                 'name',
                                 'id',
                                 setStateId,
+                               
                                 
                               ));
+                             
                             }),
                         const Spacing(40),
                         isMunicipality

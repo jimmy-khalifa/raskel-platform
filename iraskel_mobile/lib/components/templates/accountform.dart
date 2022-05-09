@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -423,7 +424,9 @@ class _AccountFormState extends State<AccountForm> {
                                             username,
                                             widget.enabled,
                                             widget.readonly,
-                                            widget.enable),
+                                            widget.enable,
+                                            TextInputType.text,
+                                            ),
                                         const Spacing(40),
                                         CustomInputWithDefaultValue(
                                             '${LocalizationHelper.of(context)!.t_lastname}',
@@ -431,7 +434,9 @@ class _AccountFormState extends State<AccountForm> {
                                             firstName,
                                             widget.enabled,
                                             widget.readonly,
-                                            widget.enable),
+                                            widget.enable,
+                                            TextInputType.text,
+                                            ),
                                         const Spacing(40),
                                         CustomInputWithDefaultValue(
                                             '${LocalizationHelper.of(context)!.t_firstname}',
@@ -439,7 +444,9 @@ class _AccountFormState extends State<AccountForm> {
                                             lastName,
                                             widget.enabled,
                                             widget.readonly,
-                                            widget.enable),
+                                            widget.enable,
+                                            TextInputType.text,
+                                           ),
                                         const Spacing(40),
                                         CustomInputWithDefaultValue(
                                             '${LocalizationHelper.of(context)!.t_phone}',
@@ -447,7 +454,9 @@ class _AccountFormState extends State<AccountForm> {
                                             phoneNumber,
                                             widget.enabled,
                                             widget.readonly,
-                                            widget.enable),
+                                            widget.enable,
+                                            TextInputType.phone,
+                                           ),
                                         const Spacing(40),
                                         CustomInputWithDefaultValue(
                                             '${LocalizationHelper.of(context)!.t_identity_card}',
@@ -455,7 +464,9 @@ class _AccountFormState extends State<AccountForm> {
                                             numCIN,
                                             numCIN.length < 8 ? true : false,
                                             numCIN.length < 8 ? false : true,
-                                            numCIN.length < 8 ? true : false),
+                                            numCIN.length < 8 ? true : false,
+                                            TextInputType.number,
+                                            ),
                                         const Spacing(40),
                                         DateField(
                                           initialvalue:
@@ -640,7 +651,9 @@ class _AccountFormState extends State<AccountForm> {
                                             age,
                                             age.length < 2 ? true : false,
                                             age.length < 2 ? false : true,
-                                            age.length < 2 ? true : false),
+                                            age.length < 2 ? true : false,
+                                            TextInputType.number,
+                                           ),
                                       ],
                                     ),
                                   )

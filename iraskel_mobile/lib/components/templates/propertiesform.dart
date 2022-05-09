@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:iraskel_mobile/components/atoms/_customcheckbox.dart';
 import 'package:iraskel_mobile/components/atoms/_custominputwithddefaultvalue.dart';
+import 'package:iraskel_mobile/components/atoms/_dropdowninputdecorator.dart';
 import 'package:iraskel_mobile/components/atoms/_dropdownwithoutdefaultvalue.dart';
 import 'package:iraskel_mobile/components/atoms/_spacing.dart';
 import 'package:iraskel_mobile/components/molecules/formheader.dart';
@@ -166,6 +168,7 @@ class _PropertiesState extends State<PropertiesForm> {
     });
     box.put('has_adress', value);
   }
+  late bool created =false;
 
   @override
   Widget build(BuildContext context) {
@@ -214,19 +217,21 @@ class _PropertiesState extends State<PropertiesForm> {
                                                   CircularProgressIndicator(),
                                             );
                                           }
+                                         
 
                                           final listItems3 = result
                                               .data?['all_property_types'];
                                           // setTypeId(listItems3['id']);
-
-                                          return (DropdownInputWithoutvalue(
+                                          
+                                           return (DropdownInputWithoutvalue(
                                             '${LocalizationHelper.of(context)!.t_type}',
                                             listItems3,
                                             'name',
                                             'id',
                                             setTypeId,
-                                          ));
-                                        }),
+                                          )) ;
+                                         
+                                        }) ,
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_personNumber}',
@@ -234,7 +239,9 @@ class _PropertiesState extends State<PropertiesForm> {
                                         nbPerson,
                                         true,
                                         false,
-                                        true),
+                                        true,
+                                        TextInputType.number,
+                                            ),
                                     const Spacing(40),
                                     CustomInputWithDefaultValue(
                                         '${LocalizationHelper.of(context)!.t_area}',
@@ -242,7 +249,9 @@ class _PropertiesState extends State<PropertiesForm> {
                                         surface,
                                         true,
                                         false,
-                                        true),
+                                        true,
+                                        TextInputType.number,
+                                            ),
                                     Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 20),
